@@ -14,6 +14,7 @@
     -   Next.js 15 with App Router, TypeScript, Tailwind CSS, shadcn/ui components
     -   Real-time dashboard for CI/CD failure monitoring and fix management
     -   Interactive analytics with charts and repository intelligence
+    -   **Package Manager:** Use `pnpm` exclusively for all package management (no npm/yarn)
 -   **Backend:**
     -   FastAPI with Python 3.12+, Pydantic models, async operations
     -   PostgreSQL with asyncpg, Google Gemini API integration, GitHub API
@@ -21,6 +22,7 @@
 -   **Build/Test:**
     -   Frontend: `pnpm install`, `pnpm dev` or `pnpm build` (see `package.json`)
     -   Backend: `pip install -r requirements.txt`, `uvicorn main:app --reload`
+    -   **Important:** Always use `pnpm` for frontend dependencies, never `npm` or `yarn`
 -   **Environment:**
     -   Use `.env` for API keys (GOOGLE_API_KEY, GITHUB_TOKEN, DATABASE_URL)
     -   Production deployment on Render.com with Supabase PostgreSQL
