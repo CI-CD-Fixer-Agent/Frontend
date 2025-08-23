@@ -53,8 +53,14 @@ export interface FailureDetailResponse {
 export interface Fix {
     id: string;
     repository: string;
-    description: string;
-    status: "pending_approval" | "approved" | "rejected";
+    owner?: string;
+    repo_name?: string;
+    run_id?: string;
+    workflow_name?: string;
+    description?: string;
+    suggested_fix?: string;
+    error_analysis?: string;
+    status: "pending" | "pending_approval" | "approved" | "rejected";
     created_at: string;
     confidence_score?: number;
     fix_complexity?: string;
@@ -76,6 +82,13 @@ export interface DashboardSummary {
     active_fixes: number;
     success_rate: number;
     processing_time_avg: string;
+    // Add the actual API structure
+    key_metrics?: {
+        total_repos_analyzed: number;
+        total_failures_processed: number;
+        successful_fixes: number;
+        pending_fixes: number;
+    };
 }
 
 export interface RecentActivity {
@@ -142,11 +155,31 @@ export interface EffectivenessMetrics {
         weekly_improvement: number;
         learning_velocity: string;
     };
+    // Add the actual API structure
+    statistics?: {
+        overall_stats: {
+            total_fixes: number;
+            approved_fixes: number;
+            rejected_fixes: number;
+            pending_fixes: number;
+            approval_rate: number;
+        };
+    };
 }
 
 export interface EffectivenessResponse {
     message: string;
     metrics: EffectivenessMetrics;
+    // Add the actual API structure
+    statistics?: {
+        overall_stats: {
+            total_fixes: number;
+            approved_fixes: number;
+            rejected_fixes: number;
+            pending_fixes: number;
+            approval_rate: number;
+        };
+    };
 }
 
 // Repository Analytics

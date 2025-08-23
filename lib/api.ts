@@ -98,6 +98,10 @@ class APIClient {
         return this.request<DashboardResponse>("/analytics/dashboard");
     }
 
+    async getAnalytics(): Promise<EffectivenessResponse> {
+        return this.request<EffectivenessResponse>("/analytics/effectiveness");
+    }
+
     async getPatterns(daysBack?: number): Promise<PatternsResponse> {
         const query = daysBack ? `?days_back=${daysBack}` : "";
         return this.request<PatternsResponse>(`/analytics/patterns${query}`);
@@ -138,7 +142,12 @@ export const api = {
         apiClient.getFailures(params),
     getFailure: (id: string) => apiClient.getFailure(id),
     getFixes: () => apiClient.getFixes(),
+    approveFix: (id: string, comment?: string) =>
+        apiClient.approveFix(id, comment),
+    rejectFix: (id: string, comment?: string) =>
+        apiClient.rejectFix(id, comment),
     getDashboard: () => apiClient.getDashboard(),
+    getAnalytics: () => apiClient.getAnalytics(),
     getPatterns: (daysBack?: number) => apiClient.getPatterns(daysBack),
     getEffectiveness: () => apiClient.getEffectiveness(),
     getRepositoryAnalytics: (owner: string, repo: string) =>

@@ -90,6 +90,25 @@ export function useFixes() {
     };
 }
 
+// Analytics Hook
+export function useAnalytics() {
+    const { data, error, mutate } = useSWR<EffectivenessResponse>(
+        "/analytics/effectiveness",
+        () => api.getEffectiveness(),
+        {
+            refreshInterval: 60000, // Refresh every 60 seconds
+            revalidateOnFocus: true,
+        }
+    );
+
+    return {
+        analytics: data?.metrics || data?.statistics || data, // Handle different response structures
+        isLoading: !error && !data,
+        error,
+        refresh: mutate,
+    };
+}
+
 // Dashboard Hook
 export function useDashboard() {
     const { data, error, mutate } = useSWR<DashboardResponse>(

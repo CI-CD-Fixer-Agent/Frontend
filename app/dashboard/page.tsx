@@ -1,7 +1,13 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import { FailuresTable } from "@/components/failures-table";
+import { PendingFixesComponent } from "@/components/pending-fixes";
+import { RealTimeAnalytics } from "@/components/real-time-analytics";
+import { AIAgentStatus } from "@/components/ai-agent-status";
+import { LiveWorkflowMonitor } from "@/components/live-workflow-monitor";
+import { QuickActionsPanel } from "@/components/quick-actions-panel";
 import { SectionCards } from "@/components/section-cards";
+import { SystemStatusBanner } from "@/components/system-status-banner";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
@@ -19,9 +25,27 @@ export default function Page() {
             <SidebarInset>
                 <SiteHeader />
                 <div className="flex flex-1 flex-col gap-4 p-4 lg:p-6">
+                    <SystemStatusBanner />
+                    <RealTimeAnalytics />
+
+                    {/* AI Agents and Live Monitoring */}
+                    <div className="grid gap-4 lg:grid-cols-2">
+                        <AIAgentStatus />
+                        <LiveWorkflowMonitor />
+                    </div>
+
                     <SectionCards />
+
+                    {/* Failures and Fixes */}
+                    <div className="grid gap-4 md:grid-cols-2">
+                        <FailuresTable />
+                        <PendingFixesComponent />
+                    </div>
+
+                    {/* Quick Actions */}
+                    <QuickActionsPanel />
+
                     <ChartAreaInteractive />
-                    <FailuresTable />
                 </div>
             </SidebarInset>
         </SidebarProvider>
