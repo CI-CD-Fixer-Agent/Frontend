@@ -6,6 +6,7 @@ settings:
 
 overrides:
   node-domexception: npm:@web-std/dom-exception@^1.0.1
+  node-fetch: npm:@web-std/fetch@^4.1.0
 
 importers:
 
