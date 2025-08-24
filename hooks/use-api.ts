@@ -1,3 +1,4 @@
+import React from "react";
 import useSWR from "swr";
 import { api } from "@/lib/api";
 import type {
@@ -39,8 +40,10 @@ export function useFailures(options?: UseFailuresOptions) {
         ["/failures", options],
         () => api.getFailures(options),
         {
-            refreshInterval: 10000, // Refresh every 10 seconds
+            refreshInterval: 8000, // Refresh every 8 seconds
             revalidateOnFocus: true,
+            revalidateOnReconnect: true,
+            dedupingInterval: 3000, // Reduce deduping interval
         }
     );
 
@@ -75,21 +78,27 @@ export function useFixes() {
         "/fixes",
         () => api.getFixes(),
         {
-            refreshInterval: 15000,
+            refreshInterval: 10000, // Refresh every 10 seconds
             revalidateOnFocus: true,
+            revalidateOnReconnect: true,
+            dedupingInterval: 5000, // Reduce deduping interval
         }
     );
 
     // Transform API data to match component expectations
-    const transformedFixes = (data?.pending_fixes || []).map((fix: any) => ({
-        ...fix,
-        id: fix.id.toString(), // Ensure id is string
-        status: fix.fix_status, // Map fix_status to status
-        repository:
-            fix.owner && fix.repo_name
-                ? `${fix.owner}/${fix.repo_name}`
-                : fix.repo_name || "", // Combine owner/repo_name
-    }));
+    const transformedFixes = React.useMemo(() => {
+        if (!data?.pending_fixes) return [];
+
+        return data.pending_fixes.map((fix: any) => ({
+            ...fix,
+            id: fix.id.toString(), // Ensure id is string
+            status: fix.fix_status, // Map fix_status to status
+            repository:
+                fix.owner && fix.repo_name
+                    ? `${fix.owner}/${fix.repo_name}`
+                    : fix.repo_name || "", // Combine owner/repo_name
+        }));
+    }, [data]);
 
     return {
         fixes: transformedFixes,

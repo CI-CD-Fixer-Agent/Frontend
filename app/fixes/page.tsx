@@ -20,6 +20,7 @@ import {
     Loader2,
     AlertTriangle,
     TrendingUp,
+    RefreshCw,
 } from "lucide-react";
 import { useFixes } from "@/hooks/use-api";
 import { api } from "@/lib/api";
@@ -40,9 +41,16 @@ interface FixStatistics {
 }
 
 export default function FixesPage() {
-    const [processingFixes, setProcessingFixes] = useState<Set<string>>(
-        new Set()
-    );
+    const [loadingStates, setLoadingStates] = useState<
+        Record<
+            string,
+            {
+                approve?: boolean;
+                reject?: boolean;
+                apply?: boolean;
+            }
+        >
+    >({});
     const [reviewComment, setReviewComment] = useState("");
     const [selectedFix, setSelectedFix] = useState<string | null>(null);
     const { fixes: apiFixes, error, isLoading: loading, refresh } = useFixes();
@@ -64,8 +72,28 @@ export default function FixesPage() {
         const stats = apiFixes.reduce(
             (acc: FixStatistics, fix: Fix) => {
                 acc.total++;
+
+                // Map new statuses to existing categories for statistics
+                const mappedStatus = (() => {
+                    switch (fix.status) {
+                        case "pending":
+                            return "pending";
+                        case "approved":
+                        case "applying":
+                            return "approved";
+                        case "rejected":
+                        case "application_failed":
+                        case "approved_application_failed":
+                            return "rejected";
+                        case "applied":
+                            return "applied";
+                        default:
+                            return "pending";
+                    }
+                })();
+
                 acc[
-                    fix.status as keyof Pick<
+                    mappedStatus as keyof Pick<
                         FixStatistics,
                         "pending" | "approved" | "rejected" | "applied"
                     >
@@ -96,7 +124,10 @@ export default function FixesPage() {
     const fixes = apiFixes || [];
 
     const handleApplyFix = async (fixId: string) => {
-        setProcessingFixes((prev) => new Set(prev).add(fixId));
+        setLoadingStates((prev) => ({
+            ...prev,
+            [fixId]: { ...prev[fixId], apply: true },
+        }));
         try {
             await api.applyFix(fixId);
             refresh();
@@ -105,46 +136,54 @@ export default function FixesPage() {
             console.error("Error applying fix:", error);
             toast.error("Failed to apply fix");
         } finally {
-            setProcessingFixes((prev) => {
-                const newSet = new Set(prev);
-                newSet.delete(fixId);
-                return newSet;
-            });
+            setLoadingStates((prev) => ({
+                ...prev,
+                [fixId]: { ...prev[fixId], apply: false },
+            }));
         }
     };
+
     const handleApprove = async (fixId: string) => {
-        setProcessingFixes((prev) => new Set(prev).add(fixId));
+        setLoadingStates((prev) => ({
+            ...prev,
+            [fixId]: { ...prev[fixId], approve: true },
+        }));
         try {
             await api.approveFix(fixId, reviewComment);
             refresh();
             setReviewComment("");
             setSelectedFix(null);
+            toast.success("Fix approved successfully!");
         } catch (error) {
             console.error("Error approving fix:", error);
+            toast.error("Failed to approve fix");
         } finally {
-            setProcessingFixes((prev) => {
-                const newSet = new Set(prev);
-                newSet.delete(fixId);
-                return newSet;
-            });
+            setLoadingStates((prev) => ({
+                ...prev,
+                [fixId]: { ...prev[fixId], approve: false },
+            }));
         }
     };
 
     const handleReject = async (fixId: string) => {
-        setProcessingFixes((prev) => new Set(prev).add(fixId));
+        setLoadingStates((prev) => ({
+            ...prev,
+            [fixId]: { ...prev[fixId], reject: true },
+        }));
         try {
             await api.rejectFix(fixId, reviewComment);
             refresh();
             setReviewComment("");
             setSelectedFix(null);
+            toast.success("Fix rejected successfully!");
         } catch (error) {
             console.error("Error rejecting fix:", error);
+            toast.error("Failed to reject fix");
         } finally {
-            setProcessingFixes((prev) => {
-                const newSet = new Set(prev);
-                newSet.delete(fixId);
-                return newSet;
-            });
+            setLoadingStates((prev) => ({
+                ...prev,
+                [fixId]: { ...prev[fixId], reject: false },
+            }));
         }
     };
 
@@ -156,6 +195,11 @@ export default function FixesPage() {
                 return <XCircle className="h-4 w-4 text-red-500" />;
             case "applied":
                 return <CheckCircle className="h-4 w-4 text-blue-500" />;
+            case "applying":
+                return <Clock className="h-4 w-4 text-blue-500 animate-spin" />;
+            case "application_failed":
+            case "approved_application_failed":
+                return <XCircle className="h-4 w-4 text-red-500" />;
             default:
                 return <Clock className="h-4 w-4 text-yellow-500" />;
         }
@@ -230,6 +274,25 @@ export default function FixesPage() {
                                 Review and approve AI-generated fixes for CI/CD
                                 failures
                             </p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <div className="text-xs text-muted-foreground">
+                                Last updated: {new Date().toLocaleTimeString()}
+                            </div>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => refresh()}
+                                disabled={loading}
+                                className="flex items-center gap-2"
+                            >
+                                <RefreshCw
+                                    className={`h-4 w-4 ${
+                                        loading ? "animate-spin" : ""
+                                    }`}
+                                />
+                                Refresh
+                            </Button>
                         </div>
                     </div>
 
@@ -311,9 +374,35 @@ export default function FixesPage() {
                         {fixes.length === 0 ? (
                             <Card>
                                 <CardContent className="pt-6 text-center">
-                                    <p className="text-muted-foreground">
-                                        No fixes available for review
-                                    </p>
+                                    <div className="space-y-3">
+                                        <GitBranch className="h-12 w-12 text-muted-foreground mx-auto" />
+                                        <div>
+                                            <p className="text-muted-foreground font-medium">
+                                                No fixes available for review
+                                            </p>
+                                            <p className="text-sm text-muted-foreground mt-1">
+                                                All fixes have been processed or
+                                                no new CI/CD failures detected
+                                            </p>
+                                        </div>
+                                        <div className="flex justify-center gap-2 mt-4">
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => refresh()}
+                                                disabled={loading}
+                                            >
+                                                <RefreshCw
+                                                    className={`h-4 w-4 mr-2 ${
+                                                        loading
+                                                            ? "animate-spin"
+                                                            : ""
+                                                    }`}
+                                                />
+                                                Check for Updates
+                                            </Button>
+                                        </div>
+                                    </div>
                                 </CardContent>
                             </Card>
                         ) : (
@@ -379,6 +468,59 @@ export default function FixesPage() {
                                             </pre>
                                         </div>
 
+                                        {/* Fix Application Status */}
+                                        {(fix.status === "applied" ||
+                                            fix.status === "applying" ||
+                                            fix.status ===
+                                                "application_failed" ||
+                                            fix.status ===
+                                                "approved_application_failed") && (
+                                            <div className="space-y-3 border-t pt-4">
+                                                <h4 className="font-semibold mb-2">
+                                                    Application Status:
+                                                </h4>
+                                                <div className="space-y-2">
+                                                    {fix.pr_url && (
+                                                        <div className="flex items-center space-x-2">
+                                                            <span className="text-sm font-medium">
+                                                                Pull Request:
+                                                            </span>
+                                                            <a
+                                                                href={
+                                                                    fix.pr_url
+                                                                }
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="text-blue-600 hover:text-blue-800 underline text-sm"
+                                                            >
+                                                                View PR →
+                                                            </a>
+                                                        </div>
+                                                    )}
+                                                    {fix.fix_branch && (
+                                                        <div className="flex items-center space-x-2">
+                                                            <span className="text-sm font-medium">
+                                                                Branch:
+                                                            </span>
+                                                            <code className="text-sm bg-gray-100 px-2 py-1 rounded">
+                                                                {fix.fix_branch}
+                                                            </code>
+                                                        </div>
+                                                    )}
+                                                    {fix.fix_error && (
+                                                        <div className="flex items-start space-x-2">
+                                                            <span className="text-sm font-medium text-red-600">
+                                                                Error:
+                                                            </span>
+                                                            <span className="text-sm text-red-600">
+                                                                {fix.fix_error}
+                                                            </span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+
                                         {(fix.status === "pending" ||
                                             fix.status ===
                                                 "pending_approval") && (
@@ -414,15 +556,19 @@ export default function FixesPage() {
                                                         onClick={() =>
                                                             handleReject(fix.id)
                                                         }
-                                                        disabled={processingFixes.has(
-                                                            fix.id
-                                                        )}
+                                                        disabled={
+                                                            loadingStates[
+                                                                fix.id
+                                                            ]?.approve ||
+                                                            loadingStates[
+                                                                fix.id
+                                                            ]?.reject
+                                                        }
                                                         size="lg"
                                                         className="min-w-[120px] border-red-200 text-red-700 hover:bg-red-50 hover:text-red-800 hover:border-red-300"
                                                     >
-                                                        {processingFixes.has(
-                                                            fix.id
-                                                        ) ? (
+                                                        {loadingStates[fix.id]
+                                                            ?.reject ? (
                                                             <Loader2 className="h-5 w-5 animate-spin mr-2" />
                                                         ) : (
                                                             <XCircle className="h-5 w-5 mr-2" />
@@ -436,15 +582,19 @@ export default function FixesPage() {
                                                                 fix.id
                                                             )
                                                         }
-                                                        disabled={processingFixes.has(
-                                                            fix.id
-                                                        )}
+                                                        disabled={
+                                                            loadingStates[
+                                                                fix.id
+                                                            ]?.approve ||
+                                                            loadingStates[
+                                                                fix.id
+                                                            ]?.reject
+                                                        }
                                                         size="lg"
                                                         className="min-w-[120px] bg-green-600 hover:bg-green-700 text-white"
                                                     >
-                                                        {processingFixes.has(
-                                                            fix.id
-                                                        ) ? (
+                                                        {loadingStates[fix.id]
+                                                            ?.approve ? (
                                                             <Loader2 className="h-5 w-5 animate-spin mr-2" />
                                                         ) : (
                                                             <CheckCircle className="h-5 w-5 mr-2" />
@@ -464,15 +614,16 @@ export default function FixesPage() {
                                                                 fix.id
                                                             )
                                                         }
-                                                        disabled={processingFixes.has(
-                                                            fix.id
-                                                        )}
+                                                        disabled={
+                                                            loadingStates[
+                                                                fix.id
+                                                            ]?.apply
+                                                        }
                                                         size="lg"
                                                         className="min-w-[140px] bg-blue-600 hover:bg-blue-700 text-white"
                                                     >
-                                                        {processingFixes.has(
-                                                            fix.id
-                                                        ) ? (
+                                                        {loadingStates[fix.id]
+                                                            ?.apply ? (
                                                             <Loader2 className="h-5 w-5 animate-spin mr-2" />
                                                         ) : (
                                                             <GitBranch className="h-5 w-5 mr-2" />

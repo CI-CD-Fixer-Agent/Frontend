@@ -27,7 +27,18 @@ export interface Failure {
     conclusion: string;
     error_log?: string;
     suggested_fix?: string;
-    fix_status: "pending" | "generated" | "approved" | "rejected";
+    fix_status:
+        | "pending"
+        | "generated"
+        | "approved"
+        | "rejected"
+        | "applying"
+        | "applied"
+        | "application_failed"
+        | "approved_application_failed";
+    pr_url?: string;
+    fix_branch?: string;
+    fix_error?: string;
     created_at: string;
 }
 
@@ -60,8 +71,27 @@ export interface Fix {
     description?: string;
     suggested_fix?: string;
     error_analysis?: string;
-    status?: "pending" | "pending_approval" | "approved" | "rejected"; // Mapped from fix_status
-    fix_status?: "pending" | "pending_approval" | "approved" | "rejected"; // Raw API field
+    status?:
+        | "pending"
+        | "pending_approval"
+        | "approved"
+        | "rejected"
+        | "applying"
+        | "applied"
+        | "application_failed"
+        | "approved_application_failed"; // Mapped from fix_status
+    fix_status?:
+        | "pending"
+        | "pending_approval"
+        | "approved"
+        | "rejected"
+        | "applying"
+        | "applied"
+        | "application_failed"
+        | "approved_application_failed"; // Raw API field
+    pr_url?: string;
+    fix_branch?: string;
+    fix_error?: string;
     created_at: string;
     confidence_score?: number;
     fix_complexity?: string;

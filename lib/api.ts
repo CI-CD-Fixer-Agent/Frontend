@@ -99,6 +99,18 @@ class APIClient {
         });
     }
 
+    async getFixStatus(id: string): Promise<{
+        fix_id: string;
+        status: string;
+        pr_url?: string;
+        branch_name?: string;
+        error_message?: string;
+        created_at: string;
+        updated_at: string;
+    }> {
+        return this.request(`/fixes/${id}/status`);
+    }
+
     // Analytics
     async getDashboard(): Promise<DashboardResponse> {
         // Fetch both dashboard analytics and recent failures for complete data
