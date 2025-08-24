@@ -7,12 +7,13 @@ A comprehensive **Next.js 15** dashboard for the CI/CD Fixer Agent system that p
 ## 🌟 **Live Production System**
 
 ### **📊 Current Production Metrics** (August 2025)
-- **🔥 29 Total Failures Processed** - All with AI-generated intelligent fixes
-- **🏢 20+ Repositories Analyzed** - Cross-language pattern recognition active  
-- **⚡ 100% Fix Generation Rate** - Every failure receives comprehensive AI analysis
-- **� Human-in-the-Loop Workflow** - 1 approved, 2 rejected, 26 pending review
-- **🗄️ Complete Audit Trail** - All operations tracked in PostgreSQL
-- **🌐 Production Backend**: https://ci-cd-fixer-agent-backend.onrender.com
+
+-   **🔥 29 Total Failures Processed** - All with AI-generated intelligent fixes
+-   **🏢 20+ Repositories Analyzed** - Cross-language pattern recognition active
+-   **⚡ 100% Fix Generation Rate** - Every failure receives comprehensive AI analysis
+-   **� Human-in-the-Loop Workflow** - 1 approved, 2 rejected, 26 pending review
+-   **🗄️ Complete Audit Trail** - All operations tracked in PostgreSQL
+-   **🌐 Production Backend**: https://ci-cd-fixer-agent-backend.onrender.com
 
 ### **🎯 What This Dashboard Provides**
 
@@ -26,22 +27,24 @@ A comprehensive **Next.js 15** dashboard for the CI/CD Fixer Agent system that p
 ## 🏗️ **Architecture & Integration**
 
 ### **Backend Integration**
+
 This frontend connects to our **live production backend** with full AI capabilities:
 
 -   **Production API**: https://ci-cd-fixer-agent-backend.onrender.com
 -   **Database**: PostgreSQL via Supabase with complete failure/fix tracking
--   **AI Services**: 
-    - **Google Gemini 2.5 Pro** for intelligent error analysis
-    - **Portia AI** for orchestration and workflow management
+-   **AI Services**:
+    -   **Google Gemini 2.5 Pro** for intelligent error analysis
+    -   **Portia AI** for orchestration and workflow management
 -   **GitHub Integration**: Live webhook processing for real-time failure detection
 -   **Current Status**: 29 failures processed across 20+ repositories with ML pattern recognition
 
 ### **System Components**
-- **Webhook Processing**: Real-time GitHub Actions failure detection
-- **AI Analysis Engine**: Gemini-powered error classification and fix generation  
-- **Human Approval Workflow**: Review system with approve/reject capabilities
-- **Analytics Engine**: ML-driven pattern recognition and success prediction
-- **Repository Intelligence**: Cross-project learning and recommendation system
+
+-   **Webhook Processing**: Real-time GitHub Actions failure detection
+-   **AI Analysis Engine**: Gemini-powered error classification and fix generation
+-   **Human Approval Workflow**: Review system with approve/reject capabilities
+-   **Analytics Engine**: ML-driven pattern recognition and success prediction
+-   **Repository Intelligence**: Cross-project learning and recommendation system
 
 ## 🛠️ **Tech Stack**
 
@@ -102,14 +105,16 @@ pnpm lint         # Run ESLint with TypeScript checks
 ## 📱 **Dashboard Pages & Features**
 
 ### 🏠 **Landing Page** (`/`)
+
 -   Modern hero section with animated statistics
 -   Feature showcase and system overview
 -   Real-time metrics display
 -   Call-to-action for dashboard access
 
 ### 📊 **Dashboard** (`/dashboard`)
+
 -   **System Status Banner** - Live health monitoring of all services
--   **Real-time Analytics** - Current failure rates and success metrics  
+-   **Real-time Analytics** - Current failure rates and success metrics
 -   **AI Agent Status** - Gemini and Portia agent monitoring with processing stats
 -   **Live Workflow Monitor** - Real-time GitHub Actions failure tracking
 -   **Quick Actions Panel** - Manual triggers and system controls
@@ -117,6 +122,7 @@ pnpm lint         # Run ESLint with TypeScript checks
 -   **Pending Fixes** - Human approval queue with one-click actions
 
 ### 🔍 **Failures Management** (`/failures`)
+
 -   **Comprehensive Failure List** - All 29 processed failures with advanced filtering
 -   **Multi-dimensional Filtering** - By repository, status, error type, date range
 -   **Detailed Failure Views** - Complete error logs and context
@@ -124,6 +130,7 @@ pnpm lint         # Run ESLint with TypeScript checks
 -   **Fix Suggestions** - Specific implementation steps and commands
 
 ### ✅ **Fix Management** (`/fixes`)
+
 -   **Human-in-the-Loop Workflow** - Approve/reject interface for all 26 pending fixes
 -   **Detailed Fix Reviews** - Complete analysis and suggested changes
 -   **Bulk Operations** - Multi-select approve/reject with batch comments
@@ -131,6 +138,7 @@ pnpm lint         # Run ESLint with TypeScript checks
 -   **Effectiveness Analytics** - Success rate tracking per fix type
 
 ### � **Analytics Dashboard** (`/analytics`)
+
 -   **Repository Intelligence** - Cross-project pattern analysis for 20+ repositories
 -   **Error Type Distribution** - Visual breakdown of failure categories
 -   **Success Rate Trends** - Historical and predictive analytics
@@ -139,6 +147,7 @@ pnpm lint         # Run ESLint with TypeScript checks
 -   **Effectiveness Metrics** - Fix success rates and improvement trends
 
 ### 🏢 **Repository Management** (`/repository`)
+
 -   **Individual Repository Profiles** - Detailed analysis per project
 -   **Historical Trend Analysis** - Failure patterns over time
 -   **Language-Specific Insights** - JavaScript, TypeScript, Python, Go analysis
@@ -158,7 +167,7 @@ components/
 │   ├── sidebar.tsx        # Navigation sidebar
 │   ├── table.tsx          # Data table components
 │   └── ...                # All shadcn/ui components
-├── 
+├──
 ├── ai-agent-status.tsx     # Real-time AI agent monitoring
 ├── app-sidebar.tsx         # Main navigation with active states
 ├── chart-area-interactive.tsx # Interactive analytics charts
@@ -181,7 +190,7 @@ lib/
 ├── api.ts              # Complete backend API client with all endpoints
 ├── types.ts            # TypeScript interfaces for all data structures
 ├── utils.ts            # Utility functions and helpers
-└── 
+└──
 hooks/
 ├── use-api.ts          # Custom React hooks for API integration
 ├── use-mobile.ts       # Mobile responsiveness detection
@@ -195,7 +204,7 @@ app/
 ├── layout.tsx          # Root layout with providers
 ├── page.tsx            # Landing page with hero section
 ├── globals.css         # Global styles and CSS variables
-├── 
+├──
 ├── dashboard/
 │   └── page.tsx        # Main dashboard with all components
 ├── failures/
@@ -233,7 +242,7 @@ export function useFailures() {
 
 export function useFixes() {
     const { data, error, mutate } = useSWR("/fixes", api.getFixes);
-    
+
     return {
         fixes: data?.pending_fixes || [],
         isLoading: !error && !data,
@@ -251,9 +260,9 @@ export class APIClient {
     async approveFix(fixId: string, comment?: string) {
         return this.request(`/fixes/${fixId}/approve`, {
             method: "POST",
-            body: JSON.stringify({ 
-                action: "approve", 
-                comment: comment || "Approved via dashboard" 
+            body: JSON.stringify({
+                action: "approve",
+                comment: comment || "Approved via dashboard",
             }),
         });
     }
@@ -261,9 +270,9 @@ export class APIClient {
     async rejectFix(fixId: string, reason: string) {
         return this.request(`/fixes/${fixId}/reject`, {
             method: "POST",
-            body: JSON.stringify({ 
-                action: "reject", 
-                comment: reason 
+            body: JSON.stringify({
+                action: "reject",
+                comment: reason,
             }),
         });
     }
@@ -284,25 +293,25 @@ export class APIClient {
 export function RealTimeAnalytics() {
     const { analytics, isLoading } = useAnalytics();
     const { dashboard } = useDashboard();
-    
+
     const successRate = analytics?.overall_approval_rate || 0;
     const totalFixes = analytics?.total_fixes_generated || 0;
     const pendingReview = dashboard?.pending_fixes || 0;
 
     return (
         <div className="grid gap-4 md:grid-cols-3">
-            <MetricCard 
-                title="Success Rate" 
+            <MetricCard
+                title="Success Rate"
                 value={`${(successRate * 100).toFixed(1)}%`}
                 trend="up"
             />
-            <MetricCard 
-                title="Total Fixes" 
+            <MetricCard
+                title="Total Fixes"
                 value={totalFixes}
                 description="AI-generated solutions"
             />
-            <MetricCard 
-                title="Pending Review" 
+            <MetricCard
+                title="Pending Review"
                 value={pendingReview}
                 description="Awaiting human approval"
             />
@@ -314,6 +323,7 @@ export function RealTimeAnalytics() {
 ## 📊 **Real-time Features & Performance**
 
 ### Live Data Updates
+
 -   **Auto-refresh Intervals**: 30-second intervals for critical data
 -   **Real-time Metrics**: Live failure counts and AI processing status
 -   **WebSocket Ready**: Infrastructure prepared for instant notifications
@@ -321,6 +331,7 @@ export function RealTimeAnalytics() {
 -   **Optimistic Updates**: Immediate UI feedback for user actions
 
 ### Performance Optimizations
+
 -   **Next.js 15 with Turbopack**: Ultra-fast development and build times
 -   **Code Splitting**: Automatic route-based splitting for optimal loading
 -   **Image Optimization**: Next.js Image component for responsive images
@@ -328,6 +339,7 @@ export function RealTimeAnalytics() {
 -   **Bundle Analysis**: Optimized bundle size with dynamic imports
 
 ### Production Metrics (Current Live Data)
+
 -   **🔥 29 Total Failures Processed** - 100% with AI analysis
 -   **⚡ Real-time Processing** - Average 2-3 second analysis time
 -   **📊 20+ Repositories** - Cross-language pattern recognition
@@ -347,17 +359,19 @@ interface FixApprovalProps {
 }
 
 // Use shadcn/ui component patterns
-export function FixApprovalCard({ fixId, onApprove, onReject }: FixApprovalProps) {
+export function FixApprovalCard({
+    fixId,
+    onApprove,
+    onReject,
+}: FixApprovalProps) {
     const [isLoading, setIsLoading] = useState(false);
-    
+
     return (
         <Card className="w-full">
             <CardHeader>
                 <CardTitle>Fix Review Required</CardTitle>
             </CardHeader>
-            <CardContent>
-                {/* Component implementation */}
-            </CardContent>
+            <CardContent>{/* Component implementation */}</CardContent>
         </Card>
     );
 }
@@ -445,6 +459,7 @@ NEXT_PUBLIC_SENTRY_DSN=your_sentry_dsn
 ## 📈 **Current Production Status**
 
 ### Live System Metrics (August 2025)
+
 The dashboard displays **real production data** from our deployed system:
 
 -   **🔥 29 Total Failures Processed** - Every failure analyzed by Gemini 2.5 Pro
@@ -455,13 +470,15 @@ The dashboard displays **real production data** from our deployed system:
 -   **🌐 100% System Uptime** - Reliable backend connectivity and webhook processing
 
 ### AI Analysis Performance
+
 -   **Google Gemini 2.5 Pro**: Primary analysis engine with confidence scoring
--   **Portia AI Orchestration**: Multi-agent workflow coordination  
+-   **Portia AI Orchestration**: Multi-agent workflow coordination
 -   **Pattern Recognition**: Learning from cross-repository failure patterns
 -   **Language Support**: JavaScript, TypeScript, Python, Go, and more
 -   **Real-time Processing**: Average 2-3 second analysis per failure
 
 ### Human-in-the-Loop Quality
+
 -   **Expert Review Process**: All fixes require human approval
 -   **Detailed Feedback**: Comments and reasoning for approve/reject decisions
 -   **Learning Loop**: AI improves based on human feedback patterns
@@ -494,11 +511,13 @@ pnpm test:coverage    # Generate coverage report
 ## 📚 **Documentation & Resources**
 
 ### Project Documentation
+
 -   **[Backend API Reference](../backend/API_DOCUMENTATION.md)** - Complete API endpoints documentation
 -   **[Project Status](../PROJECT_STATUS.md)** - Current implementation status and roadmap
 -   **[Main Project README](../README.md)** - System overview and architecture
 
 ### Technology Documentation
+
 -   **[Next.js 15 Documentation](https://nextjs.org/docs)** - App Router and latest features
 -   **[shadcn/ui Components](https://ui.shadcn.com)** - Component library and usage patterns
 -   **[Tailwind CSS](https://tailwindcss.com/docs)** - Utility-first CSS framework
@@ -506,6 +525,7 @@ pnpm test:coverage    # Generate coverage report
 -   **[SWR Documentation](https://swr.vercel.app)** - Data fetching and caching strategies
 
 ### AI Integration Resources
+
 -   **[Google Gemini API](https://ai.google.dev/docs)** - AI analysis engine documentation
 -   **[Portia AI Documentation](https://portia.ai/docs)** - Multi-agent orchestration framework
 
@@ -514,6 +534,7 @@ pnpm test:coverage    # Generate coverage report
 This dashboard is a core component of the **CI/CD Fixer Agent** system. Contributions are welcome!
 
 ### Development Workflow
+
 1. **Fork** the repository and create a feature branch
 2. **Install** dependencies: `pnpm install`
 3. **Start** development server: `pnpm dev`
@@ -523,6 +544,7 @@ This dashboard is a core component of the **CI/CD Fixer Agent** system. Contribu
 7. **Submit** a pull request with detailed description
 
 ### Contribution Areas
+
 -   **🎨 UI/UX Improvements** - Enhanced analytics visualizations
 -   **⚡ Performance Optimizations** - Faster loading and better caching
 -   **♿ Accessibility Features** - Better screen reader and keyboard support
@@ -530,6 +552,7 @@ This dashboard is a core component of the **CI/CD Fixer Agent** system. Contribu
 -   **🔧 Developer Experience** - Better tooling and documentation
 
 ### Code Style Guide
+
 -   Use **TypeScript** with strict type checking
 -   Follow **shadcn/ui** component patterns
 -   Implement **responsive design** (mobile-first approach)
@@ -543,11 +566,12 @@ This dashboard is a core component of the **CI/CD Fixer Agent** system. Contribu
 **Built with Next.js 15, TypeScript, Tailwind CSS, and shadcn/ui** ⚡
 
 This dashboard provides a comprehensive interface for managing the CI/CD Fixer Agent system, featuring:
-- **Real-time monitoring** of 29 processed failures across 20+ repositories
-- **AI-powered analysis** using Google Gemini 2.5 Pro with confidence scoring
-- **Human oversight workflows** for quality control and learning improvement
-- **Advanced analytics** with ML-driven pattern recognition and predictions
-- **Production-ready deployment** with full backend integration
+
+-   **Real-time monitoring** of 29 processed failures across 20+ repositories
+-   **AI-powered analysis** using Google Gemini 2.5 Pro with confidence scoring
+-   **Human oversight workflows** for quality control and learning improvement
+-   **Advanced analytics** with ML-driven pattern recognition and predictions
+-   **Production-ready deployment** with full backend integration
 
 **Live Production System**: https://ci-cd-fixer-agent-backend.onrender.com
 
