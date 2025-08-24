@@ -38,7 +38,6 @@ export function Navbar() {
         <header className="flex items-center justify-center sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container flex h-16 max-w-screen-2xl items-center justify-between px-4 md:px-6 lg:px-8">
                 <div className="flex items-center gap-2">
-                    {/* Mobile menu trigger */}
                     <Popover>
                         <PopoverTrigger asChild>
                             <Button
@@ -104,7 +103,6 @@ export function Navbar() {
                         </PopoverContent>
                     </Popover>
 
-                    {/* Logo */}
                     <Link href="/" className="flex items-center gap-2">
                         <Bot className="size-6 mb-1" />
                         <span className="hidden font-bold sm:inline-block">
@@ -113,7 +111,6 @@ export function Navbar() {
                     </Link>
                 </div>
 
-                {/* Desktop Navigation */}
                 <div className="absolute left-1/2 -translate-x-1/2 hidden md:block">
                     <NavigationMenu>
                         <NavigationMenuList className="flex items-center space-x-1">
@@ -142,14 +139,12 @@ export function Navbar() {
                     </NavigationMenu>
                 </div>
 
-                {/* Right side actions */}
                 <div className="flex items-center gap-4 ml-auto">
                     <ThemeToggle />
                     <Link
                         href="/dashboard"
                         className="inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-blue-600 via-emerald-600 to-indigo-600 hover:from-blue-500 hover:via-emerald-500 hover:to-indigo-500 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 border-0 relative overflow-hidden group"
                     >
-                        {/* Shimmer effect */}
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
                         <span className="relative z-10">Get Started</span>
                     </Link>

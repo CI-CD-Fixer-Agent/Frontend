@@ -53,7 +53,6 @@ export function useFailures(options?: UseFailuresOptions) {
     };
 }
 
-// Single Failure Hook
 export function useFailure(id: string) {
     const { data, error, mutate } = useSWR<FailureDetailResponse>(
         id ? `/failures/${id}` : null,
@@ -71,19 +70,29 @@ export function useFailure(id: string) {
     };
 }
 
-// Fixes Hook
 export function useFixes() {
     const { data, error, mutate } = useSWR<FixesResponse>(
         "/fixes",
         () => api.getFixes(),
         {
-            refreshInterval: 15000, // Refresh every 15 seconds
+            refreshInterval: 15000,
             revalidateOnFocus: true,
         }
     );
 
+    // Transform API data to match component expectations
+    const transformedFixes = (data?.pending_fixes || []).map((fix: any) => ({
+        ...fix,
+        id: fix.id.toString(), // Ensure id is string
+        status: fix.fix_status, // Map fix_status to status
+        repository:
+            fix.owner && fix.repo_name
+                ? `${fix.owner}/${fix.repo_name}`
+                : fix.repo_name || "", // Combine owner/repo_name
+    }));
+
     return {
-        fixes: data?.pending_fixes || [],
+        fixes: transformedFixes,
         isLoading: !error && !data,
         error,
         refresh: mutate,

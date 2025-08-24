@@ -28,7 +28,6 @@ export default function Page() {
                     <SystemStatusBanner />
                     <RealTimeAnalytics />
 
-                    {/* AI Agents and Live Monitoring */}
                     <div className="grid gap-4 lg:grid-cols-2">
                         <AIAgentStatus />
                         <LiveWorkflowMonitor />
@@ -36,13 +35,11 @@ export default function Page() {
 
                     <SectionCards />
 
-                    {/* Failures and Fixes */}
                     <div className="grid gap-4 md:grid-cols-2">
                         <FailuresTableEnhanced />
                         <PendingFixesComponent />
                     </div>
 
-                    {/* Quick Actions */}
                     <QuickActionsPanel />
 
                     <ChartAreaInteractive />

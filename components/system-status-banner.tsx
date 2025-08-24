@@ -103,7 +103,6 @@ export function SystemStatusBanner() {
         >
             <CardContent className="p-4">
                 <div className="flex items-center justify-between">
-                    {/* Left side - Overall status */}
                     <div className="flex items-center gap-3">
                         <div className="flex items-center gap-2">
                             {isHealthy ? (
@@ -127,7 +126,6 @@ export function SystemStatusBanner() {
                         </div>
                     </div>
 
-                    {/* Right side - Refresh button */}
                     <Button
                         variant="ghost"
                         size="sm"
@@ -145,7 +143,6 @@ export function SystemStatusBanner() {
                     </Button>
                 </div>
 
-                {/* Services status - organized in a grid */}
                 {health?.services && (
                     <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

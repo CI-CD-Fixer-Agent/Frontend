@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     Card,
     CardContent,
@@ -22,6 +22,8 @@ import {
     TrendingUp,
 } from "lucide-react";
 import { useFixes } from "@/hooks/use-api";
+import { api } from "@/lib/api";
+import { toast } from "sonner";
 import type { Fix } from "@/lib/types";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
@@ -38,16 +40,6 @@ interface FixStatistics {
 }
 
 export default function FixesPage() {
-    const [fixes, setFixes] = useState<Fix[]>([]);
-    const [statistics, setStatistics] = useState<FixStatistics>({
-        total: 0,
-        pending: 0,
-        approved: 0,
-        rejected: 0,
-        applied: 0,
-        avgConfidence: 0,
-        successRate: 0,
-    });
     const [processingFixes, setProcessingFixes] = useState<Set<string>>(
         new Set()
     );
@@ -55,62 +47,78 @@ export default function FixesPage() {
     const [selectedFix, setSelectedFix] = useState<string | null>(null);
     const { fixes: apiFixes, error, isLoading: loading, refresh } = useFixes();
 
-    const fetchFixes = async () => {
-        // Using the hook, so we'll trigger refresh
-        refresh();
-    };
-
-    useEffect(() => {
-        // Calculate statistics whenever fixes change
-        if (apiFixes) {
-            const stats = apiFixes.reduce(
-                (acc: FixStatistics, fix: Fix) => {
-                    acc.total++;
-                    acc[
-                        fix.status as keyof Pick<
-                            FixStatistics,
-                            "pending" | "approved" | "rejected" | "applied"
-                        >
-                    ]++;
-                    acc.avgConfidence += fix.confidence_score || 0;
-                    return acc;
-                },
-                {
-                    total: 0,
-                    pending: 0,
-                    approved: 0,
-                    rejected: 0,
-                    applied: 0,
-                    avgConfidence: 0,
-                    successRate: 0,
-                }
-            );
-
-            if (stats.total > 0) {
-                stats.avgConfidence = stats.avgConfidence / stats.total;
-                stats.successRate =
-                    ((stats.approved + stats.applied) / stats.total) * 100;
-            }
-
-            setStatistics(stats);
-            setFixes(apiFixes);
+    // Calculate statistics directly from API data
+    const statistics = React.useMemo(() => {
+        if (!apiFixes || apiFixes.length === 0) {
+            return {
+                total: 0,
+                pending: 0,
+                approved: 0,
+                rejected: 0,
+                applied: 0,
+                avgConfidence: 0,
+                successRate: 0,
+            };
         }
+
+        const stats = apiFixes.reduce(
+            (acc: FixStatistics, fix: Fix) => {
+                acc.total++;
+                acc[
+                    fix.status as keyof Pick<
+                        FixStatistics,
+                        "pending" | "approved" | "rejected" | "applied"
+                    >
+                ]++;
+                acc.avgConfidence += fix.confidence_score || 0;
+                return acc;
+            },
+            {
+                total: 0,
+                pending: 0,
+                approved: 0,
+                rejected: 0,
+                applied: 0,
+                avgConfidence: 0,
+                successRate: 0,
+            }
+        );
+
+        if (stats.total > 0) {
+            stats.avgConfidence = stats.avgConfidence / stats.total;
+            stats.successRate =
+                ((stats.approved + stats.applied) / stats.total) * 100;
+        }
+
+        return stats;
     }, [apiFixes]);
 
+    const fixes = apiFixes || [];
+
+    const handleApplyFix = async (fixId: string) => {
+        setProcessingFixes((prev) => new Set(prev).add(fixId));
+        try {
+            const response = await api.applyFix(fixId);
+            refresh();
+            toast.success("Fix has been applied successfully!");
+        } catch (error) {
+            console.error("Error applying fix:", error);
+            toast.error("Failed to apply fix");
+        } finally {
+            setProcessingFixes((prev) => {
+                const newSet = new Set(prev);
+                newSet.delete(fixId);
+                return newSet;
+            });
+        }
+    };
     const handleApprove = async (fixId: string) => {
         setProcessingFixes((prev) => new Set(prev).add(fixId));
         try {
-            const response = await fetch(`/api/fixes/${fixId}/approve`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ comment: reviewComment }),
-            });
-
-            if (response.ok) {
-                await fetchFixes();
-                setReviewComment("");
-                setSelectedFix(null);
-            }
+            await api.approveFix(fixId, reviewComment);
+            refresh();
+            setReviewComment("");
+            setSelectedFix(null);
         } catch (error) {
             console.error("Error approving fix:", error);
         } finally {
@@ -125,17 +133,10 @@ export default function FixesPage() {
     const handleReject = async (fixId: string) => {
         setProcessingFixes((prev) => new Set(prev).add(fixId));
         try {
-            const response = await fetch(`/api/fixes/${fixId}/reject`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ comment: reviewComment }),
-            });
-
-            if (response.ok) {
-                await fetchFixes();
-                setReviewComment("");
-                setSelectedFix(null);
-            }
+            await api.rejectFix(fixId, reviewComment);
+            refresh();
+            setReviewComment("");
+            setSelectedFix(null);
         } catch (error) {
             console.error("Error rejecting fix:", error);
         } finally {
@@ -407,7 +408,28 @@ export default function FixesPage() {
                                                     />
                                                 </div>
 
-                                                <div className="flex space-x-2">
+                                                <div className="flex justify-end gap-3 pt-4">
+                                                    <Button
+                                                        variant="outline"
+                                                        onClick={() =>
+                                                            handleReject(fix.id)
+                                                        }
+                                                        disabled={processingFixes.has(
+                                                            fix.id
+                                                        )}
+                                                        size="lg"
+                                                        className="min-w-[120px] border-red-200 text-red-700 hover:bg-red-50 hover:text-red-800 hover:border-red-300"
+                                                    >
+                                                        {processingFixes.has(
+                                                            fix.id
+                                                        ) ? (
+                                                            <Loader2 className="h-5 w-5 animate-spin mr-2" />
+                                                        ) : (
+                                                            <XCircle className="h-5 w-5 mr-2" />
+                                                        )}
+                                                        Reject
+                                                    </Button>
+
                                                     <Button
                                                         onClick={() =>
                                                             handleApprove(
@@ -417,35 +439,45 @@ export default function FixesPage() {
                                                         disabled={processingFixes.has(
                                                             fix.id
                                                         )}
-                                                        className="bg-green-600 hover:bg-green-700"
+                                                        size="lg"
+                                                        className="min-w-[120px] bg-green-600 hover:bg-green-700 text-white"
                                                     >
                                                         {processingFixes.has(
                                                             fix.id
                                                         ) ? (
-                                                            <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                                                            <Loader2 className="h-5 w-5 animate-spin mr-2" />
                                                         ) : (
-                                                            <CheckCircle className="h-4 w-4 mr-2" />
+                                                            <CheckCircle className="h-5 w-5 mr-2" />
                                                         )}
                                                         Approve
                                                     </Button>
+                                                </div>
+                                            </div>
+                                        )}
 
+                                        {fix.status === "approved" && (
+                                            <div className="space-y-3 border-t pt-4">
+                                                <div className="flex justify-end">
                                                     <Button
-                                                        variant="destructive"
                                                         onClick={() =>
-                                                            handleReject(fix.id)
+                                                            handleApplyFix(
+                                                                fix.id
+                                                            )
                                                         }
                                                         disabled={processingFixes.has(
                                                             fix.id
                                                         )}
+                                                        size="lg"
+                                                        className="min-w-[140px] bg-blue-600 hover:bg-blue-700 text-white"
                                                     >
                                                         {processingFixes.has(
                                                             fix.id
                                                         ) ? (
-                                                            <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                                                            <Loader2 className="h-5 w-5 animate-spin mr-2" />
                                                         ) : (
-                                                            <XCircle className="h-4 w-4 mr-2" />
+                                                            <GitBranch className="h-5 w-5 mr-2" />
                                                         )}
-                                                        Reject
+                                                        Apply Fix
                                                     </Button>
                                                 </div>
                                             </div>

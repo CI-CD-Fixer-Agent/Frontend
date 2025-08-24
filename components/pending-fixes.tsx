@@ -30,6 +30,7 @@ import {
     AlertTriangle,
     User,
     Calendar,
+    PlayCircle,
 } from "lucide-react";
 import { useFixes } from "@/hooks/use-api";
 import { api } from "@/lib/api";
@@ -79,6 +80,20 @@ export function PendingFixesComponent() {
         }
     };
 
+    const handleApplyFix = async (fixId: string) => {
+        try {
+            setActionLoading(fixId);
+            await api.applyFix(fixId);
+            toast.success("Fix applied successfully!");
+            refresh();
+        } catch (error) {
+            toast.error("Failed to apply fix");
+            console.error(error);
+        } finally {
+            setActionLoading(null);
+        }
+    };
+
     const getFixStatusBadge = (status: string) => {
         switch (status?.toLowerCase()) {
             case "pending":
@@ -99,6 +114,16 @@ export function PendingFixesComponent() {
                     >
                         <CheckCircle className="h-3 w-3 mr-1" />
                         Approved
+                    </Badge>
+                );
+            case "applied":
+                return (
+                    <Badge
+                        variant="outline"
+                        className="border-blue-500 text-blue-700 dark:border-blue-400 dark:text-blue-300"
+                    >
+                        <PlayCircle className="h-3 w-3 mr-1" />
+                        Applied
                     </Badge>
                 );
             case "rejected":
@@ -127,10 +152,11 @@ export function PendingFixesComponent() {
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <GitPullRequest className="h-5 w-5" />
-                        Pending Fixes
+                        Fix Management
                     </CardTitle>
                     <CardDescription>
-                        AI-generated fixes awaiting human approval
+                        AI-generated fixes with approval and application
+                        workflow
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -148,7 +174,7 @@ export function PendingFixesComponent() {
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                         <GitPullRequest className="h-5 w-5" />
-                        Pending Fixes
+                        Fix Management
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -165,10 +191,10 @@ export function PendingFixesComponent() {
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <GitPullRequest className="h-5 w-5" />
-                    Pending Fixes ({displayFixes.length})
+                    Fix Management ({displayFixes.length})
                 </CardTitle>
                 <CardDescription>
-                    AI-generated fixes awaiting human approval
+                    AI-generated fixes with approval and application workflow
                     {fixes.length === 0 && displayFixes.length > 0 && (
                         <span className="text-xs text-blue-600 block mt-1">
                             (Showing demo data - no real pending fixes)
@@ -359,6 +385,25 @@ export function PendingFixesComponent() {
                                             >
                                                 <XCircle className="h-4 w-4 mr-1" />
                                                 Reject
+                                            </Button>
+                                        </div>
+                                    )}
+
+                                    {fix.status === "approved" && (
+                                        <div className="flex gap-2">
+                                            <Button
+                                                size="sm"
+                                                variant="default"
+                                                disabled={
+                                                    actionLoading === fix.id
+                                                }
+                                                onClick={() =>
+                                                    handleApplyFix(fix.id)
+                                                }
+                                                className="bg-green-600 hover:bg-green-700"
+                                            >
+                                                <CheckCircle className="h-4 w-4 mr-1" />
+                                                Apply Fix
                                             </Button>
                                         </div>
                                     )}

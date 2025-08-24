@@ -50,6 +50,7 @@ import {
     PlayCircle,
     Zap,
 } from "lucide-react";
+import { toast } from "sonner";
 
 export function FailuresTableEnhanced() {
     const [searchTerm, setSearchTerm] = React.useState("");
@@ -77,7 +78,6 @@ export function FailuresTableEnhanced() {
         }
     };
 
-    // Filter failures based on search and status
     const filteredFailures = failures.filter((failure) => {
         const matchesSearch =
             searchTerm === "" ||
@@ -183,13 +183,18 @@ export function FailuresTableEnhanced() {
         runId: number
     ) => {
         try {
-            // Use the API client for proper backend integration
-            const result = await api.triggerAnalysis({
-                owner,
-                repo,
-                run_id: runId,
-            });
-            console.log("Analysis triggered:", result);
+            toast.promise(
+                api.triggerAnalysis({
+                    owner,
+                    repo,
+                    run_id: runId,
+                }),
+                {
+                    loading: "Triggering AI analysis...",
+                    success: "Analysis triggered successfully!",
+                    error: "Failed to trigger analysis",
+                }
+            );
             refresh();
         } catch (error) {
             console.error("Failed to trigger analysis:", error);
@@ -245,7 +250,6 @@ export function FailuresTableEnhanced() {
 
     return (
         <div className="space-y-4">
-            {/* Filters and Search */}
             <div className="flex gap-4 items-center">
                 <div className="relative flex-1 max-w-sm">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 h-4 w-4" />
@@ -275,7 +279,6 @@ export function FailuresTableEnhanced() {
                 </Button>
             </div>
 
-            {/* Results Summary */}
             <div className="flex items-center justify-between text-sm text-muted-foreground">
                 <span>
                     Showing {filteredFailures.length} of {totalCount} failures
@@ -289,7 +292,6 @@ export function FailuresTableEnhanced() {
                 </span>
             </div>
 
-            {/* Enhanced Table */}
             <Card>
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">

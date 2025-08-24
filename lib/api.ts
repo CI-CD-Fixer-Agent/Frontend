@@ -93,6 +93,12 @@ class APIClient {
         });
     }
 
+    async applyFix(id: string): Promise<FixActionResponse> {
+        return this.request<FixActionResponse>(`/fixes/${id}/apply`, {
+            method: "POST",
+        });
+    }
+
     // Analytics
     async getDashboard(): Promise<DashboardResponse> {
         // Fetch both dashboard analytics and recent failures for complete data
@@ -199,6 +205,43 @@ class APIClient {
             body: JSON.stringify(data),
         });
     }
+
+    // Manual Scan
+    async triggerManualScan(): Promise<{ message: string }> {
+        return this.request<{ message: string }>("/scan/manual", {
+            method: "POST",
+        });
+    }
+
+    // Test Webhook
+    async testWebhook(): Promise<{ message: string }> {
+        return this.request<{ message: string }>("/webhook/test", {
+            method: "POST",
+        });
+    }
+
+    // Force Gemini Analysis
+    async forceGeminiAnalysis(): Promise<{ message: string }> {
+        return this.request<{ message: string }>("/analyze/gemini/force", {
+            method: "POST",
+        });
+    }
+
+    // Export Analytics
+    async exportAnalytics(): Promise<Blob> {
+        const response = await fetch(`${this.baseURL}/analytics/export`, {
+            method: "GET",
+            headers: {
+                Accept: "text/csv",
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Export failed: ${response.status}`);
+        }
+
+        return response.blob();
+    }
 }
 
 export const apiClient = new APIClient();
@@ -214,6 +257,7 @@ export const api = {
         apiClient.approveFix(id, comment),
     rejectFix: (id: string, comment?: string) =>
         apiClient.rejectFix(id, comment),
+    applyFix: (id: string) => apiClient.applyFix(id),
     getDashboard: () => apiClient.getDashboard(),
     getAnalytics: () => apiClient.getAnalytics(),
     getPatterns: (daysBack?: number) => apiClient.getPatterns(daysBack),
@@ -222,4 +266,8 @@ export const api = {
         apiClient.getRepositoryAnalytics(owner, repo),
     triggerAnalysis: (data: { owner: string; repo: string; run_id: number }) =>
         apiClient.triggerAnalysis(data),
+    triggerManualScan: () => apiClient.triggerManualScan(),
+    testWebhook: () => apiClient.testWebhook(),
+    forceGeminiAnalysis: () => apiClient.forceGeminiAnalysis(),
+    exportAnalytics: () => apiClient.exportAnalytics(),
 };

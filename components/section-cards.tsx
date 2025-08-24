@@ -61,7 +61,6 @@ export function SectionCards() {
 
     return (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {/* Total Failures */}
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
@@ -79,7 +78,6 @@ export function SectionCards() {
                 </CardContent>
             </Card>
 
-            {/* Repositories Monitored */}
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
@@ -97,7 +95,6 @@ export function SectionCards() {
                 </CardContent>
             </Card>
 
-            {/* Active Fixes */}
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
@@ -115,7 +112,6 @@ export function SectionCards() {
                 </CardContent>
             </Card>
 
-            {/* Success Rate */}
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
@@ -133,7 +129,6 @@ export function SectionCards() {
                 </CardContent>
             </Card>
 
-            {/* Processing Time */}
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
@@ -151,7 +146,6 @@ export function SectionCards() {
                 </CardContent>
             </Card>
 
-            {/* System Status */}
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">

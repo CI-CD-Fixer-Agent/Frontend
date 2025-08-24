@@ -78,8 +78,6 @@ export default function AnalyticsPageEnhanced() {
         refresh: refreshDashboard,
     } = useDashboard();
 
-    // Move all data processing and useMemo calls here, before any conditional returns
-    // Prepare chart data
     const repoFailuresData = patterns?.most_failing_repos
         ? Object.entries(patterns.most_failing_repos)
               .sort(([, a], [, b]) => (b as number) - (a as number))
@@ -112,7 +110,6 @@ export default function AnalyticsPageEnhanced() {
           )
         : [];
 
-    // Extract effectiveness metrics with type safety
     const totalFixes =
         (metrics as any)?.statistics?.overall_stats?.total_fixes ||
         (metrics as any)?.total_fixes_generated ||
@@ -134,7 +131,6 @@ export default function AnalyticsPageEnhanced() {
         (metrics as any)?.overall_approval_rate ||
         0;
 
-    // Create trend data from real API data - no mock data
     const trendData = React.useMemo(() => {
         // Use only real data from the API
         const currentWeek = {
@@ -144,7 +140,6 @@ export default function AnalyticsPageEnhanced() {
             approvals: approvedFixes,
         };
 
-        // Return only current real data - no historical fake data
         return [currentWeek];
     }, [summary?.total_failures, totalFixes, approvedFixes]);
 
@@ -346,9 +341,7 @@ export default function AnalyticsPageEnhanced() {
                         </Card>
                     </div>
 
-                    {/* Charts Section */}
                     <div className="grid gap-4 md:grid-cols-2">
-                        {/* Repository Failures */}
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
@@ -407,7 +400,6 @@ export default function AnalyticsPageEnhanced() {
                             </CardContent>
                         </Card>
 
-                        {/* Error Types Distribution */}
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
@@ -477,7 +469,6 @@ export default function AnalyticsPageEnhanced() {
                             </CardContent>
                         </Card>
 
-                        {/* Trend Analysis */}
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
@@ -521,7 +512,6 @@ export default function AnalyticsPageEnhanced() {
                             </CardContent>
                         </Card>
 
-                        {/* Language Distribution */}
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
@@ -561,7 +551,6 @@ export default function AnalyticsPageEnhanced() {
                         </Card>
                     </div>
 
-                    {/* AI Recommendations */}
                     {recommendations && recommendations.length > 0 && (
                         <Card>
                             <CardHeader>
@@ -592,10 +581,8 @@ export default function AnalyticsPageEnhanced() {
                         </Card>
                     )}
 
-                    {/* ML Prediction Panel */}
                     <MLPredictionPanel />
 
-                    {/* Fix Effectiveness Breakdown */}
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
@@ -634,7 +621,6 @@ export default function AnalyticsPageEnhanced() {
                                 </div>
                             </div>
 
-                            {/* Effectiveness by Type */}
                             {(metrics as any)?.effectiveness_by_type && (
                                 <div className="mt-6">
                                     <h4 className="font-medium mb-3">

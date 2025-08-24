@@ -20,7 +20,7 @@ export function SiteHeader() {
                         className="hidden sm:flex"
                     >
                         <a
-                            href="https://github.com/shadcn-ui/ui/tree/main/apps/v4/app/(examples)/dashboard"
+                            href="https://github.com/CI-CD-Fixer-Agent/Frontend"
                             rel="noopener noreferrer"
                             target="_blank"
                             className="dark:text-foreground"

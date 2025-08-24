@@ -20,27 +20,53 @@ import {
     Upload,
     TestTube,
 } from "lucide-react";
+import { api } from "@/lib/api";
+import { toast } from "sonner";
 
 interface QuickAction {
     id: string;
     title: string;
     description: string;
     icon: React.ElementType;
-    action: () => void;
+    action: () => Promise<void> | void;
     variant: "default" | "destructive" | "outline" | "secondary";
     badge?: string;
 }
 
 export function QuickActionsPanel() {
+    const [loadingActions, setLoadingActions] = React.useState<Set<string>>(
+        new Set()
+    );
+
+    const setActionLoading = (actionId: string, loading: boolean) => {
+        setLoadingActions((prev) => {
+            const next = new Set(prev);
+            if (loading) {
+                next.add(actionId);
+            } else {
+                next.delete(actionId);
+            }
+            return next;
+        });
+    };
+
     const quickActions: QuickAction[] = [
         {
             id: "manual-scan",
             title: "Manual Repository Scan",
             description: "Trigger immediate scan for new failures",
             icon: Search,
-            action: () => {
-                console.log("Triggering manual scan...");
-                // In real app: api.triggerManualScan()
+            action: async () => {
+                setActionLoading("manual-scan", true);
+                try {
+                    await api.triggerManualScan();
+                    toast.success("Manual scan triggered successfully!");
+                } catch (error) {
+                    toast.error("Failed to trigger manual scan");
+                    console.error(error);
+                } finally {
+                    setActionLoading("manual-scan", false);
+                }
             },
             variant: "default",
             badge: "Instant",
@@ -60,9 +86,17 @@ export function QuickActionsPanel() {
             title: "Test Webhook",
             description: "Send test webhook to verify connectivity",
             icon: TestTube,
-            action: () => {
-                console.log("Testing webhook...");
-                // In real app: api.testWebhook()
+            action: async () => {
+                setActionLoading("test-webhook", true);
+                try {
+                    await api.testWebhook();
+                    toast.success("Webhook test completed successfully!");
+                } catch (error) {
+                    toast.error("Webhook test failed");
+                    console.error(error);
+                } finally {
+                    setActionLoading("test-webhook", false);
+                }
             },
             variant: "secondary",
             badge: "Test",
@@ -72,9 +106,17 @@ export function QuickActionsPanel() {
             title: "Force Gemini Analysis",
             description: "Manually trigger AI analysis on pending failures",
             icon: Zap,
-            action: () => {
-                console.log("Forcing Gemini analysis...");
-                // In real app: api.forceGeminiAnalysis()
+            action: async () => {
+                setActionLoading("run-gemini", true);
+                try {
+                    await api.forceGeminiAnalysis();
+                    toast.success("Gemini analysis triggered successfully!");
+                } catch (error) {
+                    toast.error("Failed to trigger Gemini analysis");
+                    console.error(error);
+                } finally {
+                    setActionLoading("run-gemini", false);
+                }
             },
             variant: "default",
             badge: "AI",
@@ -84,9 +126,27 @@ export function QuickActionsPanel() {
             title: "Export Analytics",
             description: "Download failure and fix analytics as CSV",
             icon: Download,
-            action: () => {
-                console.log("Exporting analytics...");
-                // In real app: api.exportAnalytics()
+            action: async () => {
+                setActionLoading("export-data", true);
+                try {
+                    const blob = await api.exportAnalytics();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = `ci-cd-analytics-${
+                        new Date().toISOString().split("T")[0]
+                    }.csv`;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                    toast.success("Analytics exported successfully!");
+                } catch (error) {
+                    toast.error("Failed to export analytics");
+                    console.error(error);
+                } finally {
+                    setActionLoading("export-data", false);
+                }
             },
             variant: "outline",
         },
@@ -96,7 +156,7 @@ export function QuickActionsPanel() {
             description: "Configure agent settings and thresholds",
             icon: Settings,
             action: () => {
-                console.log("Opening configuration...");
+                toast.info("Configuration panel coming soon!");
                 // In real app: router.push('/settings')
             },
             variant: "secondary",
@@ -124,9 +184,16 @@ export function QuickActionsPanel() {
                                 variant={action.variant}
                                 className="h-auto p-4 justify-start"
                                 onClick={action.action}
+                                disabled={loadingActions.has(action.id)}
                             >
                                 <div className="flex items-start gap-3 text-left">
-                                    <Icon className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                                    <Icon
+                                        className={`h-4 w-4 mt-0.5 flex-shrink-0 ${
+                                            loadingActions.has(action.id)
+                                                ? "animate-spin"
+                                                : ""
+                                        }`}
+                                    />
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center gap-2 mb-1">
                                             <p className="font-medium text-sm">
@@ -142,7 +209,9 @@ export function QuickActionsPanel() {
                                             )}
                                         </div>
                                         <p className="text-xs text-muted-foreground opacity-90">
-                                            {action.description}
+                                            {loadingActions.has(action.id)
+                                                ? "Processing..."
+                                                : action.description}
                                         </p>
                                     </div>
                                 </div>

@@ -124,7 +124,6 @@ export function AIAgentStatus() {
     } = useHealth();
     const { analytics, isLoading: analyticsLoading } = useAnalytics();
 
-    // Convert health data to agent metrics
     const getAgentData = React.useMemo((): AgentMetrics[] => {
         if (!health || healthError) {
             return [
@@ -156,7 +155,6 @@ export function AIAgentStatus() {
         const databaseStatus =
             health.services?.database === "healthy" ? "active" : "error";
 
-        // Extract metrics from analytics with proper type casting
         const totalFixes =
             (analytics as any)?.statistics?.overall_stats?.total_fixes ||
             (analytics as any)?.total_fixes_generated ||
@@ -188,7 +186,7 @@ export function AIAgentStatus() {
             },
             {
                 name: "Portia Orchestrator",
-                status: databaseStatus, // Use database as proxy for orchestrator
+                status: databaseStatus,
                 tasksProcessed: totalFixes,
                 successRate: successRate,
                 avgResponseTime:

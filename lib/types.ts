@@ -52,7 +52,7 @@ export interface FailureDetailResponse {
 // Fix Types
 export interface Fix {
     id: string;
-    repository: string;
+    repository?: string; // Computed from owner/repo_name
     owner?: string;
     repo_name?: string;
     run_id?: string;
@@ -60,7 +60,8 @@ export interface Fix {
     description?: string;
     suggested_fix?: string;
     error_analysis?: string;
-    status: "pending" | "pending_approval" | "approved" | "rejected";
+    status?: "pending" | "pending_approval" | "approved" | "rejected"; // Mapped from fix_status
+    fix_status?: "pending" | "pending_approval" | "approved" | "rejected"; // Raw API field
     created_at: string;
     confidence_score?: number;
     fix_complexity?: string;

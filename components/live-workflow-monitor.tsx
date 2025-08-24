@@ -235,7 +235,6 @@ function getStatusBadge(status: string) {
 }
 
 function WorkflowRow({ workflow }: { workflow: WorkflowActivity }) {
-    // Determine if workflow is stuck (analyzing for too long)
     const isStuck = workflow.status === "analyzing" && workflow.progress > 60;
 
     return (
@@ -324,16 +323,14 @@ export function LiveWorkflowMonitor() {
     const { failures, isLoading, error } = useFailures({ limit: 20 });
     const [currentTime, setCurrentTime] = React.useState(Date.now());
 
-    // Update current time every 10 seconds for smoother real-time progress updates
     React.useEffect(() => {
         const interval = setInterval(() => {
             setCurrentTime(Date.now());
-        }, 10000); // Update every 10 seconds for more responsive progress
+        }, 10000);
 
         return () => clearInterval(interval);
     }, []);
 
-    // Convert failures to workflow activities with real-time updates
     const workflowActivities = React.useMemo(() => {
         if (!failures || failures.length === 0) return [];
         return failures.map((failure) =>
