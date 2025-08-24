@@ -24,18 +24,18 @@ export default function Page() {
             <AppSidebar variant="inset" />
             <SidebarInset>
                 <SiteHeader />
-                <div className="flex flex-1 flex-col gap-4 p-4 lg:p-6 bg-background dark:bg-gray-950/30">
+                <div className="flex flex-1 flex-col gap-3 p-3 sm:gap-4 sm:p-4 lg:p-6 bg-background dark:bg-gray-950/30">
                     <SystemStatusBanner />
                     <RealTimeAnalytics />
 
-                    <div className="grid gap-4 lg:grid-cols-2">
+                    <div className="grid gap-3 sm:gap-4 lg:grid-cols-2">
                         <AIAgentStatus />
                         <LiveWorkflowMonitor />
                     </div>
 
                     <SectionCards />
 
-                    <div className="grid gap-4 md:grid-cols-2">
+                    <div className="grid gap-3 sm:gap-4 xl:grid-cols-2">
                         <FailuresTableEnhanced />
                         <PendingFixesComponent />
                     </div>

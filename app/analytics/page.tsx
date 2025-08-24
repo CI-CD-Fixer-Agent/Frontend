@@ -160,8 +160,8 @@ export default function AnalyticsPageEnhanced() {
                 <AppSidebar variant="inset" />
                 <SidebarInset>
                     <SiteHeader />
-                    <div className="flex flex-1 flex-col gap-4 p-4 lg:p-6">
-                        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    <div className="flex flex-1 flex-col gap-3 p-3 sm:gap-4 sm:p-4 lg:p-6">
+                        <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
                             {[...Array(4)].map((_, i) => (
                                 <Card key={i}>
                                     <CardHeader>
@@ -173,7 +173,7 @@ export default function AnalyticsPageEnhanced() {
                                 </Card>
                             ))}
                         </div>
-                        <div className="grid gap-4 md:grid-cols-2">
+                        <div className="grid gap-3 sm:gap-4 xl:grid-cols-2">
                             {[...Array(4)].map((_, i) => (
                                 <Card key={i}>
                                     <CardHeader>
@@ -204,7 +204,7 @@ export default function AnalyticsPageEnhanced() {
                 <AppSidebar variant="inset" />
                 <SidebarInset>
                     <SiteHeader />
-                    <div className="flex flex-1 flex-col gap-4 p-4 lg:p-6">
+                    <div className="flex flex-1 flex-col gap-3 p-3 sm:gap-4 sm:p-4 lg:p-6">
                         <Card>
                             <CardHeader>
                                 <CardTitle className="text-destructive flex items-center gap-2">
@@ -260,7 +260,7 @@ export default function AnalyticsPageEnhanced() {
                     </div>
 
                     {/* Key Metrics */}
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
                         <Card>
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-medium">
@@ -341,7 +341,7 @@ export default function AnalyticsPageEnhanced() {
                         </Card>
                     </div>
 
-                    <div className="grid gap-4 md:grid-cols-2">
+                    <div className="grid gap-3 sm:gap-4 xl:grid-cols-2">
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
@@ -594,7 +594,7 @@ export default function AnalyticsPageEnhanced() {
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <div className="grid gap-4 md:grid-cols-3">
+                            <div className="grid gap-3 sm:gap-4 md:grid-cols-3">
                                 <div className="text-center">
                                     <div className="text-3xl font-bold text-blue-600">
                                         {totalFixes}

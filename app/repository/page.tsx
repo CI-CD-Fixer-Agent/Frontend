@@ -304,13 +304,13 @@ export default function RepositoryAnalyticsPage() {
             <AppSidebar variant="inset" />
             <SidebarInset>
                 <SiteHeader />
-                <div className="flex-1 p-4 lg:p-6 space-y-6">
+                <div className="flex-1 p-3 sm:p-4 lg:p-6 space-y-4 sm:space-y-6">
                     {/* Page Header */}
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight">
+                        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
                             Repository Analytics
                         </h1>
-                        <p className="text-muted-foreground">
+                        <p className="text-sm sm:text-base text-muted-foreground">
                             Monitor CI/CD performance and failure patterns
                             across your tracked repositories
                         </p>

@@ -239,11 +239,11 @@ function WorkflowRow({ workflow }: { workflow: WorkflowActivity }) {
     const isStuck = workflow.status === "analyzing" && workflow.progress > 60;
 
     return (
-        <div className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors gap-3">
             <div className="flex items-center gap-3 flex-1 min-w-0">
                 {getStatusIcon(workflow.status)}
                 <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
+                    <div className="flex flex-wrap items-center gap-2 mb-1">
                         <p className="font-medium text-sm truncate">
                             {workflow.repository}
                         </p>
@@ -287,7 +287,7 @@ function WorkflowRow({ workflow }: { workflow: WorkflowActivity }) {
                         )}
                 </div>
             </div>
-            <div className="flex items-center gap-2 ml-4">
+            <div className="flex items-center gap-2 sm:ml-4">
                 <div className="text-right text-xs">
                     <p className="text-muted-foreground">
                         Started {workflow.startTime}
@@ -409,27 +409,27 @@ export function LiveWorkflowMonitor() {
     return (
         <Card>
             <CardHeader>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <CardTitle className="flex items-center gap-2">
-                            <GitBranch className="h-5 w-5" />
+                        <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                            <GitBranch className="h-4 w-4 sm:h-5 sm:w-5" />
                             Live Workflow Monitor
                         </CardTitle>
-                        <CardDescription>
+                        <CardDescription className="text-sm">
                             Real-time tracking of CI/CD workflows being
                             processed
                         </CardDescription>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                         <Badge
                             variant="outline"
-                            className="bg-blue-50 dark:bg-blue-950/30 dark:text-blue-300"
+                            className="bg-blue-50 dark:bg-blue-950/30 dark:text-blue-300 text-xs"
                         >
                             {activeWorkflows.length} Active
                         </Badge>
                         <Badge
                             variant="outline"
-                            className="bg-green-50 dark:bg-green-950/30 dark:text-green-300"
+                            className="bg-green-50 dark:bg-green-950/30 dark:text-green-300 text-xs"
                         >
                             {
                                 completedWorkflows.filter(

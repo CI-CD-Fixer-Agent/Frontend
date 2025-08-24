@@ -76,36 +76,46 @@ function AgentCard({ agent }: { agent: AgentMetrics }) {
                 </div>
             </CardHeader>
             <CardContent className="space-y-3">
-                <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 text-sm">
                     <div>
-                        <span className="text-muted-foreground">
+                        <span className="text-muted-foreground text-xs sm:text-sm">
                             Tasks Processed
                         </span>
-                        <p className="font-medium">{agent.tasksProcessed}</p>
+                        <p className="font-medium text-sm sm:text-base">
+                            {agent.tasksProcessed}
+                        </p>
                     </div>
                     <div>
-                        <span className="text-muted-foreground">
+                        <span className="text-muted-foreground text-xs sm:text-sm">
                             Avg Response
                         </span>
-                        <p className="font-medium">{agent.avgResponseTime}</p>
+                        <p className="font-medium text-sm sm:text-base">
+                            {agent.avgResponseTime}
+                        </p>
                     </div>
                 </div>
 
                 <div>
                     <div className="flex justify-between text-sm mb-1">
-                        <span className="text-muted-foreground">
+                        <span className="text-muted-foreground text-xs sm:text-sm">
                             Success Rate
                         </span>
-                        <span className="font-medium">
+                        <span className="font-medium text-sm sm:text-base">
                             {agent.successRate}%
                         </span>
                     </div>
                     <Progress value={agent.successRate} className="h-2" />
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <span>Last activity: {agent.lastActivity}</span>
-                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-muted-foreground">
+                    <span className="text-xs">
+                        Last activity: {agent.lastActivity}
+                    </span>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-6 w-6 p-0 self-end sm:self-auto"
+                    >
                         <RefreshCw className="h-3 w-3" />
                     </Button>
                 </div>
@@ -238,24 +248,28 @@ export function AIAgentStatus() {
     return (
         <Card>
             <CardHeader>
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <CardTitle className="flex items-center gap-2">
-                            <Activity className="h-5 w-5" />
+                        <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                            <Activity className="h-4 w-4 sm:h-5 sm:w-5" />
                             AI Agent Status
                         </CardTitle>
-                        <CardDescription>
+                        <CardDescription className="text-sm">
                             Real-time status of CI/CD fixing agents
                         </CardDescription>
                     </div>
-                    <Button variant="outline" size="sm">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full sm:w-auto"
+                    >
                         <RefreshCw className="h-4 w-4 mr-2" />
                         Refresh
                     </Button>
                 </div>
             </CardHeader>
             <CardContent>
-                <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid gap-3 sm:gap-4 sm:grid-cols-2">
                     {getAgentData.map((agent) => (
                         <AgentCard key={agent.name} agent={agent} />
                     ))}

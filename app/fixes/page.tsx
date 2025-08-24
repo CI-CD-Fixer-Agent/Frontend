@@ -264,18 +264,18 @@ export default function FixesPage() {
             <AppSidebar variant="inset" />
             <SidebarInset>
                 <SiteHeader />
-                <div className="p-6 space-y-6">
-                    <div className="flex items-center justify-between">
+                <div className="p-3 sm:p-6 space-y-4 sm:space-y-6">
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                         <div>
-                            <h1 className="text-3xl font-bold">
+                            <h1 className="text-2xl sm:text-3xl font-bold">
                                 Fix Management
                             </h1>
-                            <p className="text-muted-foreground">
+                            <p className="text-sm sm:text-base text-muted-foreground">
                                 Review and approve AI-generated fixes for CI/CD
                                 failures
                             </p>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
                             <div className="text-xs text-muted-foreground">
                                 Last updated: {new Date().toLocaleTimeString()}
                             </div>
@@ -284,7 +284,7 @@ export default function FixesPage() {
                                 size="sm"
                                 onClick={() => refresh()}
                                 disabled={loading}
-                                className="flex items-center gap-2"
+                                className="flex items-center gap-2 w-full sm:w-auto"
                             >
                                 <RefreshCw
                                     className={`h-4 w-4 ${
@@ -297,7 +297,7 @@ export default function FixesPage() {
                     </div>
 
                     {/* Statistics Cards */}
-                    <div className="grid gap-4 md:grid-cols-4">
+                    <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
                         <Card>
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-medium">
@@ -408,16 +408,16 @@ export default function FixesPage() {
                         ) : (
                             fixes.map((fix) => (
                                 <Card key={fix.id} className="relative">
-                                    <CardHeader>
-                                        <div className="flex items-center justify-between">
+                                    <CardHeader className="pb-3">
+                                        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                                             <div className="flex items-center space-x-2">
-                                                <CardTitle className="text-lg">
+                                                <CardTitle className="text-base sm:text-lg">
                                                     Fix #
                                                     {String(fix.id).slice(0, 8)}
                                                 </CardTitle>
                                                 {getStatusBadge(fix.status)}
                                             </div>
-                                            <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                                            <div className="flex flex-col sm:flex-row sm:items-center space-y-1 sm:space-y-0 sm:space-x-2 text-sm text-muted-foreground">
                                                 {fix.confidence_score && (
                                                     <span
                                                         className={getConfidenceColor(
@@ -436,6 +436,7 @@ export default function FixesPage() {
                                                     variant="ghost"
                                                     size="sm"
                                                     asChild
+                                                    className="w-fit"
                                                 >
                                                     <a
                                                         href={`https://github.com/${fix.repository}`}
@@ -447,7 +448,7 @@ export default function FixesPage() {
                                                 </Button>
                                             </div>
                                         </div>
-                                        <CardDescription>
+                                        <CardDescription className="text-xs sm:text-sm">
                                             Repository: {fix.repository}
                                             {fix.workflow_name &&
                                                 ` | Workflow: ${fix.workflow_name}`}
@@ -456,12 +457,12 @@ export default function FixesPage() {
                                         </CardDescription>
                                     </CardHeader>
 
-                                    <CardContent className="space-y-4">
+                                    <CardContent className="space-y-3 sm:space-y-4">
                                         <div>
-                                            <h4 className="font-semibold mb-2">
+                                            <h4 className="font-semibold mb-2 text-sm sm:text-base">
                                                 Proposed Fix:
                                             </h4>
-                                            <pre className="bg-muted p-3 rounded-md text-sm overflow-x-auto whitespace-pre-wrap">
+                                            <pre className="bg-muted p-2 sm:p-3 rounded-md text-xs sm:text-sm overflow-x-auto whitespace-pre-wrap">
                                                 {fix.suggested_fix ||
                                                     fix.description ||
                                                     "No fix details available"}
@@ -550,7 +551,7 @@ export default function FixesPage() {
                                                     />
                                                 </div>
 
-                                                <div className="flex justify-end gap-3 pt-4">
+                                                <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 pt-4">
                                                     <Button
                                                         variant="outline"
                                                         onClick={() =>
@@ -564,14 +565,14 @@ export default function FixesPage() {
                                                                 fix.id
                                                             ]?.reject
                                                         }
-                                                        size="lg"
-                                                        className="min-w-[120px] border-red-200 text-red-700 hover:bg-red-50 hover:text-red-800 hover:border-red-300"
+                                                        size="sm"
+                                                        className="w-full sm:w-auto sm:min-w-[120px] border-red-200 text-red-700 hover:bg-red-50 hover:text-red-800 hover:border-red-300"
                                                     >
                                                         {loadingStates[fix.id]
                                                             ?.reject ? (
-                                                            <Loader2 className="h-5 w-5 animate-spin mr-2" />
+                                                            <Loader2 className="h-4 w-4 animate-spin mr-2" />
                                                         ) : (
-                                                            <XCircle className="h-5 w-5 mr-2" />
+                                                            <XCircle className="h-4 w-4 mr-2" />
                                                         )}
                                                         Reject
                                                     </Button>
@@ -590,14 +591,14 @@ export default function FixesPage() {
                                                                 fix.id
                                                             ]?.reject
                                                         }
-                                                        size="lg"
-                                                        className="min-w-[120px] bg-green-600 hover:bg-green-700 text-white"
+                                                        size="sm"
+                                                        className="w-full sm:w-auto sm:min-w-[120px] bg-green-600 hover:bg-green-700 text-white"
                                                     >
                                                         {loadingStates[fix.id]
                                                             ?.approve ? (
-                                                            <Loader2 className="h-5 w-5 animate-spin mr-2" />
+                                                            <Loader2 className="h-4 w-4 animate-spin mr-2" />
                                                         ) : (
-                                                            <CheckCircle className="h-5 w-5 mr-2" />
+                                                            <CheckCircle className="h-4 w-4 mr-2" />
                                                         )}
                                                         Approve
                                                     </Button>

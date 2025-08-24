@@ -24,16 +24,16 @@ export function SectionCards() {
 
     if (isLoading) {
         return (
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
                 {Array.from({ length: 6 }).map((_, i) => (
                     <Card key={i}>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <Skeleton className="h-4 w-[100px]" />
+                            <Skeleton className="h-4 w-[80px] sm:w-[100px]" />
                             <Skeleton className="h-4 w-4" />
                         </CardHeader>
                         <CardContent>
-                            <Skeleton className="h-8 w-[60px] mb-2" />
-                            <Skeleton className="h-3 w-[120px]" />
+                            <Skeleton className="h-6 sm:h-8 w-[40px] sm:w-[60px] mb-2" />
+                            <Skeleton className="h-3 w-[100px] sm:w-[120px]" />
                         </CardContent>
                     </Card>
                 ))}
@@ -43,7 +43,7 @@ export function SectionCards() {
 
     if (error) {
         return (
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
                 <Card className="border-destructive">
                     <CardHeader>
                         <CardTitle className="text-destructive">
@@ -59,7 +59,7 @@ export function SectionCards() {
     }
 
     return (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
@@ -68,7 +68,7 @@ export function SectionCards() {
                     <AlertTriangle className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <div className="text-2xl font-bold">
+                    <div className="text-xl sm:text-2xl font-bold">
                         {summary?.total_failures || 0}
                     </div>
                     <p className="text-xs text-muted-foreground">
@@ -85,7 +85,7 @@ export function SectionCards() {
                     <GitBranch className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <div className="text-2xl font-bold">
+                    <div className="text-xl sm:text-2xl font-bold">
                         {summary?.total_repositories || 0}
                     </div>
                     <p className="text-xs text-muted-foreground">
@@ -102,7 +102,7 @@ export function SectionCards() {
                     <Clock className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                    <div className="text-2xl font-bold">
+                    <div className="text-xl sm:text-2xl font-bold">
                         {summary?.active_fixes || 0}
                     </div>
                     <p className="text-xs text-muted-foreground">

@@ -37,6 +37,7 @@ import {
 } from "@/components/ui/dialog";
 import { useFailures } from "@/hooks/use-api";
 import { api } from "@/lib/api";
+import { useIsMobile } from "@/hooks/use-mobile";
 import {
     ExternalLink,
     GitBranch,
@@ -55,6 +56,7 @@ export function FailuresTableEnhanced() {
     const [searchTerm, setSearchTerm] = React.useState("");
     const [statusFilter, setStatusFilter] = React.useState<string>("all");
     const [limit] = React.useState(20);
+    const isMobile = useIsMobile();
 
     const { failures, totalCount, isLoading, error, refresh } = useFailures({
         limit,
@@ -247,9 +249,9 @@ export function FailuresTableEnhanced() {
     }
 
     return (
-        <div className="space-y-4">
-            <div className="flex gap-4 items-center">
-                <div className="relative flex-1 max-w-sm">
+        <div className="space-y-3 sm:space-y-4">
+            <div className="flex flex-col gap-2 sm:flex-row sm:gap-4 sm:items-center">
+                <div className="relative flex-1 max-w-full sm:max-w-sm">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 h-4 w-4" />
                     <Input
                         placeholder="Search repositories, workflows..."
@@ -258,23 +260,35 @@ export function FailuresTableEnhanced() {
                         className="pl-10"
                     />
                 </div>
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                    <SelectTrigger className="w-[180px]">
-                        <Filter className="h-4 w-4 mr-2" />
-                        <SelectValue placeholder="Filter by status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="all">All Status</SelectItem>
-                        <SelectItem value="pending">Pending</SelectItem>
-                        <SelectItem value="generated">Fix Generated</SelectItem>
-                        <SelectItem value="approved">Approved</SelectItem>
-                        <SelectItem value="rejected">Rejected</SelectItem>
-                    </SelectContent>
-                </Select>
-                <Button onClick={() => refresh()} variant="outline" size="sm">
-                    <RefreshCw className="h-4 w-4 mr-2" />
-                    Refresh
-                </Button>
+                <div className="flex gap-2 sm:gap-4">
+                    <Select
+                        value={statusFilter}
+                        onValueChange={setStatusFilter}
+                    >
+                        <SelectTrigger className="w-full sm:w-[180px]">
+                            <Filter className="h-4 w-4 mr-2" />
+                            <SelectValue placeholder="Filter by status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">All Status</SelectItem>
+                            <SelectItem value="pending">Pending</SelectItem>
+                            <SelectItem value="generated">
+                                Fix Generated
+                            </SelectItem>
+                            <SelectItem value="approved">Approved</SelectItem>
+                            <SelectItem value="rejected">Rejected</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    <Button
+                        onClick={() => refresh()}
+                        variant="outline"
+                        size="sm"
+                        className="shrink-0"
+                    >
+                        <RefreshCw className="h-4 w-4 mr-2" />
+                        <span className="hidden sm:inline">Refresh</span>
+                    </Button>
+                </div>
             </div>
 
             <div className="flex items-center justify-between text-sm text-muted-foreground">
@@ -302,181 +316,390 @@ export function FailuresTableEnhanced() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Repository</TableHead>
-                                <TableHead>Workflow</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead>Fix Status</TableHead>
-                                <TableHead>Created</TableHead>
-                                <TableHead className="text-right">
-                                    Actions
-                                </TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
+                    {isMobile ? (
+                        // Mobile Card Layout
+                        <div className="space-y-3">
                             {filteredFailures.length === 0 ? (
-                                <TableRow>
-                                    <TableCell
-                                        colSpan={6}
-                                        className="text-center py-8"
-                                    >
-                                        <div className="flex flex-col items-center gap-2 text-muted-foreground">
-                                            <GitBranch className="h-8 w-8 opacity-50" />
-                                            <p>No failures found</p>
-                                            {searchTerm && (
-                                                <p className="text-xs">
-                                                    Try adjusting your search
-                                                </p>
-                                            )}
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
+                                <div className="text-center py-8">
+                                    <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                                        <GitBranch className="h-8 w-8 opacity-50" />
+                                        <p>No failures found</p>
+                                        {searchTerm && (
+                                            <p className="text-xs">
+                                                Try adjusting your search
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
                             ) : (
                                 filteredFailures.map((failure) => (
-                                    <TableRow
-                                        key={failure.id}
-                                        className={getPriorityColor(
-                                            failure.error_log
-                                        )}
-                                    >
-                                        <TableCell>
-                                            <div className="flex flex-col">
-                                                <span className="font-medium">
-                                                    {failure.owner}/
-                                                    {failure.repo_name}
-                                                </span>
-                                                <span className="text-xs text-muted-foreground">
-                                                    Run #{failure.run_id}
-                                                </span>
+                                    <Card key={failure.id} className="p-4">
+                                        <div className="space-y-3">
+                                            <div className="flex items-start justify-between">
+                                                <div className="flex-1 min-w-0">
+                                                    <h4 className="font-medium text-sm truncate">
+                                                        {failure.owner}/
+                                                        {failure.repo_name}
+                                                    </h4>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        Run #{failure.run_id}
+                                                    </p>
+                                                </div>
+                                                <div className="flex items-center gap-2 ml-2">
+                                                    <Badge
+                                                        variant={
+                                                            failure.conclusion ===
+                                                            "failure"
+                                                                ? "destructive"
+                                                                : "secondary"
+                                                        }
+                                                        className="text-xs"
+                                                    >
+                                                        {failure.conclusion}
+                                                    </Badge>
+                                                </div>
                                             </div>
-                                        </TableCell>
-                                        <TableCell>
+
                                             <div className="flex items-center gap-2">
                                                 {getStatusIcon(failure.status)}
-                                                <span className="truncate max-w-[200px]">
+                                                <span className="truncate text-sm">
                                                     {failure.workflow_name}
                                                 </span>
                                             </div>
-                                        </TableCell>
-                                        <TableCell>
-                                            <Badge
-                                                variant={
-                                                    failure.conclusion ===
-                                                    "failure"
-                                                        ? "destructive"
-                                                        : "secondary"
-                                                }
-                                            >
-                                                {failure.conclusion}
-                                            </Badge>
-                                        </TableCell>
-                                        <TableCell>
-                                            {getStatusBadge(failure.fix_status)}
-                                        </TableCell>
-                                        <TableCell className="text-muted-foreground">
-                                            {formatTimeAgo(failure.created_at)}
-                                        </TableCell>
-                                        <TableCell className="text-right">
-                                            <div className="flex items-center gap-2 justify-end">
-                                                <Dialog>
-                                                    <DialogTrigger asChild>
+
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-2">
+                                                    {getStatusBadge(
+                                                        failure.fix_status
+                                                    )}
+                                                    <span className="text-xs text-muted-foreground">
+                                                        {formatTimeAgo(
+                                                            failure.created_at
+                                                        )}
+                                                    </span>
+                                                </div>
+
+                                                <div className="flex items-center gap-1">
+                                                    <Dialog>
+                                                        <DialogTrigger asChild>
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                onClick={() => {
+                                                                    console.log(
+                                                                        "View failure:",
+                                                                        failure
+                                                                    );
+                                                                }}
+                                                            >
+                                                                <Eye className="h-4 w-4" />
+                                                            </Button>
+                                                        </DialogTrigger>
+                                                        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+                                                            <DialogHeader>
+                                                                <DialogTitle>
+                                                                    Failure
+                                                                    Details -{" "}
+                                                                    {
+                                                                        failure.owner
+                                                                    }
+                                                                    /
+                                                                    {
+                                                                        failure.repo_name
+                                                                    }
+                                                                </DialogTitle>
+                                                                <DialogDescription>
+                                                                    Workflow:{" "}
+                                                                    {
+                                                                        failure.workflow_name
+                                                                    }{" "}
+                                                                    | Run ID:{" "}
+                                                                    {
+                                                                        failure.run_id
+                                                                    }
+                                                                </DialogDescription>
+                                                            </DialogHeader>
+                                                            <div className="space-y-4">
+                                                                <div>
+                                                                    <h4 className="font-semibold mb-2">
+                                                                        Error
+                                                                        Logs:
+                                                                    </h4>
+                                                                    <pre className="bg-muted p-3 rounded-md text-sm overflow-x-auto whitespace-pre-wrap max-h-[300px]">
+                                                                        {failure.error_log ||
+                                                                            "No error logs available"}
+                                                                    </pre>
+                                                                </div>
+                                                                {failure.suggested_fix && (
+                                                                    <div>
+                                                                        <h4 className="font-semibold mb-2">
+                                                                            Suggested
+                                                                            Fix:
+                                                                        </h4>
+                                                                        <pre className="bg-muted p-3 rounded-md text-sm overflow-x-auto whitespace-pre-wrap">
+                                                                            {
+                                                                                failure.suggested_fix
+                                                                            }
+                                                                        </pre>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </DialogContent>
+                                                    </Dialog>
+
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        asChild
+                                                    >
+                                                        <a
+                                                            href={`https://github.com/${failure.owner}/${failure.repo_name}/actions/runs/${failure.run_id}`}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                        >
+                                                            <ExternalLink className="h-4 w-4" />
+                                                        </a>
+                                                    </Button>
+
+                                                    {failure.fix_status ===
+                                                        "pending" && (
                                                         <Button
                                                             variant="ghost"
                                                             size="sm"
-                                                            onClick={() => {
-                                                                // View failure details
-                                                                console.log(
-                                                                    "View failure:",
-                                                                    failure
-                                                                );
+                                                            onClick={async () => {
+                                                                try {
+                                                                    await api.triggerAnalysis(
+                                                                        {
+                                                                            owner: failure.owner,
+                                                                            repo: failure.repo_name,
+                                                                            run_id: failure.run_id,
+                                                                        }
+                                                                    );
+                                                                    toast.success(
+                                                                        "Fix generation started!"
+                                                                    );
+                                                                    refresh();
+                                                                } catch (error) {
+                                                                    toast.error(
+                                                                        "Failed to generate fix"
+                                                                    );
+                                                                }
                                                             }}
                                                         >
-                                                            <Eye className="h-4 w-4" />
+                                                            <Zap className="h-4 w-4" />
                                                         </Button>
-                                                    </DialogTrigger>
-                                                    <DialogContent className="max-w-2xl">
-                                                        <DialogHeader>
-                                                            <DialogTitle>
-                                                                Failure Details:{" "}
-                                                                {
-                                                                    failure.workflow_name
-                                                                }
-                                                            </DialogTitle>
-                                                            <DialogDescription>
-                                                                {failure.owner}/
-                                                                {
-                                                                    failure.repo_name
-                                                                }{" "}
-                                                                - Run #
-                                                                {failure.run_id}
-                                                            </DialogDescription>
-                                                        </DialogHeader>
-                                                        <div className="space-y-4">
-                                                            <div>
-                                                                <h4 className="font-medium mb-2">
-                                                                    Error Log
-                                                                </h4>
-                                                                <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded text-sm overflow-auto max-h-60 whitespace-pre-wrap break-words">
-                                                                    {failure.error_log ||
-                                                                        "No error log available"}
-                                                                </pre>
-                                                            </div>
-                                                            {failure.suggested_fix && (
-                                                                <div>
-                                                                    <h4 className="font-medium mb-2">
-                                                                        Suggested
-                                                                        Fix
-                                                                    </h4>
-                                                                    <pre className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded text-sm overflow-auto max-h-60 whitespace-pre-wrap break-words border border-blue-200 dark:border-blue-700">
-                                                                        {
-                                                                            failure.suggested_fix
-                                                                        }
-                                                                    </pre>
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    </DialogContent>
-                                                </Dialog>
-
-                                                {failure.fix_status ===
-                                                    "pending" && (
-                                                    <Button
-                                                        variant="outline"
-                                                        size="sm"
-                                                        onClick={() =>
-                                                            triggerAnalysis(
-                                                                failure.owner,
-                                                                failure.repo_name,
-                                                                failure.run_id
-                                                            )
-                                                        }
-                                                    >
-                                                        <Zap className="h-4 w-4" />
-                                                    </Button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Card>
+                                ))
+                            )}
+                        </div>
+                    ) : (
+                        // Desktop Table Layout
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Repository</TableHead>
+                                    <TableHead>Workflow</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead>Fix Status</TableHead>
+                                    <TableHead>Created</TableHead>
+                                    <TableHead className="text-right">
+                                        Actions
+                                    </TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {filteredFailures.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell
+                                            colSpan={6}
+                                            className="text-center py-8"
+                                        >
+                                            <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                                                <GitBranch className="h-8 w-8 opacity-50" />
+                                                <p>No failures found</p>
+                                                {searchTerm && (
+                                                    <p className="text-xs">
+                                                        Try adjusting your
+                                                        search
+                                                    </p>
                                                 )}
-
-                                                <Button
-                                                    variant="ghost"
-                                                    size="sm"
-                                                    asChild
-                                                >
-                                                    <a
-                                                        href={`https://github.com/${failure.owner}/${failure.repo_name}/actions/runs/${failure.run_id}`}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                    >
-                                                        <ExternalLink className="h-4 w-4" />
-                                                    </a>
-                                                </Button>
                                             </div>
                                         </TableCell>
                                     </TableRow>
-                                ))
-                            )}
-                        </TableBody>
-                    </Table>
+                                ) : (
+                                    filteredFailures.map((failure) => (
+                                        <TableRow
+                                            key={failure.id}
+                                            className={getPriorityColor(
+                                                failure.error_log
+                                            )}
+                                        >
+                                            <TableCell>
+                                                <div className="flex flex-col">
+                                                    <span className="font-medium">
+                                                        {failure.owner}/
+                                                        {failure.repo_name}
+                                                    </span>
+                                                    <span className="text-xs text-muted-foreground">
+                                                        Run #{failure.run_id}
+                                                    </span>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>
+                                                <div className="flex items-center gap-2">
+                                                    {getStatusIcon(
+                                                        failure.status
+                                                    )}
+                                                    <span className="truncate max-w-[200px]">
+                                                        {failure.workflow_name}
+                                                    </span>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Badge
+                                                    variant={
+                                                        failure.conclusion ===
+                                                        "failure"
+                                                            ? "destructive"
+                                                            : "secondary"
+                                                    }
+                                                >
+                                                    {failure.conclusion}
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell>
+                                                {getStatusBadge(
+                                                    failure.fix_status
+                                                )}
+                                            </TableCell>
+                                            <TableCell className="text-muted-foreground">
+                                                {formatTimeAgo(
+                                                    failure.created_at
+                                                )}
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                                <div className="flex items-center gap-2 justify-end">
+                                                    <Dialog>
+                                                        <DialogTrigger asChild>
+                                                            <Button
+                                                                variant="ghost"
+                                                                size="sm"
+                                                                onClick={() => {
+                                                                    console.log(
+                                                                        "View failure:",
+                                                                        failure
+                                                                    );
+                                                                }}
+                                                            >
+                                                                <Eye className="h-4 w-4" />
+                                                            </Button>
+                                                        </DialogTrigger>
+                                                        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+                                                            <DialogHeader>
+                                                                <DialogTitle>
+                                                                    Failure
+                                                                    Details -{" "}
+                                                                    {
+                                                                        failure.owner
+                                                                    }
+                                                                    /
+                                                                    {
+                                                                        failure.repo_name
+                                                                    }
+                                                                </DialogTitle>
+                                                                <DialogDescription>
+                                                                    Workflow:{" "}
+                                                                    {
+                                                                        failure.workflow_name
+                                                                    }{" "}
+                                                                    | Run ID:{" "}
+                                                                    {
+                                                                        failure.run_id
+                                                                    }
+                                                                </DialogDescription>
+                                                            </DialogHeader>
+                                                            <div className="space-y-4">
+                                                                <div>
+                                                                    <h4 className="font-semibold mb-2">
+                                                                        Error
+                                                                        Logs:
+                                                                    </h4>
+                                                                    <pre className="bg-muted p-3 rounded-md text-sm overflow-x-auto whitespace-pre-wrap max-h-[300px]">
+                                                                        {failure.error_log ||
+                                                                            "No error logs available"}
+                                                                    </pre>
+                                                                </div>
+                                                                {failure.suggested_fix && (
+                                                                    <div>
+                                                                        <h4 className="font-semibold mb-2">
+                                                                            Suggested
+                                                                            Fix:
+                                                                        </h4>
+                                                                        <pre className="bg-muted p-3 rounded-md text-sm overflow-x-auto whitespace-pre-wrap">
+                                                                            {
+                                                                                failure.suggested_fix
+                                                                            }
+                                                                        </pre>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </DialogContent>
+                                                    </Dialog>
+
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        asChild
+                                                    >
+                                                        <a
+                                                            href={`https://github.com/${failure.owner}/${failure.repo_name}/actions/runs/${failure.run_id}`}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                        >
+                                                            <ExternalLink className="h-4 w-4" />
+                                                        </a>
+                                                    </Button>
+
+                                                    {failure.fix_status ===
+                                                        "pending" && (
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="sm"
+                                                            onClick={async () => {
+                                                                try {
+                                                                    await api.triggerAnalysis(
+                                                                        {
+                                                                            owner: failure.owner,
+                                                                            repo: failure.repo_name,
+                                                                            run_id: failure.run_id,
+                                                                        }
+                                                                    );
+                                                                    toast.success(
+                                                                        "Fix generation started!"
+                                                                    );
+                                                                    refresh();
+                                                                } catch (error) {
+                                                                    toast.error(
+                                                                        "Failed to generate fix"
+                                                                    );
+                                                                }
+                                                            }}
+                                                        >
+                                                            <Zap className="h-4 w-4" />
+                                                        </Button>
+                                                    )}
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
+                            </TableBody>
+                        </Table>
+                    )}
                 </CardContent>
             </Card>
         </div>

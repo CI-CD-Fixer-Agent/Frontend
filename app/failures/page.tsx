@@ -16,7 +16,7 @@ export default function FailuresPage() {
             <AppSidebar variant="inset" />
             <SidebarInset>
                 <SiteHeader />
-                <div className="flex flex-1 flex-col gap-4 p-4 lg:p-6">
+                <div className="flex flex-1 flex-col gap-3 p-3 sm:gap-4 sm:p-4 lg:p-6">
                     <FailuresTableEnhanced />
                 </div>
             </SidebarInset>
