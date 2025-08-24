@@ -175,37 +175,57 @@ function convertFailureToWorkflow(
 function getStatusIcon(status: WorkflowActivity["status"]) {
     switch (status) {
         case "running":
-            return <Play className="h-4 w-4 text-blue-500" />;
+            return (
+                <Play className="h-4 w-4 text-blue-500 dark:text-blue-400" />
+            );
         case "analyzing":
-            return <Loader2 className="h-4 w-4 text-orange-500 animate-spin" />;
+            return (
+                <Loader2 className="h-4 w-4 text-orange-500 dark:text-orange-400 animate-spin" />
+            );
         case "fixing":
-            return <Loader2 className="h-4 w-4 text-blue-500 animate-spin" />;
+            return (
+                <Loader2 className="h-4 w-4 text-blue-500 dark:text-blue-400 animate-spin" />
+            );
         case "completed":
-            return <CheckCircle className="h-4 w-4 text-green-500" />;
+            return (
+                <CheckCircle className="h-4 w-4 text-green-500 dark:text-green-400" />
+            );
         case "failed":
-            return <XCircle className="h-4 w-4 text-red-500" />;
+            return (
+                <XCircle className="h-4 w-4 text-red-500 dark:text-red-400" />
+            );
         default:
-            return <AlertCircle className="h-4 w-4 text-gray-500" />;
+            return (
+                <AlertCircle className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+            );
     }
 }
 
 function getStatusBadge(status: string) {
     switch (status) {
         case "running":
-            return <Badge className="bg-blue-100 text-blue-800">Running</Badge>;
+            return (
+                <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-950/30 dark:text-blue-300">
+                    Running
+                </Badge>
+            );
         case "analyzing":
             return (
-                <Badge className="bg-yellow-100 text-yellow-800">
+                <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-950/30 dark:text-yellow-300">
                     Analyzing
                 </Badge>
             );
         case "fixing":
             return (
-                <Badge className="bg-orange-100 text-orange-800">Fixing</Badge>
+                <Badge className="bg-orange-100 text-orange-800 dark:bg-orange-950/30 dark:text-orange-300">
+                    Fixing
+                </Badge>
             );
         case "completed":
             return (
-                <Badge className="bg-green-100 text-green-800">Completed</Badge>
+                <Badge className="bg-green-100 text-green-800 dark:bg-green-950/30 dark:text-green-300">
+                    Completed
+                </Badge>
             );
         case "failed":
             return <Badge variant="destructive">Failed</Badge>;
@@ -231,7 +251,7 @@ function WorkflowRow({ workflow }: { workflow: WorkflowActivity }) {
                         {isStuck && (
                             <Badge
                                 variant="outline"
-                                className="border-orange-500 text-orange-700 text-xs"
+                                className="border-orange-500 text-orange-700 dark:border-orange-400 dark:text-orange-300 text-xs"
                             >
                                 <Clock className="h-3 w-3 mr-1" />
                                 Long Running
@@ -249,14 +269,14 @@ function WorkflowRow({ workflow }: { workflow: WorkflowActivity }) {
                                     <span>Progress</span>
                                     <span>{workflow.progress}%</span>
                                 </div>
-                                <div className="w-full bg-gray-200 rounded-full h-1.5">
+                                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
                                     <div
                                         className={`h-1.5 rounded-full transition-all duration-500 ${
                                             isStuck
-                                                ? "bg-orange-500"
+                                                ? "bg-orange-500 dark:bg-orange-400"
                                                 : workflow.status === "fixing"
-                                                ? "bg-green-500"
-                                                : "bg-blue-500"
+                                                ? "bg-green-500 dark:bg-green-400"
+                                                : "bg-blue-500 dark:bg-blue-400"
                                         }`}
                                         style={{
                                             width: `${workflow.progress}%`,
@@ -275,7 +295,9 @@ function WorkflowRow({ workflow }: { workflow: WorkflowActivity }) {
                     {workflow.estimatedCompletion && (
                         <p
                             className={`text-muted-foreground ${
-                                isStuck ? "text-orange-600" : ""
+                                isStuck
+                                    ? "text-orange-600 dark:text-orange-400"
+                                    : ""
                             }`}
                         >
                             ETA: {workflow.estimatedCompletion}
@@ -398,10 +420,16 @@ export function LiveWorkflowMonitor() {
                         </CardDescription>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Badge variant="outline" className="bg-blue-50">
+                        <Badge
+                            variant="outline"
+                            className="bg-blue-50 dark:bg-blue-950/30 dark:text-blue-300"
+                        >
                             {activeWorkflows.length} Active
                         </Badge>
-                        <Badge variant="outline" className="bg-green-50">
+                        <Badge
+                            variant="outline"
+                            className="bg-green-50 dark:bg-green-950/30 dark:text-green-300"
+                        >
                             {
                                 completedWorkflows.filter(
                                     (w) => w.status === "completed"

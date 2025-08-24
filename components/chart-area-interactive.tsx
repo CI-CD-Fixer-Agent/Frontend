@@ -46,25 +46,30 @@ export function ChartAreaInteractive() {
     const isMobile = useIsMobile();
     const [timeRange, setTimeRange] = React.useState("30d");
 
-    // Generate mock time series data based on dashboard metrics
+    // Generate chart data from real API data
     const chartData = React.useMemo(() => {
         if (!dashboard?.summary) return [];
 
+        // For now, create a simple time series based on available data
+        // In a full implementation, you'd fetch historical data from a dedicated endpoint
         const days = timeRange === "7d" ? 7 : timeRange === "30d" ? 30 : 90;
         const data = [];
 
+        // Get the current data point (today)
+        const today = new Date().toISOString().split("T")[0];
+        const currentFailures = dashboard.summary.total_failures || 0;
+        const currentFixes = dashboard.summary.total_fixes || 0;
+
+        // Create data points - only today has real data, rest are zeros for now
         for (let i = days - 1; i >= 0; i--) {
             const date = new Date();
             date.setDate(date.getDate() - i);
-
-            // Simulate daily failure and fix data
-            const failures = Math.floor(Math.random() * 5) + 1;
-            const fixes = failures; // All failures get fixes generated
+            const dateStr = date.toISOString().split("T")[0];
 
             data.push({
-                date: date.toISOString().split("T")[0],
-                failures,
-                fixes,
+                date: dateStr,
+                failures: dateStr === today ? currentFailures : 0,
+                fixes: dateStr === today ? currentFixes : 0,
             });
         }
 

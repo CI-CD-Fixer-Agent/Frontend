@@ -49,10 +49,10 @@ function MetricCard({
     color = "blue",
 }: MetricCardProps) {
     const colorClasses = {
-        green: "text-green-600 bg-green-100",
-        red: "text-red-600 bg-red-100",
-        blue: "text-blue-600 bg-blue-100",
-        orange: "text-orange-600 bg-orange-100",
+        green: "text-green-600 bg-green-100 dark:text-green-400 dark:bg-green-950/30",
+        red: "text-red-600 bg-red-100 dark:text-red-400 dark:bg-red-950/30",
+        blue: "text-blue-600 bg-blue-100 dark:text-blue-400 dark:bg-blue-950/30",
+        orange: "text-orange-600 bg-orange-100 dark:text-orange-400 dark:bg-orange-950/30",
     };
 
     return (
@@ -68,15 +68,15 @@ function MetricCard({
                             <div className="flex items-center mt-1">
                                 {change > 0 ? (
                                     <>
-                                        <TrendingUp className="h-3 w-3 text-green-600 mr-1" />
-                                        <span className="text-xs text-green-600">
+                                        <TrendingUp className="h-3 w-3 text-green-600 dark:text-green-400 mr-1" />
+                                        <span className="text-xs text-green-600 dark:text-green-400">
                                             +{change}%
                                         </span>
                                     </>
                                 ) : change < 0 ? (
                                     <>
-                                        <TrendingDown className="h-3 w-3 text-red-600 mr-1" />
-                                        <span className="text-xs text-red-600">
+                                        <TrendingDown className="h-3 w-3 text-red-600 dark:text-red-400 mr-1" />
+                                        <span className="text-xs text-red-600 dark:text-red-400">
                                             {change}%
                                         </span>
                                     </>
@@ -150,30 +150,40 @@ function RecentActivity({ activities }: RecentActivityProps) {
     const getActivityIcon = (type: string) => {
         switch (type) {
             case "fix_generated":
-                return <Zap className="h-3 w-3 text-blue-600" />;
+                return (
+                    <Zap className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+                );
             case "fix_applied":
-                return <CheckCircle2 className="h-3 w-3 text-green-600" />;
+                return (
+                    <CheckCircle2 className="h-3 w-3 text-green-600 dark:text-green-400" />
+                );
             case "fix_rejected":
-                return <XCircle className="h-3 w-3 text-red-600" />;
+                return (
+                    <XCircle className="h-3 w-3 text-red-600 dark:text-red-400" />
+                );
             case "failure_detected":
-                return <AlertTriangle className="h-3 w-3 text-orange-600" />;
+                return (
+                    <AlertTriangle className="h-3 w-3 text-orange-600 dark:text-orange-400" />
+                );
             default:
-                return <Activity className="h-3 w-3 text-gray-600" />;
+                return (
+                    <Activity className="h-3 w-3 text-gray-600 dark:text-gray-400" />
+                );
         }
     };
 
     const getActivityColor = (type: string) => {
         switch (type) {
             case "fix_generated":
-                return "bg-blue-100 text-blue-800";
+                return "bg-blue-100 text-blue-800 dark:bg-blue-950/30 dark:text-blue-300";
             case "fix_applied":
-                return "bg-green-100 text-green-800";
+                return "bg-green-100 text-green-800 dark:bg-green-950/30 dark:text-green-300";
             case "fix_rejected":
-                return "bg-red-100 text-red-800";
+                return "bg-red-100 text-red-800 dark:bg-red-950/30 dark:text-red-300";
             case "failure_detected":
-                return "bg-orange-100 text-orange-800";
+                return "bg-orange-100 text-orange-800 dark:bg-orange-950/30 dark:text-orange-300";
             default:
-                return "bg-gray-100 text-gray-800";
+                return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
         }
     };
 
@@ -379,7 +389,7 @@ export function RealTimeAnalytics() {
                                     className="flex items-start space-x-3"
                                 >
                                     <div className="flex-shrink-0">
-                                        <div className="w-2 h-2 bg-red-500 rounded-full mt-2"></div>
+                                        <div className="w-2 h-2 bg-red-500 dark:bg-red-400 rounded-full mt-2"></div>
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <p className="text-sm font-medium text-gray-900">

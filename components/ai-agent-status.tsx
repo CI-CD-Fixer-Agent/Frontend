@@ -40,7 +40,7 @@ function AgentCard({ agent }: { agent: AgentMetrics }) {
         switch (status) {
             case "active":
                 return (
-                    <Badge className="bg-green-100 text-green-800">
+                    <Badge className="bg-green-100 text-green-800 dark:bg-green-950/30 dark:text-green-300">
                         Active
                     </Badge>
                 );
@@ -176,7 +176,10 @@ export function AIAgentStatus() {
                 status: geminiStatus,
                 tasksProcessed: totalFixes,
                 successRate: successRate,
-                avgResponseTime: "2.3s", // Default since not available in API
+                avgResponseTime:
+                    health.services?.gemini_api === "available"
+                        ? "Real-time"
+                        : "N/A",
                 lastActivity: health.timestamp
                     ? new Date(health.timestamp).toLocaleTimeString()
                     : "Unknown",
@@ -188,7 +191,10 @@ export function AIAgentStatus() {
                 status: databaseStatus, // Use database as proxy for orchestrator
                 tasksProcessed: totalFixes,
                 successRate: successRate,
-                avgResponseTime: "1.8s", // Default since not available in API
+                avgResponseTime:
+                    health.services?.database === "connected"
+                        ? "Real-time"
+                        : "N/A",
                 lastActivity: health.timestamp
                     ? new Date(health.timestamp).toLocaleTimeString()
                     : "Unknown",

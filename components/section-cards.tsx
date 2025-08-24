@@ -157,13 +157,13 @@ export function SectionCards() {
                     <CardTitle className="text-sm font-medium">
                         System Status
                     </CardTitle>
-                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <CheckCircle className="h-4 w-4 text-green-500 dark:text-green-400" />
                 </CardHeader>
                 <CardContent>
                     <div className="flex items-center space-x-2">
                         <Badge
                             variant="outline"
-                            className="text-green-600 border-green-200"
+                            className="text-green-600 border-green-200 dark:text-green-400 dark:border-green-800"
                         >
                             Operational
                         </Badge>

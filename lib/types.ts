@@ -79,8 +79,13 @@ export interface FixActionResponse extends APIResponse {
 export interface DashboardSummary {
     total_failures: number;
     total_repositories: number;
+    total_fixes: number;
     active_fixes: number;
+    pending_fixes: number;
+    approved_fixes: number;
     success_rate: number;
+    avg_resolution_time: number;
+    active_agents: number;
     processing_time_avg: string;
     // Add the actual API structure
     key_metrics?: {
@@ -93,9 +98,12 @@ export interface DashboardSummary {
 
 export interface RecentActivity {
     id: string;
-    repository: string;
-    status: string;
+    type: "failure" | "fix" | "analysis";
+    description: string;
     timestamp: string;
+    status: string;
+    repository: string;
+    workflow?: string;
 }
 
 export interface ErrorDistribution {
@@ -106,6 +114,9 @@ export interface MLInsights {
     pattern_recognition_accuracy: number;
     fix_success_prediction: number;
     learning_progress: string;
+    prediction_accuracy: number;
+    patterns_detected: number;
+    success_prediction: number;
 }
 
 export interface DashboardResponse {

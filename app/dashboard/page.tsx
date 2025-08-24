@@ -1,6 +1,6 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { ChartAreaInteractive } from "@/components/chart-area-interactive";
-import { FailuresTable } from "@/components/failures-table";
+import { FailuresTableEnhanced } from "@/components/failures-table-enhanced";
 import { PendingFixesComponent } from "@/components/pending-fixes";
 import { RealTimeAnalytics } from "@/components/real-time-analytics";
 import { AIAgentStatus } from "@/components/ai-agent-status";
@@ -24,7 +24,7 @@ export default function Page() {
             <AppSidebar variant="inset" />
             <SidebarInset>
                 <SiteHeader />
-                <div className="flex flex-1 flex-col gap-4 p-4 lg:p-6">
+                <div className="flex flex-1 flex-col gap-4 p-4 lg:p-6 bg-background dark:bg-gray-950/30">
                     <SystemStatusBanner />
                     <RealTimeAnalytics />
 
@@ -38,7 +38,7 @@ export default function Page() {
 
                     {/* Failures and Fixes */}
                     <div className="grid gap-4 md:grid-cols-2">
-                        <FailuresTable />
+                        <FailuresTableEnhanced />
                         <PendingFixesComponent />
                     </div>
 

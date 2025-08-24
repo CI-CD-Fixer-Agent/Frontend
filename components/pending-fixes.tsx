@@ -44,44 +44,8 @@ export function PendingFixesComponent() {
     const [comment, setComment] = React.useState("");
     const [dialogOpen, setDialogOpen] = React.useState(false);
 
-    // Add some mock data for demonstration if API returns empty
-    const mockFixes = [
-        {
-            id: "mock-1",
-            repository: "chaitanyak175/ci-cd-test-repo",
-            owner: "chaitanyak175",
-            repo_name: "ci-cd-test-repo",
-            run_id: "17173064956",
-            workflow_name: "🔴 Broken Node.js CI",
-            suggested_fix:
-                "npm install --legacy-peer-deps\n# Fix dependency conflicts in package.json",
-            error_analysis:
-                "Node.js CI failed due to peer dependency conflicts in package.json. The issue is with incompatible versions of React and related packages.",
-            status: "pending" as const,
-            created_at: new Date(Date.now() - 10 * 60 * 1000).toISOString(), // 10 minutes ago
-            confidence_score: 0.87,
-            fix_complexity: "Medium",
-        },
-        {
-            id: "mock-2",
-            repository: "chaitanyak175/ci-cd-test-repo",
-            owner: "chaitanyak175",
-            repo_name: "ci-cd-test-repo",
-            run_id: "17171780366",
-            workflow_name: "🔴 Broken Docker Build",
-            suggested_fix:
-                "# Update Dockerfile to use correct Node.js version\nFROM node:18-alpine\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci --only=production",
-            error_analysis:
-                "Docker build failed because the base image is outdated and doesn't support the required Node.js version.",
-            status: "pending" as const,
-            created_at: new Date(Date.now() - 25 * 60 * 1000).toISOString(), // 25 minutes ago
-            confidence_score: 0.92,
-            fix_complexity: "Low",
-        },
-    ];
-
-    // Use mock data if no real fixes are available
-    const displayFixes = fixes.length > 0 ? fixes : mockFixes;
+    // Use only real API data - no mock data
+    const displayFixes = fixes || [];
 
     const handleApprove = async (fixId: string, comment?: string) => {
         try {
@@ -121,7 +85,7 @@ export function PendingFixesComponent() {
                 return (
                     <Badge
                         variant="outline"
-                        className="border-yellow-500 text-yellow-700"
+                        className="border-yellow-500 text-yellow-700 dark:border-yellow-400 dark:text-yellow-300"
                     >
                         <Clock className="h-3 w-3 mr-1" />
                         Pending Review
@@ -131,7 +95,7 @@ export function PendingFixesComponent() {
                 return (
                     <Badge
                         variant="outline"
-                        className="border-green-500 text-green-700"
+                        className="border-green-500 text-green-700 dark:border-green-400 dark:text-green-300"
                     >
                         <CheckCircle className="h-3 w-3 mr-1" />
                         Approved
@@ -141,7 +105,7 @@ export function PendingFixesComponent() {
                 return (
                     <Badge
                         variant="outline"
-                        className="border-red-500 text-red-700"
+                        className="border-red-500 text-red-700 dark:border-red-400 dark:text-red-300"
                     >
                         <XCircle className="h-3 w-3 mr-1" />
                         Rejected
@@ -215,7 +179,7 @@ export function PendingFixesComponent() {
             <CardContent>
                 {displayFixes.length === 0 ? (
                     <div className="text-center text-muted-foreground py-8">
-                        <CheckCircle className="h-12 w-12 mx-auto mb-4 text-green-500" />
+                        <CheckCircle className="h-12 w-12 mx-auto mb-4 text-green-500 dark:text-green-400" />
                         <p>No pending fixes at the moment!</p>
                         <p className="text-sm">All fixes have been reviewed.</p>
                     </div>
@@ -224,7 +188,7 @@ export function PendingFixesComponent() {
                         {displayFixes.map((fix) => (
                             <Card
                                 key={fix.id}
-                                className="border-l-4 border-l-blue-500"
+                                className="border-l-4 border-l-blue-500 dark:border-l-blue-400"
                             >
                                 <CardContent className="p-4">
                                     <div className="flex items-start justify-between mb-3">

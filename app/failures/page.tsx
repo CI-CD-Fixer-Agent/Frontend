@@ -1,14 +1,7 @@
 import { AppSidebar } from "@/components/app-sidebar";
-import { FailuresTable } from "@/components/failures-table";
+import { FailuresTableEnhanced } from "@/components/failures-table-enhanced";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
 
 export default function FailuresPage() {
     return (
@@ -24,18 +17,7 @@ export default function FailuresPage() {
             <SidebarInset>
                 <SiteHeader />
                 <div className="flex flex-1 flex-col gap-4 p-4 lg:p-6">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Workflow Failures</CardTitle>
-                            <CardDescription>
-                                Monitor and track CI/CD workflow failures across
-                                all repositories
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <FailuresTable />
-                        </CardContent>
-                    </Card>
+                    <FailuresTableEnhanced />
                 </div>
             </SidebarInset>
         </SidebarProvider>
