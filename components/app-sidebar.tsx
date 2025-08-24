@@ -2,19 +2,20 @@
 
 import * as React from "react";
 import {
-    IconCamera,
+    IconBrain,
+    IconBug,
     IconChartBar,
     IconDashboard,
-    IconDatabase,
+    IconGitBranch,
     IconFileAi,
-    IconFileDescription,
-    IconFileWord,
+    IconRobot,
     IconFolder,
     IconHelp,
-    IconInnerShadowTop,
-    IconReport,
-    IconSearch,
     IconSettings,
+    IconSearch,
+    IconActivity,
+    IconShield,
+    IconCode,
 } from "@tabler/icons-react";
 
 import { NavDocuments } from "@/components/nav-documents";
@@ -33,9 +34,9 @@ import {
 
 const data = {
     user: {
-        name: "shadcn",
-        email: "m@example.com",
-        avatar: "/avatars/shadcn.jpg",
+        name: "CI/CD Agent",
+        email: "agent@cicd-fixer.com",
+        avatar: "/avatars/ai-agent.jpg",
     },
     navMain: [
         {
@@ -46,7 +47,7 @@ const data = {
         {
             title: "Failures",
             url: "/failures",
-            icon: IconReport,
+            icon: IconBug,
         },
         {
             title: "Fixes",
@@ -64,86 +65,38 @@ const data = {
             icon: IconFolder,
         },
     ],
-    navClouds: [
-        {
-            title: "Capture",
-            icon: IconCamera,
-            isActive: true,
-            url: "#",
-            items: [
-                {
-                    title: "Active Proposals",
-                    url: "#",
-                },
-                {
-                    title: "Archived",
-                    url: "#",
-                },
-            ],
-        },
-        {
-            title: "Proposal",
-            icon: IconFileDescription,
-            url: "#",
-            items: [
-                {
-                    title: "Active Proposals",
-                    url: "#",
-                },
-                {
-                    title: "Archived",
-                    url: "#",
-                },
-            ],
-        },
-        {
-            title: "Prompts",
-            icon: IconFileAi,
-            url: "#",
-            items: [
-                {
-                    title: "Active Proposals",
-                    url: "#",
-                },
-                {
-                    title: "Archived",
-                    url: "#",
-                },
-            ],
-        },
-    ],
     navSecondary: [
         {
             title: "Settings",
-            url: "#",
+            url: "/settings",
             icon: IconSettings,
         },
         {
-            title: "Get Help",
-            url: "#",
+            title: "Documentation",
+            url: "/docs",
             icon: IconHelp,
         },
         {
             title: "Search",
-            url: "#",
+            url: "/search",
             icon: IconSearch,
         },
     ],
     documents: [
         {
-            name: "Data Library",
-            url: "#",
-            icon: IconDatabase,
+            name: "GitHub Integration",
+            url: "/integrations/github",
+            icon: IconGitBranch,
         },
         {
-            name: "Reports",
-            url: "#",
-            icon: IconReport,
+            name: "AI Agent Status",
+            url: "/agent/status",
+            icon: IconRobot,
         },
         {
-            name: "Word Assistant",
-            url: "#",
-            icon: IconFileWord,
+            name: "Code Analysis",
+            url: "/analysis/code",
+            icon: IconCode,
         },
     ],
 };
@@ -158,10 +111,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             asChild
                             className="data-[slot=sidebar-menu-button]:!p-1.5"
                         >
-                            <a href="#">
-                                <IconInnerShadowTop className="!size-5" />
+                            <a href="/dashboard">
+                                <IconRobot className="!size-5" />
                                 <span className="text-base font-semibold">
-                                    Acme Inc.
+                                    CI/CD Fixer Agent
                                 </span>
                             </a>
                         </SidebarMenuButton>
