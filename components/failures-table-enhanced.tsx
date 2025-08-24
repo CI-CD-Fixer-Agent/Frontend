@@ -38,17 +38,16 @@ import {
 import { useFailures } from "@/hooks/use-api";
 import { api } from "@/lib/api";
 import {
-    AlertTriangle,
-    CheckCircle,
-    Clock,
     ExternalLink,
     GitBranch,
     Search,
     Filter,
     RefreshCw,
     Eye,
-    PlayCircle,
     Zap,
+    CheckCircle,
+    Clock,
+    AlertTriangle,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -56,7 +55,6 @@ export function FailuresTableEnhanced() {
     const [searchTerm, setSearchTerm] = React.useState("");
     const [statusFilter, setStatusFilter] = React.useState<string>("all");
     const [limit] = React.useState(20);
-    const [selectedFailure, setSelectedFailure] = React.useState<any>(null);
 
     const { failures, totalCount, isLoading, error, refresh } = useFailures({
         limit,
@@ -387,11 +385,13 @@ export function FailuresTableEnhanced() {
                                                         <Button
                                                             variant="ghost"
                                                             size="sm"
-                                                            onClick={() =>
-                                                                setSelectedFailure(
+                                                            onClick={() => {
+                                                                // View failure details
+                                                                console.log(
+                                                                    "View failure:",
                                                                     failure
-                                                                )
-                                                            }
+                                                                );
+                                                            }}
                                                         >
                                                             <Eye className="h-4 w-4" />
                                                         </Button>

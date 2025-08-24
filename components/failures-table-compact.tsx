@@ -10,14 +10,6 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useFailures } from "@/hooks/use-api";
 import {
@@ -27,8 +19,6 @@ import {
     ExternalLink,
     GitBranch,
     RefreshCw,
-    Eye,
-    Zap,
 } from "lucide-react";
 
 export function FailuresTableCompact() {

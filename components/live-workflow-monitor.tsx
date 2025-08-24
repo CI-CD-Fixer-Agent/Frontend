@@ -20,7 +20,7 @@ import {
     ExternalLink,
     AlertCircle,
 } from "lucide-react";
-import { useFailures, useDashboard } from "@/hooks/use-api";
+import { useFailures } from "@/hooks/use-api";
 
 interface WorkflowActivity {
     id: string;
@@ -44,16 +44,17 @@ interface WorkflowActivity {
 
 // Convert API failure data to workflow activity
 function convertFailureToWorkflow(
-    failure: any,
+    failure: Record<string, unknown>,
     currentTime: number = Date.now()
 ): WorkflowActivity {
-    const createdAt = new Date(failure.created_at);
+    const createdAt = new Date(String(failure.created_at));
     const diffMinutes = Math.floor(
         (currentTime - createdAt.getTime()) / (1000 * 60)
     );
 
     // Use workflow ID as seed for deterministic variety
-    const workflowSeed = parseInt(failure.id) || parseInt(failure.run_id) || 1;
+    const workflowSeed =
+        parseInt(String(failure.id)) || parseInt(String(failure.run_id)) || 1;
     const baseVariation = (workflowSeed % 25) + 10; // 10-35% base variation
 
     // Calculate deterministic progress based on time elapsed and fix_status
@@ -158,17 +159,17 @@ function convertFailureToWorkflow(
     }
 
     return {
-        id: failure.id.toString(),
+        id: String(failure.id),
         repository: `${failure.owner}/${failure.repo_name}`,
         workflow: `🔴 ${failure.workflow_name || "CI Pipeline"}`,
         status,
         branch: "main", // Default since API doesn't provide branch
-        commit: failure.run_id.toString().slice(-7), // Use last 7 digits of run_id
+        commit: String(failure.run_id).slice(-7), // Use last 7 digits of run_id
         startTime: timeAgo,
         estimatedCompletion,
         progress,
-        runId: failure.run_id.toString(),
-        fix_status: failure.fix_status,
+        runId: String(failure.run_id),
+        fix_status: String(failure.fix_status),
     };
 }
 
@@ -334,7 +335,10 @@ export function LiveWorkflowMonitor() {
     const workflowActivities = React.useMemo(() => {
         if (!failures || failures.length === 0) return [];
         return failures.map((failure) =>
-            convertFailureToWorkflow(failure, currentTime)
+            convertFailureToWorkflow(
+                failure as unknown as Record<string, unknown>,
+                currentTime
+            )
         );
     }, [failures, currentTime]);
 

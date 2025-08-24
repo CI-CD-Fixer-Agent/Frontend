@@ -16,11 +16,9 @@ import {
     Activity,
     CheckCircle2,
     XCircle,
-    Clock,
     GitBranch,
     AlertTriangle,
     Zap,
-    BarChart3,
     Loader2,
 } from "lucide-react";
 import { useAnalytics, useDashboard } from "@/hooks/use-api";
@@ -290,40 +288,57 @@ export function RealTimeAnalytics() {
         );
     }
 
-    // Extract metrics from the API response with proper type checking
-    const overallStats = analytics;
-
     // Try to get success rate from different possible locations with type casting
-    const successRate =
-        (analytics as any)?.statistics?.overall_stats?.approval_rate ||
-        (analytics as any)?.overall_approval_rate ||
-        (analytics as any)?.approval_rate ||
-        0;
+    const analyticsData = analytics as Record<string, unknown> | undefined;
+    const statsData = (
+        analyticsData?.statistics as Record<string, unknown> | undefined
+    )?.overall_stats as Record<string, unknown> | undefined;
+
+    const successRate = Number(
+        statsData?.approval_rate ||
+            analyticsData?.overall_approval_rate ||
+            analyticsData?.approval_rate ||
+            0
+    );
 
     // Get active repositories count from various possible sources with type casting
-    const activeRepositories =
+    const dashboardData = dashboard as Record<string, unknown> | undefined;
+    const dashboardSummary = dashboardData?.summary as
+        | Record<string, unknown>
+        | undefined;
+
+    const activeRepositories = Number(
         summary?.total_repositories ||
-        summary?.key_metrics?.total_repos_analyzed ||
-        (dashboard as any)?.summary?.total_repositories ||
-        0;
+            summary?.key_metrics?.total_repos_analyzed ||
+            dashboardSummary?.total_repositories ||
+            0
+    );
 
     // Convert recent activity to the expected format with better fallbacks
     const formattedActivities: Activity[] = (recentActivity || [])
         .slice(0, 5)
-        .map((activity: any, index: number) => ({
-            id: activity.id || index.toString(),
-            type: "failure_detected" as const,
-            repo:
-                activity.repository ||
-                activity.repo_name ||
-                `Repository ${index + 1}`,
-            timestamp: activity.timestamp || activity.created_at || "Recently",
-            description: activity.status
-                ? `Status: ${activity.status}`
-                : activity.workflow_name
-                ? `Workflow: ${activity.workflow_name}`
-                : "CI/CD workflow processed",
-        }));
+        .map((activity, index: number) => {
+            const activityData = activity as unknown as Record<string, unknown>;
+            return {
+                id: String(activityData.id || index.toString()),
+                type: "failure_detected" as const,
+                repo: String(
+                    activityData.repository ||
+                        activityData.repo_name ||
+                        `Repository ${index + 1}`
+                ),
+                timestamp: String(
+                    activityData.timestamp ||
+                        activityData.created_at ||
+                        "Recently"
+                ),
+                description: activityData.status
+                    ? `Status: ${activityData.status}`
+                    : activityData.workflow_name
+                    ? `Workflow: ${activityData.workflow_name}`
+                    : "CI/CD workflow processed",
+            };
+        });
 
     return (
         <div className="space-y-6">

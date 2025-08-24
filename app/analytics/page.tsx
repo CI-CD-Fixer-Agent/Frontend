@@ -31,8 +31,6 @@ import {
     Line,
 } from "recharts";
 import {
-    TrendingUp,
-    TrendingDown,
     Target,
     Award,
     Brain,
@@ -71,7 +69,6 @@ export default function AnalyticsPageEnhanced() {
     } = useEffectiveness();
 
     const {
-        dashboard,
         summary,
         isLoading: dashboardLoading,
         error: dashboardError,
@@ -110,26 +107,23 @@ export default function AnalyticsPageEnhanced() {
           )
         : [];
 
-    const totalFixes =
-        (metrics as any)?.statistics?.overall_stats?.total_fixes ||
-        (metrics as any)?.total_fixes_generated ||
-        0;
-    const approvedFixes =
-        (metrics as any)?.statistics?.overall_stats?.approved_fixes ||
-        (metrics as any)?.total_fixes_approved ||
-        0;
-    const rejectedFixes =
-        (metrics as any)?.statistics?.overall_stats?.rejected_fixes ||
-        (metrics as any)?.total_fixes_rejected ||
-        0;
-    const pendingFixes =
-        (metrics as any)?.statistics?.overall_stats?.pending_fixes ||
-        (metrics as any)?.pending_fixes ||
-        0;
-    const approvalRate =
-        (metrics as any)?.statistics?.overall_stats?.approval_rate ||
-        (metrics as any)?.overall_approval_rate ||
-        0;
+    const metricsData = metrics as Record<string, unknown> | undefined;
+    const statsData = (
+        metricsData?.statistics as Record<string, unknown> | undefined
+    )?.overall_stats as Record<string, unknown> | undefined;
+
+    const totalFixes = Number(
+        statsData?.total_fixes || metricsData?.total_fixes_generated || 0
+    );
+    const approvedFixes = Number(
+        statsData?.approved_fixes || metricsData?.total_fixes_approved || 0
+    );
+    const pendingFixes = Number(
+        statsData?.pending_fixes || metricsData?.pending_fixes || 0
+    );
+    const approvalRate = Number(
+        statsData?.approval_rate || metricsData?.overall_approval_rate || 0
+    );
 
     const trendData = React.useMemo(() => {
         // Use only real data from the API
@@ -331,8 +325,14 @@ export default function AnalyticsPageEnhanced() {
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold">
-                                    {(metrics as any)?.trends
-                                        ?.learning_velocity || "Steady"}
+                                    {String(
+                                        (
+                                            metricsData?.trends as Record<
+                                                string,
+                                                unknown
+                                            >
+                                        )?.learning_velocity
+                                    ) || "Steady"}
                                 </div>
                                 <p className="text-xs text-muted-foreground">
                                     AI improvement rate
@@ -368,7 +368,7 @@ export default function AnalyticsPageEnhanced() {
                                             />
                                             <YAxis />
                                             <Tooltip
-                                                formatter={(value, name) => [
+                                                formatter={(value) => [
                                                     value,
                                                     "Failures",
                                                 ]}
@@ -441,7 +441,7 @@ export default function AnalyticsPageEnhanced() {
                                                 )}
                                             </Pie>
                                             <Tooltip
-                                                formatter={(value, name) => [
+                                                formatter={(value) => [
                                                     value,
                                                     "Count",
                                                 ]}
@@ -621,34 +621,49 @@ export default function AnalyticsPageEnhanced() {
                                 </div>
                             </div>
 
-                            {(metrics as any)?.effectiveness_by_type && (
+                            {metricsData?.effectiveness_by_type ? (
                                 <div className="mt-6">
                                     <h4 className="font-medium mb-3">
                                         Effectiveness by Error Type
                                     </h4>
                                     <div className="space-y-2">
                                         {Object.entries(
-                                            (metrics as any)
-                                                .effectiveness_by_type
-                                        ).map(([type, data]: [string, any]) => (
-                                            <div
-                                                key={type}
-                                                className="flex items-center justify-between"
+                                            metricsData.effectiveness_by_type as Record<
+                                                string,
+                                                unknown
                                             >
-                                                <span className="text-sm">
-                                                    {type}
-                                                </span>
-                                                <Badge variant="outline">
-                                                    {Math.round(
-                                                        data.approval_rate * 100
-                                                    )}
-                                                    % success rate
-                                                </Badge>
-                                            </div>
-                                        ))}
+                                        ).map(
+                                            ([type, data]: [
+                                                string,
+                                                unknown
+                                            ]) => {
+                                                const dataObj = data as Record<
+                                                    string,
+                                                    unknown
+                                                >;
+                                                return (
+                                                    <div
+                                                        key={type}
+                                                        className="flex items-center justify-between"
+                                                    >
+                                                        <span className="text-sm">
+                                                            {type}
+                                                        </span>
+                                                        <Badge variant="outline">
+                                                            {Math.round(
+                                                                Number(
+                                                                    dataObj.approval_rate
+                                                                ) * 100
+                                                            )}
+                                                            % success rate
+                                                        </Badge>
+                                                    </div>
+                                                );
+                                            }
+                                        )}
                                     </div>
                                 </div>
-                            )}
+                            ) : null}
                         </CardContent>
                     </Card>
                 </div>

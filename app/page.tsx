@@ -1,20 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Marquee } from "@/components/ui/marquee";
 import { Navbar } from "@/components/Navbar";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const useCountAnimation = (
     end: number,
@@ -280,7 +272,7 @@ const TestimonialCard = ({
                             : "text-gray-600 dark:text-gray-300"
                     }`}
                 >
-                    "{testimonial.content}"
+                    &ldquo;{testimonial.content}&rdquo;
                 </p>
             </CardContent>
         </Card>
@@ -312,24 +304,6 @@ export default function HomePage() {
         },
     };
 
-    const cardVariants = {
-        hidden: { y: 30, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1,
-        },
-        hover: {
-            y: -5,
-        },
-    };
-
-    const statsVariants = {
-        hidden: { scale: 0.95, opacity: 0 },
-        visible: {
-            scale: 1,
-            opacity: 1,
-        },
-    };
     return (
         <>
             <Navbar />

@@ -12,11 +12,9 @@ import {
     IconFolder,
     IconHelp,
     IconInnerShadowTop,
-    IconListDetails,
     IconReport,
     IconSearch,
     IconSettings,
-    IconUsers,
 } from "@tabler/icons-react";
 
 import { NavDocuments } from "@/components/nav-documents";

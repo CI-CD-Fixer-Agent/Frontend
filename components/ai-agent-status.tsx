@@ -15,11 +15,9 @@ import {
     Brain,
     Cpu,
     Activity,
-    Zap,
     CheckCircle,
     AlertTriangle,
     RefreshCw,
-    Settings,
     Loader2,
 } from "lucide-react";
 import { useHealth, useAnalytics } from "@/hooks/use-api";
@@ -155,15 +153,20 @@ export function AIAgentStatus() {
         const databaseStatus =
             health.services?.database === "healthy" ? "active" : "error";
 
-        const totalFixes =
-            (analytics as any)?.statistics?.overall_stats?.total_fixes ||
-            (analytics as any)?.total_fixes_generated ||
-            0;
+        const analyticsData = analytics as Record<string, unknown> | undefined;
+        const statsData = (
+            analyticsData?.statistics as Record<string, unknown> | undefined
+        )?.overall_stats as Record<string, unknown> | undefined;
 
-        const approvedFixes =
-            (analytics as any)?.statistics?.overall_stats?.approved_fixes ||
-            (analytics as any)?.total_fixes_approved ||
-            0;
+        const totalFixes = Number(
+            statsData?.total_fixes || analyticsData?.total_fixes_generated || 0
+        );
+
+        const approvedFixes = Number(
+            statsData?.approved_fixes ||
+                analyticsData?.total_fixes_approved ||
+                0
+        );
 
         const successRate =
             totalFixes > 0 ? Math.round((approvedFixes / totalFixes) * 100) : 0;

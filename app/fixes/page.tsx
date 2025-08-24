@@ -98,7 +98,7 @@ export default function FixesPage() {
     const handleApplyFix = async (fixId: string) => {
         setProcessingFixes((prev) => new Set(prev).add(fixId));
         try {
-            const response = await api.applyFix(fixId);
+            await api.applyFix(fixId);
             refresh();
             toast.success("Fix has been applied successfully!");
         } catch (error) {

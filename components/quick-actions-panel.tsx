@@ -17,7 +17,6 @@ import {
     Search,
     Settings,
     Download,
-    Upload,
     TestTube,
 } from "lucide-react";
 import { api } from "@/lib/api";

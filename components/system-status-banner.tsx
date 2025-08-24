@@ -17,7 +17,7 @@ import { useHealth } from "@/hooks/use-api";
 import { cn } from "@/lib/utils";
 
 export function SystemStatusBanner() {
-    const { health, isLoading, error, refresh, isHealthy } = useHealth();
+    const { health, isLoading, refresh, isHealthy } = useHealth();
 
     const getServiceIcon = (service: string) => {
         switch (service) {

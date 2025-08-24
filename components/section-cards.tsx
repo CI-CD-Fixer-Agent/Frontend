@@ -20,8 +20,7 @@ import {
 } from "lucide-react";
 
 export function SectionCards() {
-    const { dashboard, summary, recentActivity, isLoading, error } =
-        useDashboard();
+    const { summary, isLoading, error } = useDashboard();
 
     if (isLoading) {
         return (
