@@ -153,7 +153,6 @@ export function AIAgentStatus() {
     const { dashboard, isLoading: dashboardLoading } = useDashboard();
 
     const getAgentData = React.useMemo((): AgentMetrics[] => {
-        // Default error state data
         if (!health || healthError) {
             return [
                 {
@@ -215,20 +214,17 @@ export function AIAgentStatus() {
             ];
         }
 
-        // Calculate real data from API responses
         const geminiStatus =
             health.services?.gemini_api === "available" ? "active" : "error";
         const databaseStatus =
             health.services?.database === "connected" ? "active" : "error";
         const apiStatus = health.status === "healthy" ? "active" : "error";
 
-        // Get task count from dashboard data
         const summary = dashboard?.summary;
-        const totalTasks = summary?.total_failures || 17; // Fallback to known value
+        const totalTasks = summary?.total_failures || 17;
         const approvedFixes = summary?.approved_fixes || 4;
 
-        // Calculate success rate with bounds checking
-        let successRate = 41; // Default to known good value
+        let successRate = 41;
         if (totalTasks > 0 && approvedFixes >= 0) {
             const calculated = (approvedFixes / totalTasks) * 100;
             if (calculated >= 0 && calculated <= 100 && !isNaN(calculated)) {
@@ -289,7 +285,7 @@ export function AIAgentStatus() {
                 name: "API Gateway",
                 version: "api • vFastAPI 0.104",
                 status: apiStatus,
-                tasksProcessed: totalTasks * 2, // API handles more requests
+                tasksProcessed: totalTasks * 2,
                 successRate: apiStatus === "active" ? 99 : 0,
                 avgResponseTime: apiStatus === "active" ? "120ms" : "N/A",
                 lastActivity: lastActivity,
@@ -362,7 +358,6 @@ export function AIAgentStatus() {
                     ))}
                 </div>
 
-                {/* Overall System Health */}
                 <div
                     className={`mt-6 p-4 rounded-lg border ${
                         isSystemHealthy

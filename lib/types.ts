@@ -1,6 +1,3 @@
-// TypeScript types for CI/CD Fixer Agent API
-
-// Common types
 export interface APIResponse {
     message: string;
 }
@@ -63,7 +60,7 @@ export interface FailureDetailResponse {
 // Fix Types
 export interface Fix {
     id: string;
-    repository?: string; // Computed from owner/repo_name
+    repository?: string;
     owner?: string;
     repo_name?: string;
     run_id?: string;
@@ -79,7 +76,7 @@ export interface Fix {
         | "applying"
         | "applied"
         | "application_failed"
-        | "approved_application_failed"; // Mapped from fix_status
+        | "approved_application_failed";
     fix_status?:
         | "pending"
         | "pending_approval"
@@ -88,7 +85,7 @@ export interface Fix {
         | "applying"
         | "applied"
         | "application_failed"
-        | "approved_application_failed"; // Raw API field
+        | "approved_application_failed";
     pr_url?: string;
     fix_branch?: string;
     fix_error?: string;
@@ -118,7 +115,6 @@ export interface DashboardSummary {
     avg_resolution_time: number;
     active_agents: number;
     processing_time_avg: string;
-    // Add the actual API structure
     key_metrics?: {
         total_repos_analyzed: number;
         total_failures_processed: number;
@@ -197,7 +193,6 @@ export interface EffectivenessMetrics {
         weekly_improvement: number;
         learning_velocity: string;
     };
-    // Add the actual API structure
     statistics?: {
         overall_stats: {
             total_fixes: number;
@@ -212,7 +207,6 @@ export interface EffectivenessMetrics {
 export interface EffectivenessResponse {
     message: string;
     metrics: EffectivenessMetrics;
-    // Add the actual API structure
     statistics?: {
         overall_stats: {
             total_fixes: number;

@@ -62,7 +62,6 @@ export default function SettingsPage() {
             <SidebarInset>
                 <SiteHeader />
                 <div className="flex flex-1 flex-col gap-4 p-4 lg:p-6">
-                    {/* Header */}
                     <div className="flex items-center justify-between">
                         <div>
                             <h1 className="text-3xl font-bold">Settings</h1>
@@ -78,7 +77,6 @@ export default function SettingsPage() {
                     </div>
 
                     <div className="grid gap-6">
-                        {/* Profile Settings */}
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
@@ -137,7 +135,6 @@ export default function SettingsPage() {
                             </CardContent>
                         </Card>
 
-                        {/* Notification Settings */}
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
@@ -225,7 +222,6 @@ export default function SettingsPage() {
                             </CardContent>
                         </Card>
 
-                        {/* AI Agent Settings */}
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
@@ -332,7 +328,6 @@ export default function SettingsPage() {
                             </CardContent>
                         </Card>
 
-                        {/* GitHub Integration */}
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
@@ -403,7 +398,6 @@ export default function SettingsPage() {
                             </CardContent>
                         </Card>
 
-                        {/* Database & Security */}
                         <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">

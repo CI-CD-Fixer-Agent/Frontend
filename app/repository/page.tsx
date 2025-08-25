@@ -105,7 +105,6 @@ function RepositoryDetailModal({
             </DialogHeader>
 
             <div className="space-y-6">
-                {/* Key Metrics */}
                 <div className="grid gap-4 md:grid-cols-3">
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -180,7 +179,6 @@ function RepositoryDetailModal({
                     </Card>
                 </div>
 
-                {/* Workflow Failures */}
                 {profile.most_failing_workflows &&
                     Object.keys(profile.most_failing_workflows).length > 0 && (
                         <Card>
@@ -221,7 +219,6 @@ function RepositoryDetailModal({
                         </Card>
                     )}
 
-                {/* Recommendations */}
                 {profile.recommendations &&
                     profile.recommendations.length > 0 && (
                         <Card>
@@ -261,7 +258,6 @@ function RepositoryDetailModal({
 export default function RepositoryAnalyticsPage() {
     const { failures, isLoading } = useFailures();
 
-    // Extract unique repositories from failures
     const repositories = failures.reduce((acc, failure) => {
         const repoKey = `${failure.owner}/${failure.repo_name}`;
         if (!acc.find((r) => r.key === repoKey)) {
@@ -269,13 +265,13 @@ export default function RepositoryAnalyticsPage() {
                 key: repoKey,
                 owner: failure.owner,
                 repo: failure.repo_name,
-                // Count failures for this repo
+
                 failureCount: failures.filter(
                     (f) =>
                         f.owner === failure.owner &&
                         f.repo_name === failure.repo_name
                 ).length,
-                // Get latest failure date
+
                 lastFailure: failures
                     .filter(
                         (f) =>
@@ -305,7 +301,6 @@ export default function RepositoryAnalyticsPage() {
             <SidebarInset>
                 <SiteHeader />
                 <div className="flex-1 p-3 sm:p-4 lg:p-6 space-y-4 sm:space-y-6">
-                    {/* Page Header */}
                     <div>
                         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
                             Repository Analytics
@@ -316,7 +311,6 @@ export default function RepositoryAnalyticsPage() {
                         </p>
                     </div>
 
-                    {/* Loading State */}
                     {isLoading && (
                         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                             {[...Array(3)].map((_, i) => (
@@ -334,7 +328,6 @@ export default function RepositoryAnalyticsPage() {
                         </div>
                     )}
 
-                    {/* Repository Cards */}
                     {!isLoading && repositories.length > 0 && (
                         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                             {repositories.map((repo) => (
@@ -414,7 +407,6 @@ export default function RepositoryAnalyticsPage() {
                         </div>
                     )}
 
-                    {/* Empty State */}
                     {!isLoading && repositories.length === 0 && (
                         <Card>
                             <CardContent className="pt-6">

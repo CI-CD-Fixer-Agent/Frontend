@@ -45,7 +45,6 @@ export function PendingFixesComponent() {
     const [comment, setComment] = React.useState("");
     const [dialogOpen, setDialogOpen] = React.useState(false);
 
-    // Use only real API data - no mock data
     const displayFixes = fixes || [];
 
     const handleApprove = async (fixId: string, comment?: string) => {

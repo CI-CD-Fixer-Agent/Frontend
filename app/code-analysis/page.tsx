@@ -139,16 +139,18 @@ function IssueCard({ issue }: { issue: CodeIssue }) {
                 </div>
 
                 <div className="flex gap-2">
-                    <Button variant="outline" size="sm" className="flex-1">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex-1"
+                        onClick={() => {
+                            const githubUrl = `https://github.com/${issue.repository}/blob/main/${issue.file}#L${issue.line}`;
+                            window.open(githubUrl, "_blank");
+                        }}
+                    >
                         <Eye className="h-3 w-3 mr-2" />
                         View Code
                     </Button>
-                    {issue.fixAvailable && (
-                        <Button size="sm" className="flex-1">
-                            <Zap className="h-3 w-3 mr-2" />
-                            Apply Fix
-                        </Button>
-                    )}
                 </div>
             </CardContent>
         </Card>
@@ -268,12 +270,21 @@ export default function CodeAnalysisPage() {
         const mockIssues: CodeIssue[] = [];
 
         failures?.forEach((failure: any, index: number) => {
+            const files = [
+                "src/broken_app.py",
+                "src/api_client.py",
+                "src/data_processor.py",
+                "src/web_scraper.py",
+                "src/database_manager.js",
+                "src/broken-app.js",
+            ];
             const languages = [
                 "Python",
+                "Python",
+                "Python",
+                "Python",
                 "JavaScript",
-                "TypeScript",
-                "Go",
-                "Java",
+                "JavaScript",
             ];
             const types: Array<
                 "security" | "performance" | "syntax" | "style" | "logic"
@@ -285,6 +296,7 @@ export default function CodeAnalysisPage() {
                 "low",
             ];
 
+            const fileIndex = index % files.length;
             mockIssues.push({
                 id: `issue-${index}`,
                 type: types[index % types.length],
@@ -295,12 +307,12 @@ export default function CodeAnalysisPage() {
                 description: `Analysis of workflow failure in ${
                     failure.repo_name || "repository"
                 }`,
-                file: `src/main.${languages[
-                    index % languages.length
-                ].toLowerCase()}`,
+                file: files[fileIndex],
                 line: Math.floor(Math.random() * 200) + 1,
-                repository: failure.repo_name || "unknown/repo",
-                language: languages[index % languages.length],
+                repository: failure.repo_name?.includes("/")
+                    ? failure.repo_name
+                    : `chaitanyak175/${failure.repo_name || "ci-cd-test-repo"}`,
+                language: languages[fileIndex],
                 fixAvailable: Math.random() > 0.3,
                 estimatedFixTime: `${Math.floor(Math.random() * 30) + 5}min`,
             });
@@ -309,7 +321,6 @@ export default function CodeAnalysisPage() {
         return mockIssues.slice(0, 12);
     }, [failures]);
 
-    // Generate analysis patterns from API data
     const analysisPatterns: AnalysisPattern[] = React.useMemo(() => {
         const patternData = patterns || {};
         const errorTypes = errorDistribution || {};
@@ -533,7 +544,6 @@ export default function CodeAnalysisPage() {
                         </Card>
                     </div>
 
-                    {/* Main Content Tabs */}
                     <Tabs defaultValue="issues" className="space-y-4">
                         <TabsList className="grid w-full grid-cols-4">
                             <TabsTrigger value="issues">

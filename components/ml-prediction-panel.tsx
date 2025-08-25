@@ -104,7 +104,6 @@ export function MLPredictionPanel() {
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-                {/* Input Form */}
                 <div className="grid gap-4">
                     <div>
                         <Label htmlFor="error-log">Error Log</Label>
@@ -180,7 +179,6 @@ export function MLPredictionPanel() {
                     </Button>
                 </div>
 
-                {/* Error Display */}
                 {error && (
                     <div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded p-3">
                         <div className="flex items-start gap-2">
@@ -192,7 +190,6 @@ export function MLPredictionPanel() {
                     </div>
                 )}
 
-                {/* Results */}
                 {prediction && (
                     <div className="space-y-4 pt-4 border-t">
                         <h4 className="font-medium flex items-center gap-2">
@@ -200,7 +197,6 @@ export function MLPredictionPanel() {
                             Prediction Results
                         </h4>
 
-                        {/* Key Metrics */}
                         <div className="grid gap-4 md:grid-cols-2">
                             <div className="text-center p-4 bg-gray-50 dark:bg-gray-800/50 rounded">
                                 <div
@@ -231,7 +227,6 @@ export function MLPredictionPanel() {
                             </div>
                         </div>
 
-                        {/* Reasoning */}
                         {prediction.reasoning &&
                             prediction.reasoning.length > 0 && (
                                 <div>
@@ -254,7 +249,6 @@ export function MLPredictionPanel() {
                                 </div>
                             )}
 
-                        {/* Risk Factors */}
                         {prediction.risk_factors &&
                             prediction.risk_factors.length > 0 && (
                                 <div>
@@ -277,7 +271,6 @@ export function MLPredictionPanel() {
                                 </div>
                             )}
 
-                        {/* Recommendations */}
                         {prediction.recommendations &&
                             prediction.recommendations.length > 0 && (
                                 <div>
@@ -300,7 +293,6 @@ export function MLPredictionPanel() {
                                 </div>
                             )}
 
-                        {/* Success Rate Interpretation */}
                         <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded">
                             <h5 className="font-medium mb-2">Interpretation</h5>
                             <p className="text-sm text-muted-foreground">

@@ -16,7 +16,6 @@ const API_BASE_URL =
     process.env.NEXT_PUBLIC_API_URL ||
     "https://ci-cd-fixer-agent-backend.onrender.com";
 
-// API Client
 class APIClient {
     private baseURL: string;
 
@@ -119,14 +118,12 @@ class APIClient {
             this.request<any>("/failures?limit=5"),
         ]);
 
-        // Transform the backend response to match frontend expectations
         const fixStats =
             dashboardResponse.dashboard?.fix_effectiveness?.overall_stats || {};
         const failurePatterns =
             dashboardResponse.dashboard?.failure_patterns || {};
         const keyMetrics = dashboardResponse.dashboard?.key_metrics || {};
 
-        // Transform recent failures into recent activity
         const recentActivity = (recentFailures.failures || []).map(
             (failure: any) => ({
                 id: failure.id.toString(),
@@ -152,9 +149,9 @@ class APIClient {
                     active_fixes: fixStats.pending_fixes || 0,
                     pending_fixes: fixStats.pending_fixes || 0,
                     approved_fixes: fixStats.approved_fixes || 0,
-                    success_rate: (fixStats.approval_rate || 0) * 100, // Convert to percentage
-                    avg_resolution_time: 0, // Will be calculated from real data when available
-                    active_agents: 1, // Based on health check response
+                    success_rate: (fixStats.approval_rate || 0) * 100,
+                    avg_resolution_time: 0,
+                    active_agents: 1,
                     processing_time_avg: "Real-time",
                 },
                 recent_activity: recentActivity,
@@ -258,7 +255,6 @@ class APIClient {
 
 export const apiClient = new APIClient();
 
-// Export individual API functions for use with SWR
 export const api = {
     getHealth: () => apiClient.getHealth(),
     getFailures: (params?: Parameters<typeof apiClient.getFailures>[0]) =>

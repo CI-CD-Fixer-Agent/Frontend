@@ -52,21 +52,17 @@ function convertFailureToWorkflow(
         (currentTime - createdAt.getTime()) / (1000 * 60)
     );
 
-    // Use workflow ID as seed for deterministic variety
     const workflowSeed =
         parseInt(String(failure.id)) || parseInt(String(failure.run_id)) || 1;
     const baseVariation = (workflowSeed % 25) + 10; // 10-35% base variation
 
-    // Calculate deterministic progress based on time elapsed and fix_status
     let progress = 0;
     let status: WorkflowActivity["status"] = "pending";
     let estimatedCompletion = "";
 
     switch (failure.fix_status) {
         case "pending":
-            // Simulate progression: analyzing -> fixing based on progress
             if (diffMinutes > 60 && progress > 85) {
-                // After 1 hour with high progress, simulate moving to fixing
                 status = "fixing";
                 progress = Math.min(
                     98,
@@ -75,17 +71,14 @@ function convertFailureToWorkflow(
                 estimatedCompletion = "1-2 minutes";
             } else {
                 status = "analyzing";
-                // More realistic progress for long-running workflows
+
                 if (diffMinutes < 5) {
-                    // First 5 minutes: 15-45%
                     progress = Math.floor(15 + baseVariation + diffMinutes * 4);
                 } else if (diffMinutes < 30) {
-                    // Next 25 minutes: 45-75%
                     progress = Math.floor(
                         45 + baseVariation + (diffMinutes - 5) * 1.2
                     );
                 } else {
-                    // After 30 minutes: 75-95% (slow progress)
                     const slowProgress = Math.min(
                         95,
                         75 + baseVariation + (diffMinutes - 30) * 0.3
@@ -104,7 +97,7 @@ function convertFailureToWorkflow(
 
         case "generated":
             status = "fixing";
-            // Progress for fixing phase: starts higher, advances faster
+
             if (diffMinutes < 2) {
                 progress = Math.floor(70 + baseVariation);
             } else {
@@ -131,7 +124,6 @@ function convertFailureToWorkflow(
 
         default:
             status = "analyzing";
-            // For unknown status, use time-based progress with more variety
             if (diffMinutes < 10) {
                 progress = Math.floor(20 + baseVariation + diffMinutes * 2);
             } else {
@@ -144,7 +136,6 @@ function convertFailureToWorkflow(
             estimatedCompletion = "2-5 minutes";
     }
 
-    // Calculate relative time display
     let timeAgo = "";
     if (diffMinutes < 1) {
         timeAgo = "Just now";
@@ -163,8 +154,8 @@ function convertFailureToWorkflow(
         repository: `${failure.owner}/${failure.repo_name}`,
         workflow: `🔴 ${failure.workflow_name || "CI Pipeline"}`,
         status,
-        branch: "main", // Default since API doesn't provide branch
-        commit: String(failure.run_id).slice(-7), // Use last 7 digits of run_id
+        branch: "main",
+        commit: String(failure.run_id).slice(-7),
         startTime: timeAgo,
         estimatedCompletion,
         progress,

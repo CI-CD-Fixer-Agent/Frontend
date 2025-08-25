@@ -107,7 +107,6 @@ function RepositoryDetailsDialog({ repo }: { repo: GitHubRepo }) {
             </DialogHeader>
 
             <div className="space-y-6">
-                {/* Repository Status */}
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         {getStatusIcon(repo.status)}
@@ -118,7 +117,6 @@ function RepositoryDetailsDialog({ repo }: { repo: GitHubRepo }) {
                     </Badge>
                 </div>
 
-                {/* Stats Grid */}
                 <div className="grid grid-cols-2 gap-4">
                     <Card>
                         <CardContent className="p-4">
@@ -185,7 +183,6 @@ function RepositoryDetailsDialog({ repo }: { repo: GitHubRepo }) {
                     </Card>
                 </div>
 
-                {/* Repository Information */}
                 <div className="space-y-4">
                     <h3 className="font-semibold flex items-center gap-2">
                         <Calendar className="h-4 w-4" />
@@ -227,7 +224,6 @@ function RepositoryDetailsDialog({ repo }: { repo: GitHubRepo }) {
                     </div>
                 </div>
 
-                {/* Quick Actions */}
                 <div className="flex gap-2 pt-4">
                     <Button
                         variant="default"
@@ -333,7 +329,6 @@ function RepositoryCard({ repo }: { repo: GitHubRepo }) {
                         size="sm"
                         className="flex-1"
                         onClick={() => {
-                            // Open GitHub repository in new tab
                             window.open(
                                 `https://github.com/${repo.owner}/${repo.name}`,
                                 "_blank"
@@ -441,10 +436,8 @@ export default function GitHubIntegrationPage() {
     const { health } = useHealth();
     const { failures } = useFailures({ limit: 100 });
 
-    // Transform API data into repository cards
     const repositories: GitHubRepo[] = React.useMemo(() => {
         if (!topFailingRepos || topFailingRepos.length === 0) {
-            // Fallback data from failures if topFailingRepos is empty
             const repoMap = new Map<string, GitHubRepo>();
 
             failures?.forEach((failure: any) => {
@@ -537,7 +530,6 @@ export default function GitHubIntegrationPage() {
             <SidebarInset>
                 <SiteHeader />
                 <div className="flex flex-1 flex-col gap-3 p-3 sm:gap-4 sm:p-4 lg:p-6 bg-background dark:bg-gray-950/30">
-                    {/* Header */}
                     <div className="flex items-center justify-between">
                         <div>
                             <h1 className="text-2xl font-bold">
@@ -554,7 +546,6 @@ export default function GitHubIntegrationPage() {
                         </Button>
                     </div>
 
-                    {/* Integration Stats */}
                     <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-4">
                         <Card>
                             <CardContent className="p-4">
@@ -629,7 +620,6 @@ export default function GitHubIntegrationPage() {
                         </Card>
                     </div>
 
-                    {/* Webhook Status */}
                     <div className="grid gap-3 sm:gap-4 lg:grid-cols-3">
                         <div className="lg:col-span-1">
                             <WebhookStatusCard webhook={webhookStatus} />
@@ -688,7 +678,6 @@ export default function GitHubIntegrationPage() {
                         </div>
                     </div>
 
-                    {/* Connected Repositories */}
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">

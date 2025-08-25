@@ -248,7 +248,6 @@ export function RealTimeAnalytics() {
         error: dashboardError,
     } = useDashboard();
 
-    // Debug: Log the actual API responses to understand the data structure
     React.useEffect(() => {
         if (analytics) {
             console.log("Analytics data:", analytics);
@@ -288,7 +287,6 @@ export function RealTimeAnalytics() {
         );
     }
 
-    // Try to get success rate from different possible locations with type casting
     const analyticsData = analytics as Record<string, unknown> | undefined;
     const statsData = (
         analyticsData?.statistics as Record<string, unknown> | undefined
@@ -301,7 +299,6 @@ export function RealTimeAnalytics() {
             0
     );
 
-    // Get active repositories count from various possible sources with type casting
     const dashboardData = dashboard as Record<string, unknown> | undefined;
     const dashboardSummary = dashboardData?.summary as
         | Record<string, unknown>
@@ -314,7 +311,6 @@ export function RealTimeAnalytics() {
             0
     );
 
-    // Convert recent activity to the expected format with better fallbacks
     const formattedActivities: Activity[] = (recentActivity || [])
         .slice(0, 5)
         .map((activity, index: number) => {
@@ -342,7 +338,6 @@ export function RealTimeAnalytics() {
 
     return (
         <div className="space-y-6">
-            {/* Key Metrics */}
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <MetricCard
                     title="Total Failures"
@@ -370,7 +365,6 @@ export function RealTimeAnalytics() {
                 />
             </div>
 
-            {/* Success Rate Progress */}
             <SuccessRateProgress
                 successRate={Math.round(successRate)}
                 totalRuns={
@@ -384,7 +378,6 @@ export function RealTimeAnalytics() {
                 )}
             />
 
-            {/* Recent Activity */}
             <Card>
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2">

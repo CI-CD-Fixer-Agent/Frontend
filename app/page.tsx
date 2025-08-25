@@ -37,7 +37,6 @@ const useCountAnimation = (
                 1
             );
 
-            // Easing function for smooth animation
             const easeOutQuart = 1 - Math.pow(1 - progress, 4);
             const currentCount = Math.floor(easeOutQuart * end);
 
@@ -105,7 +104,6 @@ const features: featureProps[] = [
     },
 ];
 
-// Animated counter component for stats
 const AnimatedStatNumber = ({
     stat,
     delay,
@@ -223,7 +221,6 @@ const testimonials = [
     },
 ];
 
-// Split testimonials for marquee rows
 const firstRow = testimonials.slice(0, testimonials.length / 2);
 const secondRow = testimonials.slice(testimonials.length / 2);
 
@@ -308,16 +305,14 @@ export default function HomePage() {
         <>
             <Navbar />
             <div>
-                {/* Modern Hero Section */}
+                {/* Hero Section */}
                 <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-gray-100 dark:from-slate-900 dark:via-slate-800 dark:to-gray-900 md:pb-0 pb-10 md:pt-0 pt-4">
-                    {/* Background Elements */}
                     <div className="absolute inset-0 w-full h-full">
                         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_25%_25%,rgba(59,130,246,0.1),transparent_70%)]"></div>
                         <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(circle_at_75%_75%,rgba(16,185,129,0.1),transparent_70%)]"></div>
                         <div className="absolute top-1/2 left-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(99,102,241,0.05),transparent_70%)]"></div>
                     </div>
 
-                    {/* Simple floating elements */}
                     <motion.div
                         className="absolute top-20 left-20 w-20 h-20 bg-blue-500/20 rounded-full blur-xl"
                         animate={{
@@ -418,10 +413,8 @@ export default function HomePage() {
                                     href="/dashboard"
                                     className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl shadow-xl hover:shadow-blue-500/25 transition-all duration-300 group relative overflow-hidden"
                                 >
-                                    {/* Simple gradient overlay on hover */}
                                     <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                                    {/* Subtle shimmer effect */}
                                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
 
                                     <span className="relative z-10 flex items-center">
@@ -453,7 +446,6 @@ export default function HomePage() {
                             </motion.div>
                         </motion.div>
 
-                        {/* Trust Indicators */}
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -626,7 +618,6 @@ export default function HomePage() {
                                 <Card className="h-full hover:shadow-2xl transition-all duration-300 border border-slate-200/30 bg-gradient-to-br from-white via-blue-50/20 to-slate-50/20 dark:from-gray-900 dark:to-gray-800/50 backdrop-blur-sm group-hover:bg-gradient-to-br group-hover:from-blue-50/40 group-hover:to-slate-50/40 dark:group-hover:from-slate-800/20 dark:group-hover:to-blue-950/20 overflow-hidden relative">
                                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-500/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
 
-                                    {/* Animated background overlay on hover */}
                                     <motion.div
                                         className="absolute inset-0 bg-gradient-to-br from-blue-400/10 to-emerald-400/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                                         initial={false}
@@ -653,7 +644,6 @@ export default function HomePage() {
                                         </p>
                                     </CardContent>
 
-                                    {/* Decorative corner elements */}
                                     <motion.div
                                         className="absolute top-3 right-3 w-2 h-2 bg-blue-400/40 rounded-full opacity-0 group-hover:opacity-100"
                                         initial={false}
@@ -672,14 +662,12 @@ export default function HomePage() {
                         ))}
                     </motion.div>
                 </motion.section>
-                {/* Stats Section - Empowering Learners Worldwide */}
                 <motion.section
                     className="relative py-20 w-full overflow-hidden bg-gradient-to-br from-slate-800 to-blue-900 text-white"
                     initial="hidden"
                     animate={isVisible ? "visible" : "hidden"}
                     variants={containerVariants}
                 >
-                    {/* Enhanced Animated Decorative Background Shapes */}
                     <motion.div
                         className="absolute -top-16 left-1/2 w-[60rem] h-[60rem] bg-blue-500/20 rounded-full blur-3xl transform -translate-x-1/2"
                         animate={{
@@ -721,7 +709,7 @@ export default function HomePage() {
                             ease: "easeInOut",
                         }}
                     />
-                    {/* Floating geometric shapes */}
+
                     <motion.div
                         className="absolute top-20 right-20 w-4 h-4 bg-emerald-300/40 rounded"
                         animate={{
@@ -876,7 +864,6 @@ export default function HomePage() {
                                     }}
                                     whileTap={{ scale: 0.95 }}
                                 >
-                                    {/* Animated background overlay on hover */}
                                     <motion.div
                                         className="absolute inset-0 bg-gradient-to-br from-emerald-400/20 to-blue-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                                         initial={false}
@@ -919,7 +906,6 @@ export default function HomePage() {
                                         {stat.label}
                                     </motion.div>
 
-                                    {/* Decorative corner elements */}
                                     <motion.div
                                         className="absolute top-2 right-2 w-2 h-2 bg-emerald-400/40 rounded-full opacity-0 group-hover:opacity-100"
                                         initial={false}
@@ -952,7 +938,6 @@ export default function HomePage() {
                                 whileTap={{ scale: 0.95 }}
                                 className="relative group"
                             >
-                                {/* Enhanced glowing border effect */}
                                 <motion.div
                                     className="absolute -inset-1 bg-gradient-to-r from-emerald-400 via-blue-400 to-emerald-400 rounded-lg opacity-60 group-hover:opacity-100 blur-sm transition-all duration-500"
                                     animate={{
@@ -976,7 +961,6 @@ export default function HomePage() {
                                     href="/courses"
                                     className="relative inline-flex items-center px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg overflow-hidden"
                                 >
-                                    {/* Shimmer effect */}
                                     <motion.div
                                         className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -skew-x-12 -translate-x-full"
                                         animate={{
@@ -990,7 +974,6 @@ export default function HomePage() {
                                         }}
                                     />
 
-                                    {/* Pulsing background */}
                                     <motion.div
                                         className="absolute inset-0 bg-emerald-400/30"
                                         animate={{
@@ -1025,7 +1008,7 @@ export default function HomePage() {
                         </motion.div>
                     </motion.div>
                 </motion.section>
-                {/* Enhanced Testimonials Section with Marquee */}
+                {/* Testimonials Section with Marquee */}
                 <motion.section
                     className="py-20 w-full mb-20 overflow-hidden bg-gradient-to-br from-blue-50/50 via-slate-50/30 to-emerald-50/50 dark:from-blue-950/20 dark:via-slate-950/10 dark:to-emerald-950/20"
                     initial="hidden"
@@ -1092,7 +1075,7 @@ export default function HomePage() {
                         <div className="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-background"></div>
                     </motion.div>
                 </motion.section>
-                {/* Enhanced CTA Section */}
+                {/* CTA Section */}
                 <motion.section
                     className="py-24 text-center bg-gradient-to-br from-slate-900 via-blue-900 to-emerald-900 dark:from-black dark:via-blue-950 dark:to-emerald-950 relative overflow-hidden"
                     initial="hidden"
@@ -1109,7 +1092,7 @@ export default function HomePage() {
                         },
                     }}
                 >
-                    {/* Enhanced Background Effects */}
+                    {/* Background Effects */}
                     <div className="absolute inset-0">
                         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_25%_25%,rgba(59,130,246,0.4),transparent_70%)]"></div>
                         <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(circle_at_75%_75%,rgba(16,185,129,0.4),transparent_70%)]"></div>
@@ -1174,7 +1157,6 @@ export default function HomePage() {
                                 whileTap={{ scale: 0.95 }}
                                 className="relative group"
                             >
-                                {/* <div className="absolute -inset-px bg-gradient-to-r from-blue-500 via-emerald-500 to-slate-500 rounded-2xl opacity-75 group-hover:opacity-100 transition-all duration-500 blur-sm group-hover:blur-none"></div> */}
                                 <Link
                                     href="/dashboard"
                                     className="relative inline-flex items-center justify-center px-5 md:px-10 py-5 md:py-5 text-xl font-bold text-white bg-gradient-to-r from-blue-600 via-emerald-600 to-slate-600 rounded-2xl shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 overflow-hidden group"

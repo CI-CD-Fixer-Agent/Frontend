@@ -13,8 +13,6 @@ import {
     IconHelp,
     IconSettings,
     IconSearch,
-    IconActivity,
-    IconShield,
     IconCode,
 } from "@tabler/icons-react";
 

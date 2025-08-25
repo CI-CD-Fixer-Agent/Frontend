@@ -55,7 +55,6 @@ export default function FixesPage() {
     const [selectedFix, setSelectedFix] = useState<string | null>(null);
     const { fixes: apiFixes, error, isLoading: loading, refresh } = useFixes();
 
-    // Calculate statistics directly from API data
     const statistics = React.useMemo(() => {
         if (!apiFixes || apiFixes.length === 0) {
             return {
@@ -73,7 +72,6 @@ export default function FixesPage() {
             (acc: FixStatistics, fix: Fix) => {
                 acc.total++;
 
-                // Map new statuses to existing categories for statistics
                 const mappedStatus = (() => {
                     switch (fix.status) {
                         case "pending":
@@ -296,7 +294,6 @@ export default function FixesPage() {
                         </div>
                     </div>
 
-                    {/* Statistics Cards */}
                     <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
                         <Card>
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -369,7 +366,6 @@ export default function FixesPage() {
                         </Card>
                     )}
 
-                    {/* Fixes List */}
                     <div className="space-y-4">
                         {fixes.length === 0 ? (
                             <Card>
@@ -469,7 +465,6 @@ export default function FixesPage() {
                                             </pre>
                                         </div>
 
-                                        {/* Fix Application Status */}
                                         {(fix.status === "applied" ||
                                             fix.status === "applying" ||
                                             fix.status ===

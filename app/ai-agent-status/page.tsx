@@ -124,7 +124,6 @@ function AgentStatusCard({ agent }: { agent: AgentPerformance }) {
                 </div>
             </CardHeader>
             <CardContent className="space-y-4">
-                {/* Performance Metrics */}
                 <div className="grid grid-cols-2 gap-3 text-sm">
                     <div>
                         <p className="text-muted-foreground text-xs">
@@ -152,7 +151,6 @@ function AgentStatusCard({ agent }: { agent: AgentPerformance }) {
                     </div>
                 </div>
 
-                {/* Success Rate */}
                 <div>
                     <div className="flex justify-between text-sm mb-1">
                         <span className="text-muted-foreground">
@@ -180,7 +178,6 @@ function AgentStatusCard({ agent }: { agent: AgentPerformance }) {
                     />
                 </div>
 
-                {/* Resource Usage */}
                 <div className="space-y-2">
                     <div>
                         <div className="flex justify-between text-xs mb-1">
@@ -202,7 +199,6 @@ function AgentStatusCard({ agent }: { agent: AgentPerformance }) {
                     </div>
                 </div>
 
-                {/* Actions */}
                 <div className="flex gap-2">
                     <Button variant="outline" size="sm" className="flex-1">
                         <Settings className="h-3 w-3 mr-2" />
@@ -295,8 +291,7 @@ export default function AIAgentStatusPage() {
                 0
         );
 
-        // Calculate success rate with proper bounds checking
-        let successRate = 41; // Default to known good value
+        let successRate = 41;
         if (totalFixes > 0 && approvedFixes >= 0) {
             const calculated = (approvedFixes / totalFixes) * 100;
             if (calculated >= 0 && calculated <= 100 && !isNaN(calculated)) {
@@ -323,8 +318,8 @@ export default function AIAgentStatusPage() {
                     ? new Date(health.timestamp).toLocaleTimeString()
                     : "Unknown",
                 memoryUsage:
-                    health?.services?.gemini_api === "available" ? 68 : 0, // Fixed realistic value
-                cpuUsage: health?.services?.gemini_api === "available" ? 31 : 0, // Fixed realistic value
+                    health?.services?.gemini_api === "available" ? 68 : 0,
+                cpuUsage: health?.services?.gemini_api === "available" ? 31 : 0,
                 version: baseVersion,
                 icon: Brain,
                 color: "bg-blue-500",
@@ -347,8 +342,8 @@ export default function AIAgentStatusPage() {
                     ? new Date(health.timestamp).toLocaleTimeString()
                     : "Unknown",
                 memoryUsage:
-                    health?.services?.gemini_api === "available" ? 44 : 0, // Fixed realistic value
-                cpuUsage: health?.services?.gemini_api === "available" ? 12 : 0, // Fixed realistic value
+                    health?.services?.gemini_api === "available" ? 44 : 0,
+                cpuUsage: health?.services?.gemini_api === "available" ? 12 : 0,
                 version: baseVersion,
                 icon: Cpu,
                 color: "bg-purple-500",
@@ -368,8 +363,8 @@ export default function AIAgentStatusPage() {
                     ? new Date(health.timestamp).toLocaleTimeString()
                     : "Unknown",
                 memoryUsage:
-                    health?.services?.database === "connected" ? 39 : 0, // Fixed realistic value
-                cpuUsage: health?.services?.database === "connected" ? 6 : 0, // Fixed realistic value
+                    health?.services?.database === "connected" ? 39 : 0,
+                cpuUsage: health?.services?.database === "connected" ? 6 : 0,
                 version: "PostgreSQL 15",
                 icon: Database,
                 color: "bg-green-500",
@@ -379,14 +374,14 @@ export default function AIAgentStatusPage() {
                 type: "api" as const,
                 status: health?.status === "healthy" ? "active" : "error",
                 uptime: baseUptime,
-                tasksProcessed: (summary?.total_failures || 0) * 2, // API calls would be higher
+                tasksProcessed: (summary?.total_failures || 0) * 2,
                 successRate: 99,
                 avgResponseTime: "120ms",
                 lastActivity: health?.timestamp
                     ? new Date(health.timestamp).toLocaleTimeString()
                     : "Unknown",
-                memoryUsage: health?.status === "healthy" ? 20 : 0, // Fixed realistic value
-                cpuUsage: health?.status === "healthy" ? 6 : 0, // Fixed realistic value
+                memoryUsage: health?.status === "healthy" ? 20 : 0,
+                cpuUsage: health?.status === "healthy" ? 6 : 0,
                 version: "FastAPI 0.104",
                 icon: Network,
                 color: "bg-orange-500",
@@ -493,7 +488,6 @@ export default function AIAgentStatusPage() {
                         </Button>
                     </div>
 
-                    {/* System Health Banner */}
                     <Card>
                         <CardContent className="p-4">
                             <div
@@ -534,14 +528,12 @@ export default function AIAgentStatusPage() {
                         </CardContent>
                     </Card>
 
-                    {/* System Metrics */}
                     <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-4">
                         {systemMetrics.map((metric, index) => (
                             <SystemMetricCard key={index} metric={metric} />
                         ))}
                     </div>
 
-                    {/* Agent Status Cards */}
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
@@ -565,7 +557,6 @@ export default function AIAgentStatusPage() {
                         </CardContent>
                     </Card>
 
-                    {/* System Controls */}
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">

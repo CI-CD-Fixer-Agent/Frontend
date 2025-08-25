@@ -156,7 +156,6 @@ export function QuickActionsPanel() {
             icon: Settings,
             action: () => {
                 toast.info("Configuration panel coming soon!");
-                // In real app: router.push('/settings')
             },
             variant: "secondary",
         },
