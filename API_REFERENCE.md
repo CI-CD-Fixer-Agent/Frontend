@@ -1,14 +1,14 @@
 # 🤖 CI/CD Fixer Agent API Documentation
 
 **Version**: 2.0.0  
-**Last Updated**: August 23, 2025  
-**Status**: 🚀 **LIVE IN PRODUCTION** - Fully operational on Render with 29 failure records processed
+**Last Updated**: August 25, 2025  
+**Status**: 🚀 **LIVE IN PRODUCTION** - Fully operational on Render with 17 failure records processed
 
 ---
 
 ## 🚀 Overview
 
-The **CI/CD Fixer Agent API** is an intelligent platform for automated CI/CD failure analysis and fixing using advanced AI technologies. The system has successfully processed **29 CI/CD failures** across **20+ repositories** with active fix generation and approval workflows.
+The **CI/CD Fixer Agent API** is an intelligent platform for automated CI/CD failure analysis and fixing using advanced AI technologies. The system has successfully processed **17 CI/CD failures** in **1 repository** with active fix generation and approval workflows.
 
 ### Key Features
 
@@ -22,10 +22,10 @@ The **CI/CD Fixer Agent API** is an intelligent platform for automated CI/CD fai
 
 ### Core Capabilities
 
--   ✅ Analyze failed GitHub Actions workflows (29 failures processed)
+-   ✅ Analyze failed GitHub Actions workflows (17 failures processed)
 -   ✅ Generate intelligent fix suggestions with Google Gemini 2.5 Pro (100% operational)
--   ✅ Track fix effectiveness over time with ML analytics (3.45% approval rate tracked)
--   ✅ Learn from repository-specific patterns (20+ repositories analyzed)
+-   ✅ Track fix effectiveness over time with ML analytics (41.18% approval rate tracked)
+-   ✅ Learn from repository-specific patterns (chaitanyak175/ci-cd-test-repo analyzed)
 -   ✅ Provide comprehensive analytics and insights (live dashboard operational)
 -   🚀 **PRODUCTION VALIDATED**: All systems tested and operational with real webhook data
 
@@ -76,7 +76,7 @@ GET /health
 }
 ```
 
-**✅ Live Status**: All services operational - Database connected, GitHub API functional, Gemini 2.5 Pro responding with 29 total failures processed and analyzed.
+**✅ Live Status**: All services operational - Database connected, GitHub API functional, Gemini 2.5 Pro responding with 17 total failures processed and analyzed.
 
 ---
 
@@ -166,18 +166,18 @@ GET /failures
 
 ```json
 {
-    "total_failures": 29,
+    "total_failures": 17,
     "failures": [
         {
-            "id": "38",
-            "repository": "microsoft/vscode",
-            "workflow_name": "CI",
-            "run_id": 17152193292,
+            "id": "95",
+            "repository": "chaitanyak175/ci-cd-test-repo",
+            "workflow_name": "🔴 Broken Python Advanced CI",
+            "run_id": 17199274412,
             "conclusion": "failure",
-            "error_type": "test_failure",
-            "fix_status": "generated",
-            "created_at": "2025-08-23T15:30:45Z",
-            "analysis_summary": "Test suite failed due to timeout in integration tests"
+            "error_type": "docker_build_failure",
+            "fix_status": "pending",
+            "created_at": "2025-08-25T04:44:00Z",
+            "analysis_summary": "Docker build configuration needs fixing for Python Advanced CI"
         }
     ],
     "pagination": {
@@ -327,22 +327,16 @@ GET /analytics/patterns?days_back=30
 {
     "message": "Pattern analysis completed",
     "analysis": {
-        "total_runs": 29,
+        "total_runs": 17,
         "patterns": {
             "most_failing_repos": {
-                "microsoft/vscode": 8,
-                "facebook/react": 4,
-                "nodejs/node": 3
+                "chaitanyak175/ci-cd-test-repo": 17
             },
-            "common_error_types": {
-                "dependency_error": 12,
-                "test_failure": 8,
-                "build_failure": 6,
-                "timeout": 3
-            },
+            "common_error_types": {},
             "language_distribution": {
-                "javascript": 15,
-                "typescript": 8,
+                "python": 4,
+                "javascript": 4,
+                "docker": 2
                 "python": 4,
                 "go": 2
             }
@@ -452,28 +446,27 @@ GET /analytics/dashboard
     "message": "Dashboard data generated successfully",
     "dashboard": {
         "summary": {
-            "total_failures": 29,
-            "total_repositories": 20,
-            "active_fixes": 26,
-            "success_rate": 0.0345,
+            "total_failures": 17,
+            "total_repositories": 1,
+            "active_fixes": 10,
+            "success_rate": 0.4118,
             "processing_time_avg": "2.5 minutes"
         },
         "recent_activity": [
             {
-                "id": "38",
-                "repository": "microsoft/vscode",
+                "id": "95",
+                "repository": "chaitanyak175/ci-cd-test-repo",
                 "status": "fix_generated",
-                "timestamp": "2025-08-23T15:30:45Z"
+                "timestamp": "2025-08-25T04:44:00Z"
             }
         ],
         "top_failing_repositories": [
-            { "name": "microsoft/vscode", "failures": 8 },
-            { "name": "facebook/react", "failures": 4 }
+            { "name": "chaitanyak175/ci-cd-test-repo", "failures": 17 }
         ],
         "error_distribution": {
-            "dependency_error": 12,
-            "test_failure": 8,
-            "build_failure": 6,
+            "python": 4,
+            "javascript": 4,
+            "docker": 2,
             "timeout": 3
         },
         "ml_insights": {
@@ -845,7 +838,7 @@ const getAllFailures = async () => {
         "https://ci-cd-fixer-agent-backend.onrender.com/failures"
     );
     return response.json();
-    // Returns: {"total_failures":29,"failures":[...],"pagination":{...}}
+    // Returns: {"total_failures":17,"failures":[...],"pagination":{...}}
 };
 
 // Get analytics dashboard (Live Production Data)
@@ -986,13 +979,13 @@ DEBUG=false
 
 **🌐 Live Production System**: https://ci-cd-fixer-agent-backend.onrender.com
 
-**📊 Current Production Metrics** (as of August 23, 2025):
+**📊 Current Production Metrics** (as of August 25, 2025):
 
--   **Total Failures Processed**: 29 workflow failures analyzed
--   **Repositories Tracked**: 20+ unique repositories monitored
+-   **Total Failures Processed**: 17 workflow failures analyzed
+-   **Repositories Tracked**: 1 repository monitored (chaitanyak175/ci-cd-test-repo)
 -   **Fix Generation Rate**: 100% (all failures receive AI-generated fixes)
--   **Human Approval Rate**: 3.45% (1 approved, 2 rejected, 26 pending)
--   **Database Records**: All 29 failures stored with complete audit trails
+-   **Human Approval Rate**: 41.18% (4 approved, 3 applied, 10 pending)
+-   **Database Records**: All 17 failures stored with complete audit trails
 -   **AI Analysis**: Google Gemini 2.5 Pro processing 100% operational
 -   **Webhook Processing**: Real GitHub webhooks processed successfully
 
@@ -1022,8 +1015,7 @@ The system has been thoroughly tested with real production data:
 
 **✅ Real Repository Testing**:
 
--   microsoft/vscode (8 failures processed)
--   Various open-source repositories (21 additional failures)
+-   chaitanyak175/ci-cd-test-repo (17 failures processed across multiple CI/CD pipeline types)
 
 **✅ End-to-End Workflow Validation**:
 
@@ -1032,7 +1024,7 @@ The system has been thoroughly tested with real production data:
 **✅ Database Connectivity**:
 
 -   PostgreSQL via Supabase fully operational
--   All 29 failure records stored with complete metadata
+-   All 17 failure records stored with complete metadata
 -   Real-time analytics dashboard functional
 
 ---

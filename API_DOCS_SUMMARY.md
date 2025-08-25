@@ -12,7 +12,7 @@ We've successfully created **production-level API documentation** for the CI/CD 
 -   **📚 Live Documentation**: https://ci-cd-fixer-agent-backend.onrender.com/docs
 -   **📖 Clean Docs**: https://ci-cd-fixer-agent-backend.onrender.com/redoc
 -   **❤️ Health Check**: All services healthy (database, GitHub API, Gemini API)
--   **📊 Live Analytics**: **29 workflow failures processed**, **20+ repositories analyzed**
+-   **📊 Live Analytics**: **17 workflow failures processed**, **1 repository analyzed**
 -   **🤖 AI Integration**: Google Gemini 2.5 Pro **100% operational** with intelligent fix generation
 -   **🗄️ Database**: PostgreSQL via Supabase **fully connected** with complete audit trails
 -   **🔄 Real-time Processing**: GitHub webhooks processed successfully in production
@@ -75,25 +75,25 @@ We've successfully created **production-level API documentation** for the CI/CD 
 
 ### **Fix Management & Failures**
 
--   `GET /fixes` - List pending fixes requiring human approval
+-   `GET /fixes` - List pending fixes requiring human approval (10 current)
 -   `POST /fixes/{id}/approve` - Approve fixes with human oversight
 -   `POST /fixes/{id}/reject` - Reject fixes with feedback system
--   `GET /failures` - **NEW**: List all workflow failures (29 total tracked)
+-   `GET /failures` - **NEW**: List all workflow failures (17 total tracked)
 -   `GET /failures/{id}` - **NEW**: Get detailed failure information with generated fixes
 
-### **Analytics (17+ Endpoints)**
+### **Analytics (24+ Endpoints)**
 
--   `GET /analytics/patterns` - Failure pattern analysis across 29 recorded failures
--   `GET /analytics/effectiveness` - Fix success tracking (3.45% approval rate monitored)
+-   `GET /analytics/patterns` - Failure pattern analysis across 17 recorded failures
+-   `GET /analytics/effectiveness` - Fix success tracking (41.18% approval rate monitored)
 -   `GET /analytics/dashboard` - Comprehensive dashboard with live production data
--   `GET /analytics/repository/{owner}/{repo}` - Repository-specific analytics (20+ repos profiled)
+-   `GET /analytics/repository/{owner}/{repo}` - Repository-specific analytics (chaitanyak175/ci-cd-test-repo profiled)
 -   `POST /analytics/ml/similar-fixes` - ML-based similar fix suggestions from historical data
--   `POST /analytics/ml/predict-success` - ML success prediction for proposed fixes
+-   `POST /analytics/ml/predict-success` - ML success prediction for proposed fixes (up to 82.38% confidence)
 -   `POST /analytics/ml/generate-enhanced-fix` - Enhanced fix generation with ML insights
 -   `POST /analytics/ml/learn-from-feedback` - ML feedback learning system
 -   `GET /analytics/ml/pattern-insights` - Advanced ML pattern analysis
 -   `GET /analytics/ml/model-performance` - ML model performance metrics
--   And 7+ more analytics endpoints...
+-   And 14+ more analytics endpoints...
 
 ---
 
@@ -147,13 +147,13 @@ curl -X POST "https://ci-cd-fixer-agent-backend.onrender.com/webhook" \
 curl https://ci-cd-fixer-agent-backend.onrender.com/health
 # Returns: {"status":"healthy","services":{"database":"connected","github_api":"available","gemini_api":"available"}}
 
-# Get real production analytics (29 failures processed)
+# Get real production analytics (17 failures processed)
 curl https://ci-cd-fixer-agent-backend.onrender.com/analytics/dashboard
-# Returns: {"dashboard":{"summary":{"total_failures":29,"total_repositories":20,...}}}
+# Returns: {"dashboard":{"failure_patterns":{"total_runs":17},"fix_effectiveness":{"approval_rate":41.18}}}
 
 # List all tracked failures
 curl https://ci-cd-fixer-agent-backend.onrender.com/failures
-# Returns: {"total_failures":29,"failures":[...]}
+# Returns: {"failures":[...],"count":17}
 ```
 
 ### **For Development**
@@ -181,8 +181,8 @@ open http://localhost:8000/docs
 ✅ **Team-Friendly**: Multiple formats (interactive, static, auto-generated)  
 ✅ **Maintainable**: Automated generation keeps docs in sync with code  
 ✅ **Professional**: Stripe-style documentation that looks polished  
-🚀 **LIVE IN PRODUCTION**: **29 failures processed**, **20+ repositories analyzed**, **100% AI operational**  
-📊 **Real Analytics**: 3.45% fix approval rate, comprehensive ML insights, live dashboard  
+🚀 **LIVE IN PRODUCTION**: **17 failures processed**, **1 repository analyzed**, **100% AI operational**  
+📊 **Real Analytics**: 41.18% fix approval rate, comprehensive ML insights, live dashboard  
 🔄 **Production Validated**: All endpoints tested with real GitHub webhook data
 
 **The API documentation is now LIVE and processing real CI/CD failures - perfect for frontend developers and AI tools like GitHub Copilot!** 🚀

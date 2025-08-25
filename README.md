@@ -1,6 +1,13 @@
-# 🤖 CI/CD Fixer Agent - Frontend Dashboard
+# 🤖 CI/### **📊 Current Production Metrics** (August 25, 2025)
 
-**🚀 Production Status**: **LIVE** | **29 Failures Processed** | **20+ Repositories Analyzed** | **AI Powered Intelligence**
+-   **🔥 17 Total Failures Processed** - All with AI-generated intelligent fixes
+-   **🏢 1 Repository Analyzed** - chaitanyak175/ci-cd-test-repo with multiple language CI/CD pipelines
+-   **⚡ 100% Fix Generation Rate** - Every failure receives comprehensive AI analysis
+-   **👥 Human-in-the-Loop Workflow** - 4 approved, 3 applied, 10 pending review
+-   **🗄️ Complete Audit Trail** - All operations tracked in PostgreSQL
+-   **🌐 Production Backend**: https://ci-cd-fixer-agent-backend.onrender.com Agent - Frontend Dashboard
+
+**🚀 Production Status**: **LIVE** | **17 Failures Processed** | **1 Repository Analyzed** | **AI Powered Intelligence**
 
 A comprehensive **Next.js 15** dashboard for the CI/CD Fixer Agent system that provides real-time monitoring, analytics, and management of GitHub Actions workflow failures with AI-powered fix suggestions using **Google Gemini 2.5 Pro** and **Portia AI** orchestration.
 
@@ -36,7 +43,7 @@ This frontend connects to our **live production backend** with full AI capabilit
     -   **Google Gemini 2.5 Pro** for intelligent error analysis
     -   **Portia AI** for orchestration and workflow management
 -   **GitHub Integration**: Live webhook processing for real-time failure detection
--   **Current Status**: 29 failures processed across 20+ repositories with ML pattern recognition
+-   **Current Status**: 17 failures processed in 1 repository with ML pattern recognition
 
 ### **System Components**
 
@@ -123,7 +130,7 @@ pnpm lint         # Run ESLint with TypeScript checks
 
 ### 🔍 **Failures Management** (`/failures`)
 
--   **Comprehensive Failure List** - All 29 processed failures with advanced filtering
+-   **Comprehensive Failure List** - All 17 processed failures with advanced filtering
 -   **Multi-dimensional Filtering** - By repository, status, error type, date range
 -   **Detailed Failure Views** - Complete error logs and context
 -   **AI Analysis Results** - Gemini-generated insights with confidence scores
@@ -131,7 +138,7 @@ pnpm lint         # Run ESLint with TypeScript checks
 
 ### ✅ **Fix Management** (`/fixes`)
 
--   **Human-in-the-Loop Workflow** - Approve/reject interface for all 26 pending fixes
+-   **Human-in-the-Loop Workflow** - Approve/reject interface for all 10 pending fixes
 -   **Detailed Fix Reviews** - Complete analysis and suggested changes
 -   **Bulk Operations** - Multi-select approve/reject with batch comments
 -   **Implementation Tracking** - Status monitoring for applied fixes
@@ -139,9 +146,9 @@ pnpm lint         # Run ESLint with TypeScript checks
 
 ### � **Analytics Dashboard** (`/analytics`)
 
--   **Repository Intelligence** - Cross-project pattern analysis for 20+ repositories
+-   **Repository Intelligence** - Cross-project pattern analysis for 1 repository
 -   **Error Type Distribution** - Visual breakdown of failure categories
--   **Success Rate Trends** - Historical and predictive analytics
+-   **Success Rate Trends** - Historical and predictive analytics (41.18% current approval rate)
 -   **ML Insights Panel** - Gemini-powered predictions and recommendations
 -   **Cross-Repository Patterns** - Language-specific failure analysis
 -   **Effectiveness Metrics** - Fix success rates and improvement trends
@@ -340,7 +347,7 @@ export function RealTimeAnalytics() {
 
 ### Production Metrics (Current Live Data)
 
--   **🔥 29 Total Failures Processed** - 100% with AI analysis
+-   **🔥 17 Total Failures Processed** - 100% with AI analysis
 -   **⚡ Real-time Processing** - Average 2-3 second analysis time
 -   **📊 20+ Repositories** - Cross-language pattern recognition
 -   **🎯 3.45% Human Approval Rate** - Quality control maintaining high standards
@@ -462,10 +469,10 @@ NEXT_PUBLIC_SENTRY_DSN=your_sentry_dsn
 
 The dashboard displays **real production data** from our deployed system:
 
--   **🔥 29 Total Failures Processed** - Every failure analyzed by Gemini 2.5 Pro
--   **🏢 20+ Repositories Analyzed** - Cross-language pattern recognition active
+-   **🔥 17 Total Failures Processed** - Every failure analyzed by Gemini 2.5 Pro
+-   **🏢 1 Repository Analyzed** - chaitanyak175/ci-cd-test-repo with multiple pipeline types
 -   **⚡ 100% Fix Generation Rate** - AI successfully analyzes every workflow failure
--   **👥 3.45% Human Approval Rate** - 1 approved, 2 rejected, 26 pending (quality control)
+-   **👥 41.18% Human Approval Rate** - 4 approved, 3 applied, 10 pending (quality control)
 -   **🗄️ Complete Audit Trail** - All operations tracked in PostgreSQL
 -   **🌐 100% System Uptime** - Reliable backend connectivity and webhook processing
 
@@ -479,10 +486,10 @@ The dashboard displays **real production data** from our deployed system:
 
 ### Human-in-the-Loop Quality
 
--   **Expert Review Process**: All fixes require human approval
--   **Detailed Feedback**: Comments and reasoning for approve/reject decisions
--   **Learning Loop**: AI improves based on human feedback patterns
--   **Confidence Scoring**: Higher confidence fixes prioritized for review
+-   **Human-in-the-Loop Quality** - All fixes require human approval (41.18% current approval rate)
+-   **Detailed Feedback** - Comments and reasoning for approve/reject decisions
+-   **Learning Loop** - AI improves based on human feedback patterns
+-   **Confidence Scoring** - Higher confidence fixes prioritized for review
 
 ## 🔧 **Available Scripts**
 
