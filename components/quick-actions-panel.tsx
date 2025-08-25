@@ -201,7 +201,7 @@ export function QuickActionsPanel() {
                                             {action.badge && (
                                                 <Badge
                                                     variant="outline"
-                                                    className="text-xs"
+                                                    className="text-xs border border-gray-300 text-gray-600 bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:bg-gray-800"
                                                 >
                                                     {action.badge}
                                                 </Badge>

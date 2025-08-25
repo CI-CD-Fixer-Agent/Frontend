@@ -85,17 +85,17 @@ const data = {
     documents: [
         {
             name: "GitHub Integration",
-            url: "/integrations/github",
+            url: "/github-integration",
             icon: IconGitBranch,
         },
         {
             name: "AI Agent Status",
-            url: "/agent/status",
+            url: "/ai-agent-status",
             icon: IconRobot,
         },
         {
             name: "Code Analysis",
-            url: "/analysis/code",
+            url: "/code-analysis",
             icon: IconCode,
         },
     ],
