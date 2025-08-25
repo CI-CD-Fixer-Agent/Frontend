@@ -62,15 +62,17 @@ export default function SettingsPage() {
             <SidebarInset>
                 <SiteHeader />
                 <div className="flex flex-1 flex-col gap-4 p-4 lg:p-6">
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                         <div>
-                            <h1 className="text-3xl font-bold">Settings</h1>
-                            <p className="text-muted-foreground">
+                            <h1 className="text-2xl sm:text-3xl font-bold">
+                                Settings
+                            </h1>
+                            <p className="text-muted-foreground text-sm sm:text-base">
                                 Configure your CI/CD Fixer Agent preferences and
                                 integrations
                             </p>
                         </div>
-                        <Button>
+                        <Button className="w-full sm:w-auto">
                             <Save className="h-4 w-4 mr-2" />
                             Save Changes
                         </Button>
@@ -147,8 +149,8 @@ export default function SettingsPage() {
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                <div className="flex items-center justify-between">
-                                    <div className="space-y-0.5">
+                                <div className="flex items-start justify-between gap-4">
+                                    <div className="space-y-0.5 flex-1">
                                         <Label>Email Notifications</Label>
                                         <p className="text-sm text-muted-foreground">
                                             Receive notifications via email
@@ -165,8 +167,8 @@ export default function SettingsPage() {
                                     />
                                 </div>
                                 <Separator />
-                                <div className="flex items-center justify-between">
-                                    <div className="space-y-0.5">
+                                <div className="flex items-start justify-between gap-4">
+                                    <div className="space-y-0.5 flex-1">
                                         <Label>Failure Alerts</Label>
                                         <p className="text-sm text-muted-foreground">
                                             Get notified when CI/CD failures
@@ -183,8 +185,8 @@ export default function SettingsPage() {
                                         }
                                     />
                                 </div>
-                                <div className="flex items-center justify-between">
-                                    <div className="space-y-0.5">
+                                <div className="flex items-start justify-between gap-4">
+                                    <div className="space-y-0.5 flex-1">
                                         <Label>Fix Notifications</Label>
                                         <p className="text-sm text-muted-foreground">
                                             Get notified when fixes are
@@ -201,8 +203,8 @@ export default function SettingsPage() {
                                         }
                                     />
                                 </div>
-                                <div className="flex items-center justify-between">
-                                    <div className="space-y-0.5">
+                                <div className="flex items-start justify-between gap-4">
+                                    <div className="space-y-0.5 flex-1">
                                         <Label>Analytics Reports</Label>
                                         <p className="text-sm text-muted-foreground">
                                             Weekly analytics and performance
@@ -234,8 +236,8 @@ export default function SettingsPage() {
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                <div className="flex items-center justify-between">
-                                    <div className="space-y-0.5">
+                                <div className="flex items-start justify-between gap-4">
+                                    <div className="space-y-0.5 flex-1">
                                         <Label>Auto-Fix Mode</Label>
                                         <p className="text-sm text-muted-foreground">
                                             Automatically apply fixes when
@@ -307,8 +309,8 @@ export default function SettingsPage() {
                                         </SelectContent>
                                     </Select>
                                 </div>
-                                <div className="flex items-center justify-between">
-                                    <div className="space-y-0.5">
+                                <div className="flex items-start justify-between gap-4">
+                                    <div className="space-y-0.5 flex-1">
                                         <Label>Portia Orchestrator</Label>
                                         <p className="text-sm text-muted-foreground">
                                             Enable advanced workflow
@@ -340,8 +342,8 @@ export default function SettingsPage() {
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                <div className="flex items-center justify-between">
-                                    <div className="space-y-0.5">
+                                <div className="flex items-start justify-between gap-4">
+                                    <div className="space-y-0.5 flex-1">
                                         <Label>Auto Webhook Setup</Label>
                                         <p className="text-sm text-muted-foreground">
                                             Automatically configure webhooks for
@@ -358,8 +360,8 @@ export default function SettingsPage() {
                                         }
                                     />
                                 </div>
-                                <div className="flex items-center justify-between">
-                                    <div className="space-y-0.5">
+                                <div className="flex items-start justify-between gap-4">
+                                    <div className="space-y-0.5 flex-1">
                                         <Label>PR Comments</Label>
                                         <p className="text-sm text-muted-foreground">
                                             Add AI-generated comments to pull
@@ -376,8 +378,8 @@ export default function SettingsPage() {
                                         }
                                     />
                                 </div>
-                                <div className="flex items-center justify-between">
-                                    <div className="space-y-0.5">
+                                <div className="flex items-start justify-between gap-4">
+                                    <div className="space-y-0.5 flex-1">
                                         <Label>Branch Protection</Label>
                                         <p className="text-sm text-muted-foreground">
                                             Require AI approval before merging
@@ -425,7 +427,7 @@ export default function SettingsPage() {
                                         readOnly
                                     />
                                 </div>
-                                <div className="flex gap-2">
+                                <div className="flex flex-col sm:flex-row gap-2">
                                     <Button
                                         variant="outline"
                                         className="flex-1"

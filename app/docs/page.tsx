@@ -147,8 +147,8 @@ function CodeBlock({
 
     return (
         <div className={`relative ${className}`}>
-            <pre className="bg-muted rounded-lg p-4 overflow-x-auto text-sm">
-                <code>{children}</code>
+            <pre className="bg-muted rounded-lg p-4 overflow-x-auto text-sm max-w-full">
+                <code className="break-words">{children}</code>
             </pre>
             <Button
                 variant="ghost"
@@ -173,7 +173,7 @@ function APIEndpointCard({ endpoint }: { endpoint: APIEndpoint }) {
     return (
         <Card className="mb-4">
             <CardHeader className="pb-3">
-                <div className="flex items-center gap-3">
+                <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:gap-3 sm:space-y-0">
                     <Badge
                         className={
                             methodColors[
@@ -183,11 +183,11 @@ function APIEndpointCard({ endpoint }: { endpoint: APIEndpoint }) {
                     >
                         {endpoint.method}
                     </Badge>
-                    <code className="font-mono text-sm bg-muted px-2 py-1 rounded">
+                    <code className="font-mono text-sm bg-muted px-2 py-1 rounded break-all">
                         {endpoint.endpoint}
                     </code>
                 </div>
-                <CardDescription className="mt-2">
+                <CardDescription className="mt-2 text-sm">
                     {endpoint.description}
                 </CardDescription>
             </CardHeader>
@@ -196,7 +196,7 @@ function APIEndpointCard({ endpoint }: { endpoint: APIEndpoint }) {
                     {endpoint.example && (
                         <div>
                             <h4 className="text-sm font-medium mb-2 flex items-center gap-2">
-                                <Terminal className="h-4 w-4" />
+                                <Terminal className="h-4 w-4 flex-shrink-0" />
                                 Example Request
                             </h4>
                             <CodeBlock>{endpoint.example}</CodeBlock>
@@ -205,7 +205,7 @@ function APIEndpointCard({ endpoint }: { endpoint: APIEndpoint }) {
                     {endpoint.response && (
                         <div>
                             <h4 className="text-sm font-medium mb-2 flex items-center gap-2">
-                                <Code className="h-4 w-4" />
+                                <Code className="h-4 w-4 flex-shrink-0" />
                                 Example Response
                             </h4>
                             <CodeBlock>{endpoint.response}</CodeBlock>
@@ -225,29 +225,36 @@ export default function DocumentationPage() {
                 <SiteHeader />
                 <div className="flex flex-1 flex-col gap-4 p-4 lg:p-6">
                     {/* Header */}
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
                         <div>
-                            <h1 className="text-3xl font-bold flex items-center gap-2">
-                                <Book className="h-8 w-8" />
+                            <h1 className="text-2xl lg:text-3xl font-bold flex items-center gap-2">
+                                <Book className="h-6 w-6 lg:h-8 lg:w-8" />
                                 Documentation
                             </h1>
-                            <p className="text-muted-foreground">
+                            <p className="text-muted-foreground text-sm lg:text-base">
                                 Complete guide to the CI/CD Fixer Agent system
                             </p>
                         </div>
-                        <div className="flex gap-2">
-                            <Button variant="outline" asChild>
+                        <div className="flex flex-col sm:flex-row gap-2">
+                            <Button
+                                variant="outline"
+                                asChild
+                                className="w-full sm:w-auto"
+                            >
                                 <a
                                     href="https://ci-cd-fixer-agent-backend.onrender.com/docs"
                                     target="_blank"
                                 >
                                     <ExternalLink className="h-4 w-4 mr-2" />
-                                    Swagger UI
+                                    <span className="hidden sm:inline">
+                                        Swagger UI
+                                    </span>
+                                    <span className="sm:hidden">API Docs</span>
                                 </a>
                             </Button>
                             <Badge
                                 variant="secondary"
-                                className="bg-green-100 text-green-800"
+                                className="bg-green-100 text-green-800 justify-center sm:justify-start"
                             >
                                 <Activity className="h-3 w-3 mr-1" />
                                 Live Production
@@ -256,12 +263,34 @@ export default function DocumentationPage() {
                     </div>
 
                     <Tabs defaultValue="overview" className="w-full">
-                        <TabsList className="grid w-full grid-cols-4">
-                            <TabsTrigger value="overview">Overview</TabsTrigger>
-                            <TabsTrigger value="api">API Reference</TabsTrigger>
-                            <TabsTrigger value="setup">Setup Guide</TabsTrigger>
-                            <TabsTrigger value="examples">Examples</TabsTrigger>
-                        </TabsList>
+                        <div className="overflow-x-auto">
+                            <TabsList className="grid w-full grid-cols-4 min-w-[400px]">
+                                <TabsTrigger
+                                    value="overview"
+                                    className="text-xs sm:text-sm"
+                                >
+                                    Overview
+                                </TabsTrigger>
+                                <TabsTrigger
+                                    value="api"
+                                    className="text-xs sm:text-sm"
+                                >
+                                    API Ref
+                                </TabsTrigger>
+                                <TabsTrigger
+                                    value="setup"
+                                    className="text-xs sm:text-sm"
+                                >
+                                    Setup
+                                </TabsTrigger>
+                                <TabsTrigger
+                                    value="examples"
+                                    className="text-xs sm:text-sm"
+                                >
+                                    Examples
+                                </TabsTrigger>
+                            </TabsList>
+                        </div>
 
                         <TabsContent value="overview" className="space-y-6">
                             {/* System Overview */}
@@ -277,7 +306,7 @@ export default function DocumentationPage() {
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                                         <div className="text-center p-4 bg-muted rounded-lg">
                                             <div className="text-2xl font-bold text-green-600">
                                                 17
@@ -294,7 +323,7 @@ export default function DocumentationPage() {
                                                 Approval Rate
                                             </div>
                                         </div>
-                                        <div className="text-center p-4 bg-muted rounded-lg">
+                                        <div className="text-center p-4 bg-muted rounded-lg sm:col-span-2 lg:col-span-1">
                                             <div className="text-2xl font-bold text-purple-600">
                                                 100%
                                             </div>
@@ -310,44 +339,44 @@ export default function DocumentationPage() {
                                         <h3 className="font-semibold">
                                             Key Features
                                         </h3>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                            <div className="flex items-center gap-2">
-                                                <CheckCircle className="h-4 w-4 text-green-500" />
+                                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                                            <div className="flex items-start gap-2">
+                                                <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
                                                 <span className="text-sm">
                                                     Automatic failure detection
                                                     via GitHub webhooks
                                                 </span>
                                             </div>
-                                            <div className="flex items-center gap-2">
-                                                <CheckCircle className="h-4 w-4 text-green-500" />
+                                            <div className="flex items-start gap-2">
+                                                <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
                                                 <span className="text-sm">
                                                     AI-powered analysis with
                                                     Gemini 2.5 Pro
                                                 </span>
                                             </div>
-                                            <div className="flex items-center gap-2">
-                                                <CheckCircle className="h-4 w-4 text-green-500" />
+                                            <div className="flex items-start gap-2">
+                                                <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
                                                 <span className="text-sm">
                                                     Portia AI orchestration
                                                     framework
                                                 </span>
                                             </div>
-                                            <div className="flex items-center gap-2">
-                                                <CheckCircle className="h-4 w-4 text-green-500" />
+                                            <div className="flex items-start gap-2">
+                                                <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
                                                 <span className="text-sm">
                                                     Human approval workflow for
                                                     safety
                                                 </span>
                                             </div>
-                                            <div className="flex items-center gap-2">
-                                                <CheckCircle className="h-4 w-4 text-green-500" />
+                                            <div className="flex items-start gap-2">
+                                                <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
                                                 <span className="text-sm">
                                                     ML analytics and pattern
                                                     recognition
                                                 </span>
                                             </div>
-                                            <div className="flex items-center gap-2">
-                                                <CheckCircle className="h-4 w-4 text-green-500" />
+                                            <div className="flex items-start gap-2">
+                                                <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
                                                 <span className="text-sm">
                                                     PostgreSQL audit trail
                                                     storage
@@ -358,7 +387,6 @@ export default function DocumentationPage() {
                                 </CardContent>
                             </Card>
 
-                            {/* Architecture */}
                             <Card>
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
@@ -367,11 +395,11 @@ export default function DocumentationPage() {
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                                         <Card className="p-4">
                                             <div className="flex items-center gap-2 mb-2">
-                                                <Github className="h-5 w-5 text-purple-500" />
-                                                <h3 className="font-semibold">
+                                                <Github className="h-5 w-5 text-purple-500 flex-shrink-0" />
+                                                <h3 className="font-semibold text-sm lg:text-base">
                                                     GitHub Integration
                                                 </h3>
                                             </div>
@@ -382,8 +410,8 @@ export default function DocumentationPage() {
                                         </Card>
                                         <Card className="p-4">
                                             <div className="flex items-center gap-2 mb-2">
-                                                <Bot className="h-5 w-5 text-blue-500" />
-                                                <h3 className="font-semibold">
+                                                <Bot className="h-5 w-5 text-blue-500 flex-shrink-0" />
+                                                <h3 className="font-semibold text-sm lg:text-base">
                                                     AI Processing
                                                 </h3>
                                             </div>
@@ -392,10 +420,10 @@ export default function DocumentationPage() {
                                                 Portia orchestration
                                             </p>
                                         </Card>
-                                        <Card className="p-4">
+                                        <Card className="p-4 md:col-span-2 xl:col-span-1">
                                             <div className="flex items-center gap-2 mb-2">
-                                                <Database className="h-5 w-5 text-green-500" />
-                                                <h3 className="font-semibold">
+                                                <Database className="h-5 w-5 text-green-500 flex-shrink-0" />
+                                                <h3 className="font-semibold text-sm lg:text-base">
                                                     Data Storage
                                                 </h3>
                                             </div>
@@ -423,11 +451,13 @@ export default function DocumentationPage() {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="space-y-4">
-                                        <div className="flex items-center gap-2 p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg">
-                                            <Info className="h-4 w-4 text-blue-500" />
-                                            <span className="text-sm">
+                                        <div className="flex items-start gap-2 p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg">
+                                            <Info className="h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0" />
+                                            <span className="text-sm break-all">
                                                 <strong>Base URL:</strong>{" "}
-                                                https://ci-cd-fixer-agent-backend.onrender.com
+                                                <span className="break-all">
+                                                    https://ci-cd-fixer-agent-backend.onrender.com
+                                                </span>
                                             </span>
                                         </div>
 

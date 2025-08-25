@@ -426,32 +426,31 @@ export default function CodeAnalysisPage() {
             <SidebarInset>
                 <SiteHeader />
                 <div className="flex flex-1 flex-col gap-3 p-3 sm:gap-4 sm:p-4 lg:p-6 bg-background dark:bg-gray-950/30">
-                    {/* Header */}
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col space-y-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                         <div>
-                            <h1 className="text-2xl font-bold">
+                            <h1 className="text-xl sm:text-2xl font-bold">
                                 Code Analysis
                             </h1>
-                            <p className="text-muted-foreground">
+                            <p className="text-muted-foreground text-sm sm:text-base">
                                 AI-powered code analysis and pattern detection
                             </p>
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex flex-col sm:flex-row gap-2">
                             <Button
                                 variant="outline"
                                 onClick={() => refreshAnalytics()}
+                                className="w-full sm:w-auto"
                             >
                                 <RefreshCw className="h-4 w-4 mr-2" />
                                 Refresh
                             </Button>
-                            <Button>
+                            <Button className="w-full sm:w-auto">
                                 <Download className="h-4 w-4 mr-2" />
                                 Export Report
                             </Button>
                         </div>
                     </div>
 
-                    {/* Analysis Stats */}
                     <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-5">
                         <Card>
                             <CardContent className="p-4">

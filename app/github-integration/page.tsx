@@ -530,17 +530,20 @@ export default function GitHubIntegrationPage() {
             <SidebarInset>
                 <SiteHeader />
                 <div className="flex flex-1 flex-col gap-3 p-3 sm:gap-4 sm:p-4 lg:p-6 bg-background dark:bg-gray-950/30">
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col space-y-3 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
                         <div>
-                            <h1 className="text-2xl font-bold">
+                            <h1 className="text-xl sm:text-2xl font-bold">
                                 GitHub Integration
                             </h1>
-                            <p className="text-muted-foreground">
+                            <p className="text-muted-foreground text-sm sm:text-base">
                                 Manage and monitor your GitHub repositories and
                                 webhooks
                             </p>
                         </div>
-                        <Button onClick={() => refresh()}>
+                        <Button
+                            onClick={() => refresh()}
+                            className="w-full sm:w-auto"
+                        >
                             <RefreshCw className="h-4 w-4 mr-2" />
                             Refresh
                         </Button>
