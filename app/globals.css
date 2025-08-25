@@ -159,7 +159,6 @@
     @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }
 
-/* Custom animations for homepage */
 @keyframes gradient-x {
     0%,
     100% {
