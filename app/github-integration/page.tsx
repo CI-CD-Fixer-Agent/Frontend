@@ -13,6 +13,14 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import {
     Github,
     GitBranch,
     CheckCircle2,
@@ -29,6 +37,9 @@ import {
     Star,
     GitCommit,
     Loader2,
+    Calendar,
+    TrendingUp,
+    Bug,
 } from "lucide-react";
 import { useDashboard, useHealth, useFailures } from "@/hooks/use-api";
 import { api } from "@/lib/api";
@@ -54,6 +65,200 @@ interface WebhookStatus {
     lastDelivery: string;
     eventsProcessed: number;
     lastEvent: string;
+}
+
+function RepositoryDetailsDialog({ repo }: { repo: GitHubRepo }) {
+    const getStatusIcon = (status: string) => {
+        switch (status) {
+            case "active":
+                return <CheckCircle2 className="h-4 w-4 text-green-500" />;
+            case "inactive":
+                return <Clock className="h-4 w-4 text-gray-500" />;
+            case "error":
+                return <XCircle className="h-4 w-4 text-red-500" />;
+            default:
+                return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
+        }
+    };
+
+    const getStatusColor = (status: string) => {
+        switch (status) {
+            case "active":
+                return "bg-green-100 text-green-800 dark:bg-green-950/30 dark:text-green-300";
+            case "inactive":
+                return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
+            case "error":
+                return "bg-red-100 text-red-800 dark:bg-red-950/30 dark:text-red-300";
+            default:
+                return "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300";
+        }
+    };
+
+    return (
+        <DialogContent className="max-w-2xl">
+            <DialogHeader>
+                <DialogTitle className="flex items-center gap-2">
+                    <Github className="h-5 w-5" />
+                    {repo.owner}/{repo.name}
+                </DialogTitle>
+                <DialogDescription>
+                    Repository details and CI/CD analytics
+                </DialogDescription>
+            </DialogHeader>
+
+            <div className="space-y-6">
+                {/* Repository Status */}
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        {getStatusIcon(repo.status)}
+                        <span className="font-medium">Repository Status</span>
+                    </div>
+                    <Badge className={getStatusColor(repo.status)}>
+                        {repo.status}
+                    </Badge>
+                </div>
+
+                {/* Stats Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                    <Card>
+                        <CardContent className="p-4">
+                            <div className="flex items-center gap-2">
+                                <Bug className="h-4 w-4 text-red-500" />
+                                <div>
+                                    <p className="text-sm text-muted-foreground">
+                                        Total Failures
+                                    </p>
+                                    <p className="text-2xl font-bold">
+                                        {repo.failures}
+                                    </p>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardContent className="p-4">
+                            <div className="flex items-center gap-2">
+                                <Activity className="h-4 w-4 text-blue-500" />
+                                <div>
+                                    <p className="text-sm text-muted-foreground">
+                                        Workflows
+                                    </p>
+                                    <p className="text-2xl font-bold">
+                                        {repo.workflows}
+                                    </p>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardContent className="p-4">
+                            <div className="flex items-center gap-2">
+                                <GitPullRequest className="h-4 w-4 text-green-500" />
+                                <div>
+                                    <p className="text-sm text-muted-foreground">
+                                        Pull Requests
+                                    </p>
+                                    <p className="text-2xl font-bold">
+                                        {repo.pullRequests}
+                                    </p>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardContent className="p-4">
+                            <div className="flex items-center gap-2">
+                                <Star className="h-4 w-4 text-yellow-500" />
+                                <div>
+                                    <p className="text-sm text-muted-foreground">
+                                        Stars
+                                    </p>
+                                    <p className="text-2xl font-bold">
+                                        {repo.stars}
+                                    </p>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+
+                {/* Repository Information */}
+                <div className="space-y-4">
+                    <h3 className="font-semibold flex items-center gap-2">
+                        <Calendar className="h-4 w-4" />
+                        Repository Information
+                    </h3>
+
+                    <div className="grid grid-cols-1 gap-3 text-sm">
+                        <div className="flex justify-between">
+                            <span className="text-muted-foreground">
+                                Last Activity:
+                            </span>
+                            <span>{repo.lastActivity}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-muted-foreground">
+                                Owner:
+                            </span>
+                            <span>{repo.owner}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-muted-foreground">
+                                Repository:
+                            </span>
+                            <span>{repo.name}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-muted-foreground">
+                                Failure Rate:
+                            </span>
+                            <span className="text-red-600">
+                                {repo.workflows > 0
+                                    ? Math.round(
+                                          (repo.failures / repo.workflows) * 100
+                                      )
+                                    : 0}
+                                %
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Quick Actions */}
+                <div className="flex gap-2 pt-4">
+                    <Button
+                        variant="default"
+                        className="flex-1"
+                        onClick={() => {
+                            window.open(
+                                `https://github.com/${repo.owner}/${repo.name}`,
+                                "_blank"
+                            );
+                        }}
+                    >
+                        <ExternalLink className="h-4 w-4 mr-2" />
+                        Open on GitHub
+                    </Button>
+                    <Button
+                        variant="outline"
+                        className="flex-1"
+                        onClick={() => {
+                            window.open(
+                                `https://github.com/${repo.owner}/${repo.name}/actions`,
+                                "_blank"
+                            );
+                        }}
+                    >
+                        <Activity className="h-4 w-4 mr-2" />
+                        View Actions
+                    </Button>
+                </div>
+            </div>
+        </DialogContent>
+    );
 }
 
 function RepositoryCard({ repo }: { repo: GitHubRepo }) {
@@ -110,11 +315,31 @@ function RepositoryCard({ repo }: { repo: GitHubRepo }) {
                     </div>
                 </div>
                 <div className="flex gap-2">
-                    <Button variant="outline" size="sm" className="flex-1">
-                        <Eye className="h-3 w-3 mr-2" />
-                        View Details
-                    </Button>
-                    <Button variant="outline" size="sm" className="flex-1">
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="flex-1"
+                            >
+                                <Eye className="h-3 w-3 mr-2" />
+                                View Details
+                            </Button>
+                        </DialogTrigger>
+                        <RepositoryDetailsDialog repo={repo} />
+                    </Dialog>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        className="flex-1"
+                        onClick={() => {
+                            // Open GitHub repository in new tab
+                            window.open(
+                                `https://github.com/${repo.owner}/${repo.name}`,
+                                "_blank"
+                            );
+                        }}
+                    >
                         <ExternalLink className="h-3 w-3 mr-2" />
                         Open GitHub
                     </Button>

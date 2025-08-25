@@ -22,8 +22,6 @@ import {
     TrendingUp,
     AlertTriangle,
     CheckCircle2,
-    XCircle,
-    Clock,
     BarChart3,
     PieChart,
     Target,
@@ -31,8 +29,6 @@ import {
     Download,
     Filter,
     Search,
-    ArrowRight,
-    GitBranch,
     Eye,
 } from "lucide-react";
 import {

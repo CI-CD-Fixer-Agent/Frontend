@@ -19,10 +19,10 @@ export const metadata: Metadata = {
     description: "Automated CI/CD failure analysis and fixing using AI",
     icons: {
         icon: [
-            { url: "/favicon.ico", sizes: "any" },
+            { url: "/app/favicon.ico", sizes: "any" },
             { url: "/icon.png", type: "image/png" },
         ],
-        shortcut: "/favicon.ico",
+        shortcut: "/app/favicon.ico",
         apple: "/icon.png",
     },
 };

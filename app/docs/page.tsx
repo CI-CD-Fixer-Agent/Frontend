@@ -22,10 +22,8 @@ import {
     ExternalLink,
     Copy,
     Activity,
-    FileText,
     Terminal,
     CheckCircle,
-    AlertCircle,
     Info,
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
