@@ -17,11 +17,19 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
     title: "CI/CD Fixer Agent",
     description: "Automated CI/CD failure analysis and fixing using AI",
-    viewport: {
-        width: "device-width",
-        initialScale: 1,
-        maximumScale: 1,
+    icons: {
+        icon: [
+            { url: "/favicon.ico", sizes: "any" },
+            { url: "/icon.png", type: "image/png" },
+        ],
+        shortcut: "/favicon.ico",
+        apple: "/icon.png",
     },
+};
+
+export const viewport = {
+    width: "device-width",
+    initialScale: 1,
 };
 
 export default function RootLayout({

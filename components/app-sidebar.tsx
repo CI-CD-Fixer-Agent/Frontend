@@ -36,7 +36,7 @@ const data = {
     user: {
         name: "CI/CD Agent",
         email: "agent@cicd-fixer.com",
-        avatar: "/avatars/ai-agent.jpg",
+        avatar: "/icon.png",
     },
     navMain: [
         {
