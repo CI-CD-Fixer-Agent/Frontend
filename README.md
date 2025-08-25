@@ -1,11 +1,24 @@
-# 🤖 CI/### **📊 Current Production Metrics** (August 25, 2025)
+# 🤖 CI/CD Agent
+
+### 📊 Current Production Metrics
+
+-   **🔥 29 Total Failures Processed** - All with AI-generated intelligent fixes
+-   **🏢 20+ Repositories Analyzed** - Cross-language pattern recognition active
+-   **⚡ 100% Fix Generation Rate** - Every failure receives comprehensive AI analysis
+-   **👥 Human-in-the-Loop Workflow** - 1 approved, 2 rejected, 26 pending review
+-   **🗄️ Complete Audit Trail** - All operations tracked in PostgreSQL
+-   **🌐 Production Backend**: https://ci-cd-fixer-agent-backend.onrender.com
+-   **🖥️ Live Frontend Dashboard**: https://frontend-3dvq.onrender.com/
+
+### 📊 Current Production Metrics
 
 -   **🔥 17 Total Failures Processed** - All with AI-generated intelligent fixes
 -   **🏢 1 Repository Analyzed** - chaitanyak175/ci-cd-test-repo with multiple language CI/CD pipelines
 -   **⚡ 100% Fix Generation Rate** - Every failure receives comprehensive AI analysis
 -   **👥 Human-in-the-Loop Workflow** - 4 approved, 3 applied, 10 pending review
 -   **🗄️ Complete Audit Trail** - All operations tracked in PostgreSQL
--   **🌐 Production Backend**: https://ci-cd-fixer-agent-backend.onrender.com Agent - Frontend Dashboard
+-   **🌐 Production Backend**: https://ci-cd-fixer-agent-backend.onrender.com
+-   **🖥️ Live Frontend Dashboard**: https://frontend-3dvq.onrender.com/
 
 **🚀 Production Status**: **LIVE** | **17 Failures Processed** | **1 Repository Analyzed** | **AI Powered Intelligence**
 
@@ -13,7 +26,7 @@ A comprehensive **Next.js 15** dashboard for the CI/CD Fixer Agent system that p
 
 ## 🌟 **Live Production System**
 
-### **📊 Current Production Metrics** (August 2025)
+### 📊 Current Production Metrics
 
 -   **🔥 29 Total Failures Processed** - All with AI-generated intelligent fixes
 -   **🏢 20+ Repositories Analyzed** - Cross-language pattern recognition active
@@ -38,6 +51,7 @@ A comprehensive **Next.js 15** dashboard for the CI/CD Fixer Agent system that p
 This frontend connects to our **live production backend** with full AI capabilities:
 
 -   **Production API**: https://ci-cd-fixer-agent-backend.onrender.com
+-   **Live Frontend**: https://frontend-3dvq.onrender.com/
 -   **Database**: PostgreSQL via Supabase with complete failure/fix tracking
 -   **AI Services**:
     -   **Google Gemini 2.5 Pro** for intelligent error analysis
