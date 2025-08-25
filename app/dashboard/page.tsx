@@ -28,14 +28,14 @@ export default function Page() {
                     <SystemStatusBanner />
                     <RealTimeAnalytics />
 
-                    <div className="grid gap-3 sm:gap-4 lg:grid-cols-2">
+                    <div className="space-y-3 sm:space-y-4 xl:space-y-0 xl:grid xl:grid-cols-2 xl:gap-4">
                         <AIAgentStatus />
                         <LiveWorkflowMonitor />
                     </div>
 
                     <SectionCards />
 
-                    <div className="grid gap-3 sm:gap-4 xl:grid-cols-2">
+                    <div className="space-y-3 sm:space-y-4 xl:space-y-0 xl:grid xl:grid-cols-2 xl:gap-4">
                         <FailuresTableEnhanced />
                         <PendingFixesComponent />
                     </div>

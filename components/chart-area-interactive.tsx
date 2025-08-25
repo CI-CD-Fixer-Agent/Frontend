@@ -107,19 +107,21 @@ export function ChartAreaInteractive() {
 
     return (
         <Card>
-            <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
+            <CardHeader className="flex flex-col gap-3 space-y-0 border-b py-4 sm:flex-row sm:items-center sm:gap-2 sm:py-5">
                 <div className="grid flex-1 gap-1 text-center sm:text-left">
-                    <CardTitle>CI/CD Failure Analytics</CardTitle>
-                    <CardDescription>
+                    <CardTitle className="text-lg sm:text-xl">
+                        CI/CD Failure Analytics
+                    </CardTitle>
+                    <CardDescription className="text-sm">
                         Tracking workflow failures and AI-generated fixes over
                         time
                     </CardDescription>
                 </div>
-                <div className="flex">
+                <div className="flex justify-center sm:justify-end">
                     {isMobile ? (
                         <Select value={timeRange} onValueChange={setTimeRange}>
                             <SelectTrigger
-                                className="w-[160px] rounded-lg sm:ml-auto"
+                                className="w-full max-w-[160px] rounded-lg"
                                 aria-label="Select time range"
                             >
                                 <SelectValue placeholder="Last 30 days" />
